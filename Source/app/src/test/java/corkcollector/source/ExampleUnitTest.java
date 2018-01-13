@@ -1,4 +1,4 @@
-package com.corkcollector.app.corkcollector;
+package corkcollector.source;
 
 import org.junit.Test;
 
