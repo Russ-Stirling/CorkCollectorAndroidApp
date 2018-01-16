@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="corkcollector.source.WineryScreen">
+    tools:context="corkcollector.source.WineScreen">
 
     <GridLayout
-        android:id="@+id/grid"
+        android:id="@+id/mainGrid"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/wineryImage"
+            android:id="@+id/wineImage"
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:layout_columnSpan="3"
@@ -32,24 +32,24 @@
             android:layout_rowSpan="5"
             android:layout_weight="1"
             android:adjustViewBounds="false"
-            android:contentDescription="Peller Estates Main Entrance"
+            android:contentDescription="Peller Estates Cabernet Merlot"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            app:srcCompat="@drawable/peller_entrance" />
+            app:srcCompat="@drawable/peller_cab_merlot" />
 
         <TextView
-            android:id="@+id/wineryName"
+            android:id="@+id/wineNameText"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_column="3"
             android:layout_columnSpan="3"
             android:layout_marginLeft="7dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_row="0"
             android:layout_weight="1"
-            android:text="Peller Estates"
+            android:text="Peller Estates Cabernet Merlot"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="24sp"
@@ -65,7 +65,7 @@
             android:layout_marginLeft="50dp"
             android:layout_row="1"
             android:numStars="5"
-            android:rating="4"
+            android:rating="3"
             android:stepSize="1"
             android:textAlignment="center" />
 
@@ -85,60 +85,49 @@
             app:srcCompat="@drawable/grey" />
 
         <TextView
-            android:id="@+id/wineryAddressText"
+            android:id="@+id/wineTypeYearText"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_column="3"
             android:layout_columnSpan="3"
             android:layout_marginLeft="7dp"
             android:layout_row="3"
-            android:lines="3"
-            android:maxLines="3"
             android:maxWidth="175dp"
-            android:text="123 Main Street St Catharines Ontario, J6G2K5"
+            android:text="Cabernet Merlot 2012"
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/wineryPhoneNumberText"
+            android:id="@+id/wineDescriptionText"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_column="3"
             android:layout_columnSpan="3"
             android:layout_marginLeft="7dp"
             android:layout_row="4"
-            android:lines="1"
-            android:maxLines="1"
+            android:lines="3"
+            android:maxLines="3"
             android:maxWidth="175dp"
-            android:text="888-888-8888"
+            android:text="Medium-bodied with refreshing flavours of berries and smoke. Excellent for everyday enjoyment. Stays fresh up to 6 weeks once opened."
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/viewMenuButton"
+            android:id="@+id/tasteWineButton"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_column="0"
+            android:layout_column="1"
             android:layout_columnSpan="2"
             android:layout_marginLeft="10dp"
             android:layout_row="5"
             android:text="View Menu" />
 
         <Button
-            android:id="@+id/checkInButton"
+            android:id="@+id/addToCellarButton"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_column="2"
+            android:layout_column="3"
             android:layout_columnSpan="2"
             android:layout_row="5"
             android:text="Check-In" />
-
-        <Button
-            android:id="@+id/directionsButton"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_column="4"
-            android:layout_columnSpan="2"
-            android:layout_row="5"
-            android:text="Directions" />
 
 
         <ImageView
@@ -154,7 +143,7 @@
             app:srcCompat="@drawable/grey" />
 
         <GridLayout
-            android:id="@+id/ratingReviewGrid"
+            android:id="@+id/wineRatingReviewGrid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_column="0"
@@ -162,7 +151,7 @@
             android:layout_row="7">
 
             <TextView
-                android:id="@+id/ratingAuthorText"
+                android:id="@+id/wineRatingAuthorText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -173,7 +162,7 @@
                 android:textStyle="bold" />
 
             <RatingBar
-                android:id="@+id/individualRatingBar"
+                android:id="@+id/wineIndividualRatingBar"
                 style="@android:style/Widget.DeviceDefault.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -181,12 +170,12 @@
                 android:layout_marginLeft="50dp"
                 android:layout_row="0"
                 android:numStars="5"
-                android:rating="4"
+                android:rating="3"
                 android:stepSize="1"
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/reviewText"
+                android:id="@+id/wineReviewText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
@@ -196,7 +185,7 @@
                 android:layout_row="1"
                 android:lines="5"
                 android:maxLines="5"
-                android:text="The review will go here. For example, I absolutely love Peller. They have a fantastic winery as well as having an exceptional restaurant on site. They even have a special tasting room upstairs!" />
+                android:text="Personally not a huge fan of this red. It was a little too sweet for my tastes but is still a good wine." />
 
         </GridLayout>
 
