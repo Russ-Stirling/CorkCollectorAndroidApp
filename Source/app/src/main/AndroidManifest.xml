@@ -30,15 +30,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsScreen"
-            android:label="@string/title_activity_maps_screen">
+            android:name=".WineryScreen"
+            android:label="CORK COLLECTOR">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WineryScreen"></activity>
+        <activity android:name=".MapsScreen"></activity>
     </application>
 
 </manifest>

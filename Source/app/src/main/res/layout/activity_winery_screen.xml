@@ -8,14 +8,15 @@
 
     <GridLayout
         android:id="@+id/grid"
-        android:layout_width="395dp"
-        android:layout_height="587dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,12 +24,13 @@
             android:id="@+id/wineryImage"
             android:layout_width="175dp"
             android:layout_height="175dp"
+            android:layout_columnSpan="3"
             android:layout_marginBottom="11.25dp"
             android:layout_marginLeft="11.25dp"
             android:layout_marginRight="11.25dp"
             android:layout_marginTop="11.25dp"
             android:layout_rowSpan="5"
-            android:layout_columnSpan="3"
+            android:layout_weight="1"
             android:adjustViewBounds="false"
             android:contentDescription="Peller Estates Main Entrance"
             android:paddingBottom="10dp"
@@ -46,6 +48,7 @@
             android:layout_marginLeft="7dp"
             android:layout_marginTop="25dp"
             android:layout_row="0"
+            android:layout_weight="1"
             android:text="Peller Estates"
             android:textAlignment="center"
             android:textColor="@android:color/black"
@@ -137,5 +140,66 @@
             android:layout_row="5"
             android:text="Directions" />
 
+
+        <ImageView
+            android:id="@+id/greyLine2"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_column="0"
+            android:layout_columnSpan="6"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_row="6"
+            android:scaleX="80"
+            app:srcCompat="@drawable/grey" />
+
+        <GridLayout
+            android:id="@+id/ratingReviewGrid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_columnSpan="6"
+            android:layout_row="7">
+
+            <TextView
+                android:id="@+id/ratingAuthorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Author"
+                android:textColor="@android:color/black"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/individualRatingBar"
+                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginLeft="50dp"
+                android:layout_row="0"
+                android:numStars="5"
+                android:rating="4"
+                android:stepSize="1"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/reviewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_row="1"
+                android:lines="5"
+                android:maxLines="5"
+                android:text="The review will go here. For example, I absolutely love Peller. They have a fantastic winery as well as having an exceptional restaurant on site. They even have a special tasting toom upstairs!" />
+
+        </GridLayout>
+
     </GridLayout>
+
 </android.support.constraint.ConstraintLayout>
