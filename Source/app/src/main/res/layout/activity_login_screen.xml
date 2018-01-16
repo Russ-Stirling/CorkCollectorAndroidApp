@@ -69,14 +69,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Sign In"
+                android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/registerButton"
+                style="@style/Widget.AppCompat.Button.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Create Account" />
+                android:text="@string/action_register" />
 
         </LinearLayout>
     </ScrollView>
