@@ -44,10 +44,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MapsScreen" />
-        <activity android:name=".WineryScreen" />
+        <activity
+            android:name=".WineryScreen"
+            android:label="@string/title"></activity>
         <activity
             android:name=".WineScreen"
-            android:label="CORK COLLECTOR"></activity>
+            android:label="@string/title"></activity>
     </application>
 
 </manifest>
