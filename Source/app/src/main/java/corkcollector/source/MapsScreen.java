@@ -3,6 +3,7 @@ package corkcollector.source;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,7 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsScreen extends FragmentActivity implements OnMapReadyCallback {
+public class MapsScreen extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 

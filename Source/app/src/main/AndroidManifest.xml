@@ -43,7 +43,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapsScreen" />
+        <activity android:name=".MapsScreen"
+            android:label="@string/title_activity_maps_screen" />
         <activity
             android:name=".LoginScreen"
             android:label="@string/title_activity_login_screen" />
