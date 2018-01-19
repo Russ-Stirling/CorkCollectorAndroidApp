@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsScreen extends FragmentActivity implements OnMapReadyCallback {
@@ -38,9 +39,28 @@ public class MapsScreen extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        /*Map Setup*/
+
+        //Restrict the map zoom
+        mMap.setMinZoomPreference(12.0f);
+        mMap.setMaxZoomPreference(18.0f);
+
+        //Restrict the map viewing range to the Niagara region
+        LatLng southwest = new LatLng(43.1473, -79.1909);
+        LatLng northeast = new LatLng(43.2652, -79.0547);
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+        mMap.setLatLngBoundsForCameraTarget(bounds);
+
+        //Centers and zooms the map to see the whole Niagara region
+        LatLng nCenter = new LatLng(43.2000, -79.1150);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nCenter, 12.0f));
+
+        /*Placing Pins on the map*/
+
+        // Add a marker in Niagara on the lake
+        LatLng niagara = new LatLng(43.2550, -79.0773);
+        mMap.addMarker(new MarkerOptions().position(niagara).title("Marker in Niagara"));
+
+        //mMap.setMyLocationEnabled(true);
     }
 }
