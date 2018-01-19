@@ -1,4 +1,46 @@
 <resources>
     <string name="app_name">Source</string>
-    <string name="title_activity_maps_screen">Map</string>
+    <string name="title_activity_maps_screen">CORK COLLECTOR MAP</string>
+    <string name="title_activity_login_screen">Sign in</string>
+    <string name="title">CORK COLLECTOR</string>
+
+    <string name="grey_block">break</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_register">Create Account</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+
+    <!-- Strings related to wine screen -->
+    <string name="winery_photo_description">Description of the winery photo</string>
+    <string name="winery_name">Peller Estates</string>
+    <string name="winery_address">123 Main Street, St. Catharines, ON N5R8Y7</string>
+    <string name="winery_phone_number">888-888-8888</string>
+    <string name="winery_view_menu_button">View Menu</string>
+    <string name="winery_check_in_button">Check In</string>
+    <string name="winery_directions_button">Directions</string>
+
+    <!-- Strings related to winery screen -->
+    <string name="wine_photo_description">Description of the wine photo</string>
+    <string name="wine_name">Peller Estates Cabernet Merlot</string>
+    <string name="wine_year_type">Riesling 2012</string>
+    <string name="wine_description">Description goes here: Medium bodied and fruity!</string>
+    <string name="wine_add_to_cellar_button">Add to Cellar</string>
+    <string name="wine_taste">Taste Wine</string>
+
+    <!-- Strings related to ratings/reviews -->
+    <string name="review_author">Author</string>
+    <string name="review_content">This is the content of a review! I like this wine/winery a lot. Or not a lot.. depends what I chose to review it as. You can figure that out for yourself!</string>
+    <string name="title_activity_temp">TEMP</string>
 </resources>
