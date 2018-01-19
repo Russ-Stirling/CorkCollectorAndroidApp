@@ -19,8 +19,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 
     <!-- Strings related to wine screen -->
     <string name="winery_photo_description">Description of the winery photo</string>
@@ -42,4 +42,5 @@
     <!-- Strings related to ratings/reviews -->
     <string name="review_author">Author</string>
     <string name="review_content">This is the content of a review! I like this wine/winery a lot. Or not a lot.. depends what I chose to review it as. You can figure that out for yourself!</string>
+    <string name="title_activity_temp">TEMP</string>
 </resources>
