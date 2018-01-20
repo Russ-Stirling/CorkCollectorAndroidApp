@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class WineryScreen extends AppCompatActivity {
 
@@ -13,6 +15,15 @@ public class WineryScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winery_screen);
+
+        Button tastingMenu = (Button) findViewById(R.id.viewMenuButton);
+
+        tastingMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
+            }
+        });
     }
 
     @Override

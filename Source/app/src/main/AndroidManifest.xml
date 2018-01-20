@@ -51,6 +51,7 @@
         <activity
             android:name=".WineScreen"
             android:label="@string/title" />
+        <activity android:name=".tastingMenuPop" />
     </application>
 
 </manifest>
