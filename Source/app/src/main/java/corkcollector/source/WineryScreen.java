@@ -18,10 +18,19 @@ public class WineryScreen extends AppCompatActivity {
 
         Button tastingMenu = (Button) findViewById(R.id.viewMenuButton);
 
+        Button rateReview = (Button) findViewById(R.id.rateReviewButton);
+
         tastingMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
+            }
+        });
+
+        rateReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
             }
         });
     }
