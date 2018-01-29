@@ -94,6 +94,10 @@ public class MapsScreen extends AppCompatActivity implements OnMapReadyCallback 
                         WineScreen.class);
                 startActivity(myIntent3);
                 break;
+            case R.id.item6:
+                Intent myIntent6 = new Intent(MapsScreen.this,
+                        RequestScreen.class);
+                startActivity(myIntent6);
             default:
                 return super.onOptionsItemSelected(item);
         }

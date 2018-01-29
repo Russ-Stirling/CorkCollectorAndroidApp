@@ -41,6 +41,10 @@ public class WineScreen extends AppCompatActivity {
                         WineScreen.class);
                 startActivity(myIntent3);
                 break;
+            case R.id.item6:
+                Intent myIntent6 = new Intent(WineScreen.this,
+                        RequestScreen.class);
+                startActivity(myIntent6);
             default:
                 return super.onOptionsItemSelected(item);
         }

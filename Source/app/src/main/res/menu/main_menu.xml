@@ -5,4 +5,7 @@
     <item android:title="Wine" android:id="@+id/item3"></item>
     <item android:title="Profile" android:id="@+id/item4"></item>
     <item android:title="Cellar" android:id="@+id/item5"></item>
+    <item
+        android:id="@+id/item6"
+        android:title="Requests" />
 </menu>
