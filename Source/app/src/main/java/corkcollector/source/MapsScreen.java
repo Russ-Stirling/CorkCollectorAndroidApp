@@ -1,9 +1,11 @@
 package corkcollector.source;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsScreen extends AppCompatActivity implements OnMapReadyCallback {
@@ -66,7 +69,22 @@ public class MapsScreen extends AppCompatActivity implements OnMapReadyCallback 
         LatLng niagara = new LatLng(43.2550, -79.0773);
         mMap.addMarker(new MarkerOptions().position(niagara).title("Marker in Niagara"));
 
-        //mMap.setMyLocationEnabled(true);
+        /*Disabling POIs*/
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_json));
+
+            //Post error message to log if unsuccessful
+            if (!success) {
+                Log.d("oh no!", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("oh no!", "Can't find style. Error: ", e);
+        }
+
     }
 
     @Override
