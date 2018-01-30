@@ -9,6 +9,9 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- Added permission to connect with internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -54,6 +57,9 @@
             android:label="@string/title" />
         <activity android:name=".tastingMenuPop"
             android:theme="@style/CustomPopUpTheme"/>
+        <activity
+            android:name=".RequestScreen"
+            android:label="AYY WASSUP" />
     </application>
 
 </manifest>
