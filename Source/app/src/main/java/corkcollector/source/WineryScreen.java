@@ -60,6 +60,10 @@ public class WineryScreen extends AppCompatActivity {
                         WineScreen.class);
                 startActivity(myIntent3);
                 break;
+            case R.id.item6:
+                Intent myIntent6 = new Intent(WineryScreen.this,
+                        RequestScreen.class);
+                startActivity(myIntent6);
             default:
                 return super.onOptionsItemSelected(item);
         }
