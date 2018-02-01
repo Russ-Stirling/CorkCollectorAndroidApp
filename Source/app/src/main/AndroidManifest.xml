@@ -56,7 +56,7 @@
             android:name=".WineScreen"
             android:label="@string/title" />
         <activity android:name=".tastingMenuPop"
-            android:theme="@style/CustomPopUpTheme"/
+            android:theme="@style/CustomPopUpTheme"/>
         <activity android:name=".RateReviewPop"
             android:theme="@style/CustomPopUpTheme"/>
         <activity
