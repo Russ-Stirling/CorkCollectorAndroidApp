@@ -56,14 +56,20 @@
             android:name=".WineScreen"
             android:label="@string/title" />
         <activity
+            android:name=".ProfileScreen"
+            android:label="CORK COLLECTOR" />
+        <activity
             android:name=".tastingMenuPop"
             android:theme="@style/CustomPopUpTheme" />
         <activity
             android:name=".RateReviewPop"
             android:theme="@style/CustomPopUpTheme" />
         <activity
-            android:name=".ProfileScreen"
-            android:label="CORK COLLECTOR" />
+            android:name=".VisitedWineriesPop"
+            android:theme="@style/CustomPopUpTheme"/>
+        <activity
+            android:name=".TastedWinesPop"
+            android:theme="@style/CustomPopUpTheme"/>
         <activity
             android:name=".RequestScreen"
             android:label="AYY WASSUP" />

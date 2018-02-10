@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class ProfileScreen extends AppCompatActivity {
 
@@ -13,6 +15,24 @@ public class ProfileScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_screen);
+
+        Button tastedWines = (Button) findViewById(R.id.viewTastedWinesButton);
+
+        tastedWines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileScreen.this, TastedWinesPop.class));
+            }
+        });
+
+        Button visitedWineries = (Button) findViewById(R.id.viewVisitedWineriesButton);
+
+        visitedWineries.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileScreen.this, VisitedWineriesPop.class));
+            }
+        });
     }
 
     @Override
