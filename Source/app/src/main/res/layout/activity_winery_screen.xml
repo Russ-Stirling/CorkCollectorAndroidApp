@@ -44,13 +44,13 @@
             android:layout_height="wrap_content"
             android:layout_column="3"
             android:layout_columnSpan="3"
-            android:layout_marginStart="7dp"
             android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="25dp"
             android:layout_row="0"
             android:text="@string/winery_name"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:textSize="24sp"
             android:textStyle="bold|italic" />
 
@@ -122,10 +122,11 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_columnSpan="2"
-            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_row="5"
-            android:text="@string/winery_view_menu_button" />
+            android:text="@string/winery_view_menu_button"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/checkInButton"
@@ -134,7 +135,8 @@
             android:layout_column="2"
             android:layout_columnSpan="2"
             android:layout_row="5"
-            android:text="@string/winery_check_in_button" />
+            android:text="@string/winery_check_in_button"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/directionsButton"
@@ -143,7 +145,8 @@
             android:layout_column="4"
             android:layout_columnSpan="2"
             android:layout_row="5"
-            android:text="@string/winery_directions_button" />
+            android:text="@string/winery_directions_button"
+            android:textColor="@color/colorAccent" />
 
         <ImageView
             android:id="@+id/greyLine2"
@@ -363,7 +366,8 @@
             android:layout_column="2"
             android:layout_columnSpan="2"
             android:layout_row="8"
-            android:text="Rate/Review" />
+            android:text="Rate/Review"
+            android:textColor="@color/colorAccent" />
 
     </GridLayout>
 

@@ -52,6 +52,11 @@ public class WineScreen extends AppCompatActivity {
                         WineScreen.class);
                 startActivity(myIntent3);
                 break;
+            case R.id.item4:
+                Intent myIntent4 = new Intent(WineScreen.this,
+                        ProfileScreen.class);
+                startActivity(myIntent4);
+                break;
             case R.id.item6:
                 Intent myIntent6 = new Intent(WineScreen.this,
                         RequestScreen.class);

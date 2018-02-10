@@ -141,6 +141,11 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                         WineScreen.class);
                 startActivity(myIntent3);
                 break;
+            case R.id.item4:
+                Intent myIntent4 = new Intent(MapsScreen.this,
+                        ProfileScreen.class);
+                startActivity(myIntent4);
+                break;
             case R.id.item6:
                 Intent myIntent6 = new Intent(MapsScreen.this,
                         RequestScreen.class);

@@ -43,4 +43,9 @@
     <string name="review_author">Author</string>
     <string name="review_content">This is the content of a review! I like this wine/winery a lot. Or not a lot.. depends what I chose to review it as. You can figure that out for yourself!</string>
     <string name="title_activity_temp">TEMP</string>
+
+    <!-- Strings related to profile -->
+    <string name="member_since_text">Member since: </string>
+    <string name="wines_tasted_text">Wines tasted: </string>
+    <string name="wineries_visited_text">Wineries visited: </string>
 </resources>
