@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class WineScreen extends AppCompatActivity {
 
@@ -14,6 +16,15 @@ public class WineScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_screen);
+
+        Button rateReview = (Button) findViewById(R.id.rateReviewButton);
+
+        rateReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WineScreen.this, RateReviewPop.class));
+            }
+        });
     }
 
     @Override
