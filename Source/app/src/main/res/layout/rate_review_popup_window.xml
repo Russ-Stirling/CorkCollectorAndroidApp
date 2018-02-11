@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Rate/Review"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         android:textSize="30dp"
         android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="27dp"
         android:text="Submit"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/colorAccent" />
 
     <TextView
         android:id="@+id/ratingTitleText"

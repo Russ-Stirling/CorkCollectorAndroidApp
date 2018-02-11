@@ -9,28 +9,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class WineryScreen extends AppCompatActivity {
+public class ProfileScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_winery_screen);
+        setContentView(R.layout.activity_profile_screen);
 
-        Button tastingMenu = (Button) findViewById(R.id.viewMenuButton);
+        Button tastedWines = (Button) findViewById(R.id.viewTastedWinesButton);
 
-        Button rateReview = (Button) findViewById(R.id.rateReviewButton);
-
-        tastingMenu.setOnClickListener(new View.OnClickListener() {
+        tastedWines.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
+                startActivity(new Intent(ProfileScreen.this, TastedWinesPop.class));
             }
         });
 
-        rateReview.setOnClickListener(new View.OnClickListener() {
+        Button visitedWineries = (Button) findViewById(R.id.viewVisitedWineriesButton);
+
+        visitedWineries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
+                startActivity(new Intent(ProfileScreen.this, VisitedWineriesPop.class));
             }
         });
     }
@@ -46,27 +46,27 @@ public class WineryScreen extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.item1:
-                Intent myIntent = new Intent(WineryScreen.this,
+                Intent myIntent = new Intent(ProfileScreen.this,
                         MapsScreen.class);
                 startActivity(myIntent);
                 break;
             case R.id.item2:
-                Intent myIntent2 = new Intent(WineryScreen.this,
+                Intent myIntent2 = new Intent(ProfileScreen.this,
                         WineryScreen.class);
                 startActivity(myIntent2);
                 break;
             case R.id.item3:
-                Intent myIntent3 = new Intent(WineryScreen.this,
+                Intent myIntent3 = new Intent(ProfileScreen.this,
                         WineScreen.class);
                 startActivity(myIntent3);
                 break;
             case R.id.item4:
-                Intent myIntent4 = new Intent(WineryScreen.this,
+                Intent myIntent4 = new Intent(ProfileScreen.this,
                         ProfileScreen.class);
                 startActivity(myIntent4);
                 break;
             case R.id.item6:
-                Intent myIntent6 = new Intent(WineryScreen.this,
+                Intent myIntent6 = new Intent(ProfileScreen.this,
                         RequestScreen.class);
                 startActivity(myIntent6);
             default:

@@ -13,7 +13,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
@@ -50,7 +49,7 @@
             android:layout_row="0"
             android:text="@string/wine_name"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:textSize="24sp"
             android:textStyle="bold|italic" />
 
@@ -123,7 +122,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_row="5"
-            android:text="@string/wine_add_to_cellar_button" />
+            android:text="@string/wine_add_to_cellar_button"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/addToCellarButton"
@@ -132,7 +132,8 @@
             android:layout_column="3"
             android:layout_columnSpan="2"
             android:layout_row="5"
-            android:text="@string/wine_taste" />
+            android:text="@string/wine_taste"
+            android:textColor="@color/colorAccent" />
 
 
         <ImageView
@@ -148,56 +149,205 @@
             android:scaleX="80"
             app:srcCompat="@drawable/grey" />
 
-        <GridLayout
-            android:id="@+id/wineRatingReviewGrid"
+        <Button
+            android:id="@+id/rateReviewButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_columnSpan="2"
+            android:layout_marginStart="75dp"
+            android:layout_row="8"
+            android:text="Rate/Review"
+            android:textColor="@color/colorAccent" />
+
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="280dp"
             android:layout_column="0"
             android:layout_columnSpan="6"
             android:layout_row="7">
 
-            <TextView
-                android:id="@+id/wineRatingAuthorText"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_row="0"
-                android:text="@string/review_author"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <RatingBar
-                android:id="@+id/wineIndividualRatingBar"
-                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                android:layout_width="60dp"
-                android:layout_height="12dp"
-                android:layout_column="1"
-                android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="2dp"
-                android:layout_row="0"
-                android:numStars="5"
-                android:progressDrawable="@drawable/ratingbar_red"
-                android:rating="3"
-                android:stepSize="1"
-                android:textAlignment="center" />
+                <GridLayout
+                    android:id="@+id/wineRatingReviewGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_columnSpan="6"
+                    android:layout_row="7">
 
-            <TextView
-                android:id="@+id/wineReviewText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_row="1"
-                android:lines="5"
-                android:maxLines="5"
-                android:text="@string/review_content" />
+                    <TextView
+                        android:id="@+id/wineRatingAuthorText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_row="0"
+                        android:text="@string/review_author"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
 
-        </GridLayout>
+                    <RatingBar
+                        android:id="@+id/wineIndividualRatingBar"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="60dp"
+                        android:layout_height="12dp"
+                        android:layout_column="1"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_row="0"
+                        android:numStars="5"
+                        android:progressDrawable="@drawable/ratingbar_red"
+                        android:rating="3"
+                        android:stepSize="1"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/wineReviewText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_columnSpan="2"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_row="1"
+                        android:lines="5"
+                        android:maxLines="5"
+                        android:text="@string/review_content" />
+
+                    <TextView
+                        android:id="@+id/wineRatingAuthorText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_row="2"
+                        android:text="@string/review_author"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <RatingBar
+                        android:id="@+id/wineIndividualRatingBar2"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="60dp"
+                        android:layout_height="12dp"
+                        android:layout_column="1"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_row="2"
+                        android:numStars="5"
+                        android:progressDrawable="@drawable/ratingbar_red"
+                        android:rating="3"
+                        android:stepSize="1"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/wineReviewText2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_columnSpan="2"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_row="3"
+                        android:lines="5"
+                        android:maxLines="5"
+                        android:text="@string/review_content" />
+
+                    <TextView
+                        android:id="@+id/wineRatingAuthorText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_row="4"
+                        android:text="@string/review_author"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <RatingBar
+                        android:id="@+id/wineIndividualRatingBar3"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="60dp"
+                        android:layout_height="12dp"
+                        android:layout_column="1"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_row="4"
+                        android:numStars="5"
+                        android:progressDrawable="@drawable/ratingbar_red"
+                        android:rating="3"
+                        android:stepSize="1"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/wineReviewText3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_columnSpan="2"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_row="5"
+                        android:lines="5"
+                        android:maxLines="5"
+                        android:text="@string/review_content" />
+
+                    <TextView
+                        android:id="@+id/wineRatingAuthorText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_row="6"
+                        android:text="@string/review_author"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <RatingBar
+                        android:id="@+id/wineIndividualRatingBar4"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="60dp"
+                        android:layout_height="12dp"
+                        android:layout_column="1"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_row="6"
+                        android:numStars="5"
+                        android:progressDrawable="@drawable/ratingbar_red"
+                        android:rating="3"
+                        android:stepSize="1"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/wineReviewText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:layout_columnSpan="2"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_row="7"
+                        android:lines="5"
+                        android:maxLines="5"
+                        android:text="@string/review_content" />
+
+                </GridLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </GridLayout>
 

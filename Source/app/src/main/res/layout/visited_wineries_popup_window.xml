@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
+
+    <TextView
+        android:id="@+id/visitedWineriesTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Visited Wineries"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <GridLayout
+        android:id="@+id/titleGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:id="@+id/wineryNameTitle"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginTop="20dp"
+            android:layout_row="0"
+            android:text="Winery"
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dateVisitedTitle"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_marginTop="20dp"
+            android:layout_row="0"
+            android:text="Date Visited"
+            android:textStyle="bold" />
+
+    </GridLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp">
+
+        <GridLayout
+            android:id="@+id/tastedWinesGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/wineryName1"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="0"
+                android:text="Peller Estates"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/dateVisited1"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="20dp"
+                android:layout_row="0"
+                android:text="February 10, 2018" />
+
+        </GridLayout>
+    </ScrollView>
+
+</RelativeLayout>

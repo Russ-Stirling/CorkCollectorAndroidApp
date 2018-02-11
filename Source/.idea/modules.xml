@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Source.iml" filepath="$PROJECT_DIR$/Source.iml" />
       <module fileurl="file://$PROJECT_DIR$/Volley/Volley.iml" filepath="$PROJECT_DIR$/Volley/Volley.iml" />
-      <module fileurl="file://C:\Users\Bailey\Documents\5thYear\CorkCollector\CorkCollectorApp\CorkCollectorAndroidApp\Source\Volley\Volley.iml" filepath="C:\Users\Bailey\Documents\5thYear\CorkCollector\CorkCollectorApp\CorkCollectorAndroidApp\Source\Volley\Volley.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
