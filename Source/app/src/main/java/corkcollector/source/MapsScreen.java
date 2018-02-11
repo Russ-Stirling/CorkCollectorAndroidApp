@@ -38,9 +38,9 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     //The map itself
     private GoogleMap mMap;
 
-    //The pins that will be stored and placed on the map
-    private Marker mNiagara;
-    private Marker mTest;
+    //Array of pins that will be loaded from the database
+    final int wineryArraySize = 2;
+    private Marker[] markerArray = new Marker[wineryArraySize];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +84,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
         /*Placing Pins on the map*/
 
-        // TO DO: Here is where all the loading requests will take place
-
-        // Instantiate the RequestQueue.
+        //Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Send get request to sample website
@@ -104,25 +102,29 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
                         try {
 
-                            //for (int i = 0; i < response.length(); i++)
-                            //{
+                            //Loop through the JSON array
+                            for (int wineryArrayIndex = 0; wineryArrayIndex < wineryArraySize; wineryArrayIndex++)
+                            {
+                                //Grab the winery objects
+                                JSONObject wineryObj = response.getJSONObject(wineryArrayIndex);
 
-                            //}
+                                //Save the latitude, longitude and name
+                                double lat = wineryObj.getDouble("Latitude");
+                                double lon = wineryObj.getDouble("Longitude");
+                                String name = wineryObj.getString("WineryName");
 
-                            JSONObject wineryOne = response.getJSONObject(0);
-                            double lat = wineryOne.getDouble("Latitude");
-                            double lon = wineryOne.getDouble("Longitude");
-                            String name = wineryOne.getString("WineryName");
-
-                            LatLng lalo = new LatLng(lat, lon);
-                            mTest = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
-
-
+                                //Place it in the marker array and on the map
+                                LatLng lalo = new LatLng(lat, lon);
+                                markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
+                            }
 
                         }
                         catch (JSONException e) {
+
+                            //Print "oh no!" in log if unsuccessful
                             Log.d("Error.Response", "oh no!");
 
+                            //Create a toast message to indicate an error
                             Context context = getApplicationContext();
                             CharSequence text = "Error: Could not place winery on map";
                             int duration = Toast.LENGTH_SHORT;
@@ -141,6 +143,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                         //Print "oh no!" in log if unsuccessful
                         Log.d("Error.Response", "oh no!");
 
+                        //Create a toast message to indicate an error
                         Context context = getApplicationContext();
                         CharSequence text = "Error: Could not connect to database";
                         int duration = Toast.LENGTH_SHORT;
@@ -154,14 +157,6 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
         //Add it to the RequestQueue and send automatically
         queue.add(getRequest);
-
-        // Need to grab latitude, longitude and some sort of ID number
-        // Iterate through DB and generate all pins dynamically
-        // Is there some way to cache them?
-
-        // Add a marker in Niagara on the lake
-        LatLng lNiagara = new LatLng(43.2550, -79.0773);
-        mNiagara = mMap.addMarker(new MarkerOptions().position(lNiagara).title("Marker in Niagara"));
 
         // Set a listener for marker click.
         mMap.setOnMarkerClickListener(this);
