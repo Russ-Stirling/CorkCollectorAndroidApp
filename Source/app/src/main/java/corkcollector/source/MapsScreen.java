@@ -1,5 +1,6 @@
 package corkcollector.source;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,13 +29,18 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     //The map itself
     private GoogleMap mMap;
 
-    //The pins that will be stored and placed on the map
-    private Marker mNiagara;
+    //Array of pins that will be loaded from the database
+    final int wineryArraySize = 2;
+    private Marker[] markerArray = new Marker[wineryArraySize];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +84,79 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
         /*Placing Pins on the map*/
 
-        // TO DO: Here is where all the loading requests will take place
-        // Need to grab latitude, longitude and some sort of ID number
-        // Iterate through DB and generate all pins dynamically
-        // Is there some way to cache them?
+        //Instantiate the RequestQueue.
+        final RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Add a marker in Niagara on the lake
-        LatLng lNiagara = new LatLng(43.2550, -79.0773);
-        mNiagara = mMap.addMarker(new MarkerOptions().position(lNiagara).title("Marker in Niagara"));
+        //Send get request to sample website
+        String url = "http://35.183.3.83/api/Winery"; //Grab the array of wineries as a JSON object instead, then do a for each on it
+
+        //Prepare the get Request
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        //Print response in log if successful
+                        Log.d("Response", response.toString());
+
+                        try {
+
+                            //Loop through the JSON array
+                            for (int wineryArrayIndex = 0; wineryArrayIndex < wineryArraySize; wineryArrayIndex++)
+                            {
+                                //Grab the winery objects
+                                JSONObject wineryObj = response.getJSONObject(wineryArrayIndex);
+
+                                //Save the latitude, longitude and name
+                                double lat = wineryObj.getDouble("Latitude");
+                                double lon = wineryObj.getDouble("Longitude");
+                                String name = wineryObj.getString("WineryName");
+
+                                //Place it in the marker array and on the map
+                                LatLng lalo = new LatLng(lat, lon);
+                                markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
+                            }
+
+                        }
+                        catch (JSONException e) {
+
+                            //Print "oh no!" in log if unsuccessful
+                            Log.d("Error.Response", "oh no!");
+
+                            //Create a toast message to indicate an error
+                            Context context = getApplicationContext();
+                            CharSequence text = "Error: Could not place winery on map";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        //Print "oh no!" in log if unsuccessful
+                        Log.d("Error.Response", "oh no!");
+
+                        //Create a toast message to indicate an error
+                        Context context = getApplicationContext();
+                        CharSequence text = "Error: Could not connect to database";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
+                    }
+                }
+        );
+
+        //Add it to the RequestQueue and send automatically
+        queue.add(getRequest);
 
         // Set a listener for marker click.
         mMap.setOnMarkerClickListener(this);
