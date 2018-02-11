@@ -49,7 +49,7 @@ public class RequestScreen extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Send get request to sample website
-                String url = "http://httpbin.org/get?param1=hello";
+                String url = "http://35.183.3.83/api/Winery?id=wineries/1-A";
 
                 //Prepare the get Request
                 JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
