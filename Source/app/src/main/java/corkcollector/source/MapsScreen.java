@@ -87,10 +87,10 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         //Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(this);
 
-        //Send get request to sample website
-        String url = "http://35.183.3.83/api/Winery"; //Grab the array of wineries as a JSON object instead, then do a for each on it
+        //Determine the URL of our get request
+        String url = "http://35.183.3.83/api/Winery";
 
-        //Prepare the get Request
+        //This is called when the app's get request goes through
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
                 {
@@ -116,6 +116,12 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                                 //Place it in the marker array and on the map
                                 LatLng lalo = new LatLng(lat, lon);
                                 markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
+
+                                //Get the winery ID
+                                String wineryID = "1-A";
+
+                                //Add it to the marker
+                                markerArray[wineryArrayIndex].setTag(wineryID);
                             }
 
                         }
@@ -186,6 +192,10 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         // Load the default winery screen
         Intent myIntent2 = new Intent(MapsScreen.this,
                 WineryScreen.class);
+
+        //Pass the marker's wineryID to the class
+        myIntent2.putExtra("wineryID", marker.getTag().toString());
+
         startActivity(myIntent2);
 
         // Return false to indicate that we have not consumed the event and that we wish
