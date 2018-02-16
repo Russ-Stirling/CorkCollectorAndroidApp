@@ -28,12 +28,19 @@ public class tastingMenuPop extends Activity{
 
         getWindow().setLayout((int)(width*.8),(int)(height*.8));
 
+        //If the array object has been passed
+
+        //Populate the tasting menu list with the passed array
+
+        //Create an object in the winery list
         TextView wineryAwineA = (TextView) findViewById(R.id.wineryAWineA);
 
+        //Set an on-click listener for the object
         wineryAwineA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(tastingMenuPop.this, WineScreen.class));
+                //Pass the wine ID to the wine screen
             }
         });
     }

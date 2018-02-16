@@ -10,13 +10,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -37,20 +41,11 @@ public class WineryScreen extends AppCompatActivity {
         Button tastingMenu = (Button) findViewById(R.id.viewMenuButton);
         Button rateReview = (Button) findViewById(R.id.rateReviewButton);
 
-        //Set the onclick listener for both buttons
-        tastingMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
-            }
-        });
+        //Instantiate the request queue
+        final RequestQueue queue = Volley.newRequestQueue(this);
 
-        rateReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
-            }
-        });
+        //Create an array of wines for the tasting menu
+
 
         //Get the extra values bundled with the screen change
         Bundle extras = getIntent().getExtras();
@@ -78,6 +73,23 @@ public class WineryScreen extends AppCompatActivity {
 
                                 //Get the required parameters for the wine page
                                 String address = winery.getString("Address");
+                                String phoneNumber = winery.getString("PhoneNumber");
+                                String name = winery.getString("WineryName");
+                                int rating = winery.getInt("Rating");
+
+                                //Grab the required object from the winery screen
+                                TextView addressText = findViewById(R.id.wineryAddressText);
+                                TextView phoneNumberText = findViewById(R.id.wineryPhoneNumberText);
+                                TextView nameText = findViewById(R.id.wineryName);
+                                RatingBar ratingBar = findViewById(R.id.wineryRatingBar);
+
+                                //Set the appropriate values
+                                addressText.setText(address);
+                                phoneNumberText.setText(phoneNumber);
+                                nameText.setText(name);
+                                ratingBar.setNumStars(rating);
+
+                                //Populate the tasting menu array
 
 
                             }
@@ -116,6 +128,26 @@ public class WineryScreen extends AppCompatActivity {
                         }
                     }
             );
+
+            //Add it to the queue and send it automatically
+            queue.add(getRequest);
+
+            //Set the onclick listener for the tasting menu
+            tastingMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
+                    //Send over the array of wines that make up the tasting menu
+                }
+            });
+
+            //Set the onclick listener for the review menu
+            rateReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
+                }
+            });
 
         }
 
