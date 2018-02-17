@@ -118,7 +118,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                                 markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
 
                                 //Get the winery ID
-                                String wineryID = "2-A";
+                                String wineryID = wineryObj.getString("WineryId");
 
                                 //Add it to the marker
                                 markerArray[wineryArrayIndex].setTag(wineryID);

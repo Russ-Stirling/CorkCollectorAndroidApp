@@ -57,7 +57,7 @@ public class WineryScreen extends AppCompatActivity {
             String wineryID = extras.getString("wineryID");
 
             //Determine the URL of our get request
-            String url = "http://35.183.3.83/api/winery?id=wineries/" + wineryID;
+            String url = "http://35.183.3.83/api/winery?id=" + wineryID;
 
             //This is called when the app's get request goes through
             JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -76,12 +76,53 @@ public class WineryScreen extends AppCompatActivity {
                                 String phoneNumber = winery.getString("PhoneNumber");
                                 String name = winery.getString("WineryName");
                                 int rating = winery.getInt("Rating");
+                                JSONArray reviews = winery.getJSONArray("Reviews");
 
-                                //Grab the required object from the winery screen
+                                final int reviewNum = reviews.length();
+                                String[] reviewAuthorArray = new String[reviewNum];
+                                int[] reviewRatingArray = new int[reviewNum];
+                                String[] reviewTextArray = new String[reviewNum];
+
+                                for (int x = 0; x < reviewNum; x++)
+                                {
+                                    JSONObject review = reviews.getJSONObject(x);
+                                    reviewAuthorArray[x] = review.getString("UserName");
+                                    reviewRatingArray[x] = review.getInt("Rating");
+                                    reviewTextArray[x] = review.getString("Text");
+                                }
+
+                                //Grab the required objects from the winery screen
                                 TextView addressText = findViewById(R.id.wineryAddressText);
                                 TextView phoneNumberText = findViewById(R.id.wineryPhoneNumberText);
                                 TextView nameText = findViewById(R.id.wineryName);
                                 RatingBar ratingBar = findViewById(R.id.wineryRatingBar);
+
+                                TextView[] reviewAuthorObjects = new TextView[reviewNum];
+                                RatingBar[] reviewRatingObjects = new RatingBar[reviewNum];
+                                TextView[] reviewTextObjects = new TextView[reviewNum];
+
+                                for (int x = 0; x < reviewNum; x++)
+                                {
+                                    String reviewAuthorID = "ratingAuthorText";
+                                    String reviewRatingID = "individualRatingBar";
+                                    String reviewTextID = "reviewText";
+
+                                    if (x > 0)
+                                    {
+                                        reviewAuthorID += Integer.toString(x + 1);
+                                        reviewRatingID += Integer.toString(x + 1);
+                                        reviewTextID += Integer.toString(x + 1);
+
+                                    }
+
+                                    int reviewAuthorResID = getResources().getIdentifier(reviewAuthorID, "id", getPackageName());
+                                    int reviewRatingResID = getResources().getIdentifier(reviewRatingID, "id", getPackageName());
+                                    int reviewTextResID = getResources().getIdentifier(reviewTextID, "id", getPackageName());
+
+                                    reviewAuthorObjects[x] = findViewById(reviewAuthorResID);
+                                    reviewRatingObjects[x] = findViewById(reviewRatingResID);
+                                    reviewTextObjects[x] = findViewById(reviewTextResID);
+                                }
 
                                 //Set the appropriate values
                                 addressText.setText(address);
@@ -89,8 +130,12 @@ public class WineryScreen extends AppCompatActivity {
                                 nameText.setText(name);
                                 ratingBar.setNumStars(rating);
 
-                                //Populate the tasting menu array
-
+                                for (int x = 0; x < reviewNum; x++)
+                                {
+                                    reviewAuthorObjects[x].setText(reviewAuthorArray[x]);
+                                    reviewRatingObjects[x].setNumStars(reviewRatingArray[x]);
+                                    reviewTextObjects[x].setText(reviewTextArray[x]);
+                                }
 
                             }
                             catch (JSONException e) {
@@ -148,6 +193,8 @@ public class WineryScreen extends AppCompatActivity {
                     startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
                 }
             });
+
+            //Populate the tasting menu array
 
         }
 
