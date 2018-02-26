@@ -44,9 +44,6 @@ public class WineryScreen extends AppCompatActivity {
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
-        //Create an array of wines for the tasting menu
-
-
         //Get the extra values bundled with the screen change
         Bundle extras = getIntent().getExtras();
 
@@ -54,7 +51,7 @@ public class WineryScreen extends AppCompatActivity {
         if (extras != null)
         {
             //Grab the winery ID
-            String wineryID = extras.getString("wineryID");
+            final String wineryID = extras.getString("wineryID");
 
             //Determine the URL of our get request
             String url = "http://35.183.3.83/api/winery?id=" + wineryID;
@@ -181,8 +178,16 @@ public class WineryScreen extends AppCompatActivity {
             tastingMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
-                    //Send over the array of wines that make up the tasting menu
+                    //startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
+
+                    //Load the popup menu
+                    Intent myIntent = new Intent(WineryScreen.this,
+                            tastingMenuPop.class);
+
+                    //Send over the winery ID
+                    myIntent.putExtra("wineryID", wineryID);
+
+                    startActivity(myIntent);
                 }
             });
 
@@ -193,8 +198,6 @@ public class WineryScreen extends AppCompatActivity {
                     startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
                 }
             });
-
-            //Populate the tasting menu array
 
         }
 
