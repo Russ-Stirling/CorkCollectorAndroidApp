@@ -3,6 +3,7 @@ package corkcollector.source;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
@@ -50,37 +51,10 @@ public class tastingMenuPop extends Activity{
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Array of pins that will be loaded from the database
-        final int tastingMenuSize = 2;
+        final int tastingMenuSize = 2; //TODO: This should be done dynamically
         final String[] wineIDArray = new String[tastingMenuSize];
         final TextView[] wineTextViewArray = new TextView[tastingMenuSize];
-
-        RelativeLayout myRelativeLayout = (RelativeLayout) findViewById(R.id.popupMenuLayout);
-
-        for(int tastingMenuIndex = 0; tastingMenuIndex < tastingMenuSize; tastingMenuIndex++)
-        {
-            final TextView tempView = new TextView(this);
-
-            tempView.setText("TESTING");
-            tempView.setHeight(50);
-
-            myRelativeLayout.addView(tempView);
-
-            wineTextViewArray[tastingMenuIndex] = tempView;
-        }
-
-        //Create an object in the winery list
-        TextView wineryAwineA = (TextView) findViewById(R.id.wineryAWineA);
-
-        //Set an on-click listener for the object
-        wineryAwineA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(tastingMenuPop.this, WineScreen.class));
-                //Pass the wine ID to the wine screen
-            }
-        });
-
-
+        final JSONObject[] wineryObjArray = new JSONObject[tastingMenuSize];
 
         //Get the extra values bundled with the screen change
         Bundle extras = getIntent().getExtras();
@@ -107,14 +81,14 @@ public class tastingMenuPop extends Activity{
                                 {
 
                                     //Grab the wine objects
-                                    JSONObject wineObj = tastingMenu.getJSONObject(tastingMenuIndex);
+                                    wineryObjArray[tastingMenuIndex] = tastingMenu.getJSONObject(tastingMenuIndex);
 
-                                    //Save the name and type
-                                    String name = wineObj.getString("WineName");
-                                    String type = wineObj.getString("WineType");
-
-                                    //Save the ID in the array
-                                    wineIDArray[tastingMenuIndex] = wineObj.getString("WineId");
+                                    //If this is the last wine in the array
+                                    if(tastingMenuIndex == (tastingMenuSize -1))
+                                    {
+                                        //Call the population function
+                                        populateTastingMenu(tastingMenuSize, wineryObjArray);
+                                    }
 
                                 }
 
@@ -124,7 +98,7 @@ public class tastingMenuPop extends Activity{
 
                                 //Create a toast message to indicate an error
                                 Context context = getApplicationContext();
-                                CharSequence text = "Error: Could not place wines on menu";
+                                CharSequence text = "Error: Could not retrieve wines from database";
                                 int duration = Toast.LENGTH_SHORT;
 
                                 Toast toast = Toast.makeText(context, text, duration);
@@ -148,14 +122,98 @@ public class tastingMenuPop extends Activity{
 
                         }
                     }
+
             );
 
             //Add it to the queue and send it automatically
             queue.add(getRequest);
 
-
-
         }
 
     }
+
+    void populateTastingMenu(int tastingMenuSize, JSONObject[] wineryObjArray)
+    {
+
+        //Access the relative layout so we can add wines to it
+        RelativeLayout myRelativeLayout = findViewById(R.id.popupMenuLayout);
+
+        //Loop through the tasting menu
+        for(int tastingMenuIndex = 0; tastingMenuIndex < tastingMenuSize; tastingMenuIndex++)
+        {
+            //Create a new text view object
+            final TextView tempView = new TextView(this);
+
+            try
+            {
+                //Give the wine a title and description
+                String tempText = wineryObjArray[tastingMenuIndex].getString("WineName") + " | " +
+                        wineryObjArray[tastingMenuIndex].getString("WineType");
+
+                tempView.setText(tempText);
+
+                tempView.setHeight(50);
+
+                float xPos = 0;
+                tempView.setX(xPos);
+
+                float yPos = 275 + (tastingMenuIndex * 100);
+                tempView.setY(yPos);
+
+                tempView.setTypeface(Typeface.SANS_SERIF);
+
+                myRelativeLayout.addView(tempView);
+
+                final String tempID = wineryObjArray[tastingMenuIndex].getString("WineId");
+
+                tempView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //Load the wine screen
+                        Intent myIntent = new Intent(tastingMenuPop.this,
+                                WineScreen.class);
+
+                        //Send over the wineID
+                        myIntent.putExtra("wineID", tempID);
+
+                        //Start the wine screen activity
+                        startActivity(myIntent);
+
+                    }
+                });
+
+            }
+
+            catch (JSONException e)
+            {
+                //Create a toast message to indicate an error
+                Context context = getApplicationContext();
+                CharSequence text = "Error: Could not place wines on menu";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+
+        }
+
+
+        /*
+        //Create an object in the winery list
+        TextView wineryAwineA = (TextView) findViewById(R.id.wineryAWineA);
+
+        //Set an on-click listener for the object
+        wineryAwineA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(tastingMenuPop.this, WineScreen.class));
+                //Pass the wine ID to the wine screen
+            }
+        });
+        */
+
+    }
 }
+
+

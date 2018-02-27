@@ -178,7 +178,6 @@ public class WineryScreen extends AppCompatActivity {
             tastingMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //startActivity(new Intent(WineryScreen.this, tastingMenuPop.class));
 
                     //Load the popup menu
                     Intent myIntent = new Intent(WineryScreen.this,
