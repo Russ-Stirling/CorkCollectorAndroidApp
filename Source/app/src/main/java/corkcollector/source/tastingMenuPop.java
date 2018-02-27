@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ public class tastingMenuPop extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Set styling of popup window
         setContentView(R.layout.tasting_menu_popup_window);
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -50,10 +53,8 @@ public class tastingMenuPop extends Activity{
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
-        //Array of pins that will be loaded from the database
+        //Array of wines that will be loaded from the database
         final int tastingMenuSize = 2; //TODO: This should be done dynamically
-        final String[] wineIDArray = new String[tastingMenuSize];
-        final TextView[] wineTextViewArray = new TextView[tastingMenuSize];
         final JSONObject[] wineryObjArray = new JSONObject[tastingMenuSize];
 
         //Get the extra values bundled with the screen change
@@ -132,6 +133,7 @@ public class tastingMenuPop extends Activity{
 
     }
 
+    //Populates the tasting menu popup window when passed an array of JSON wine objects
     void populateTastingMenu(int tastingMenuSize, JSONObject[] wineryObjArray)
     {
 
@@ -149,23 +151,30 @@ public class tastingMenuPop extends Activity{
                 //Give the wine a title and description
                 String tempText = wineryObjArray[tastingMenuIndex].getString("WineName") + " | " +
                         wineryObjArray[tastingMenuIndex].getString("WineType");
-
                 tempView.setText(tempText);
 
-                tempView.setHeight(50);
-
-                float xPos = 0;
-                tempView.setX(xPos);
-
-                float yPos = 275 + (tastingMenuIndex * 100);
-                tempView.setY(yPos);
-
+                //Set the style of the text
                 tempView.setTypeface(Typeface.SANS_SERIF);
 
+                //Grab display metrics and measurements in pixels
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                int width = dm.widthPixels;
+                int height = dm.heightPixels;
+
+                //Set the text view to the horizontal center of the popup menu
+                tempView.setWidth(width);
+                tempView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                //Incrementally spread out the text view vertically through the popup menu
+                float yPos = (float) ((height * 0.15) + tastingMenuIndex * (height * 0.075));
+                tempView.setY(yPos);
+
+                //Add it to the screen
                 myRelativeLayout.addView(tempView);
 
+                //Create a new onclick listener for the wine object
                 final String tempID = wineryObjArray[tastingMenuIndex].getString("WineId");
-
                 tempView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -197,21 +206,6 @@ public class tastingMenuPop extends Activity{
             }
 
         }
-
-
-        /*
-        //Create an object in the winery list
-        TextView wineryAwineA = (TextView) findViewById(R.id.wineryAWineA);
-
-        //Set an on-click listener for the object
-        wineryAwineA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(tastingMenuPop.this, WineScreen.class));
-                //Pass the wine ID to the wine screen
-            }
-        });
-        */
 
     }
 }

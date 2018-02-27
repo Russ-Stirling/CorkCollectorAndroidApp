@@ -18,13 +18,4 @@
         android:textSize="30dp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/wineryAWineA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tastingMenuTitleText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:text=" Cabernet Sauvignon | 2012 | Dry" />
-
 </RelativeLayout>

@@ -39,7 +39,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     private GoogleMap mMap;
 
     //Array of pins that will be loaded from the database
-    final int wineryArraySize = 2;
+    final int wineryArraySize = 2; //TODO: This should be done dynamically
     private Marker[] markerArray = new Marker[wineryArraySize];
 
     @Override
@@ -61,6 +61,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
