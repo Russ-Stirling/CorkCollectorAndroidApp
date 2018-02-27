@@ -38,8 +38,8 @@ public class WineryScreen extends AppCompatActivity {
         setContentView(R.layout.activity_winery_screen);
 
         //Access the tasting menu and rate/review menu button objects
-        Button tastingMenu = (Button) findViewById(R.id.viewMenuButton);
-        Button rateReview = (Button) findViewById(R.id.rateReviewButton);
+        Button tastingMenu = findViewById(R.id.viewMenuButton);
+        Button rateReview = findViewById(R.id.rateReviewButton);
 
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
@@ -63,23 +63,23 @@ public class WineryScreen extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject winery) {
 
-                            //Print response in log if successful
-                            Log.d("Response", winery.toString());
-
                             try {
 
-                                //Get the required parameters for the wine page
+                                //TODO: Expand these once the database has been updated
+                                //Get the required parameters for the winery page
                                 String address = winery.getString("Address");
                                 String phoneNumber = winery.getString("PhoneNumber");
                                 String name = winery.getString("WineryName");
                                 int rating = winery.getInt("Rating");
                                 JSONArray reviews = winery.getJSONArray("Reviews");
 
+                                //Series of arrays for review parameters
                                 final int reviewNum = reviews.length();
                                 String[] reviewAuthorArray = new String[reviewNum];
                                 int[] reviewRatingArray = new int[reviewNum];
                                 String[] reviewTextArray = new String[reviewNum];
 
+                                //Grab the details of each review individually
                                 for (int x = 0; x < reviewNum; x++)
                                 {
                                     JSONObject review = reviews.getJSONObject(x);
@@ -94,39 +94,45 @@ public class WineryScreen extends AppCompatActivity {
                                 TextView nameText = findViewById(R.id.wineryName);
                                 RatingBar ratingBar = findViewById(R.id.wineryRatingBar);
 
+                                //Create new arrays to grab review components from winery screen
                                 TextView[] reviewAuthorObjects = new TextView[reviewNum];
                                 RatingBar[] reviewRatingObjects = new RatingBar[reviewNum];
                                 TextView[] reviewTextObjects = new TextView[reviewNum];
 
+                                //Loop through review xml objects
                                 for (int x = 0; x < reviewNum; x++)
                                 {
+                                    //Strings to label the review components
                                     String reviewAuthorID = "ratingAuthorText";
                                     String reviewRatingID = "individualRatingBar";
                                     String reviewTextID = "reviewText";
 
+                                    //The string names change depending on their number
                                     if (x > 0)
                                     {
                                         reviewAuthorID += Integer.toString(x + 1);
                                         reviewRatingID += Integer.toString(x + 1);
                                         reviewTextID += Integer.toString(x + 1);
-
                                     }
 
+                                    //Access and store review component objects
                                     int reviewAuthorResID = getResources().getIdentifier(reviewAuthorID, "id", getPackageName());
                                     int reviewRatingResID = getResources().getIdentifier(reviewRatingID, "id", getPackageName());
                                     int reviewTextResID = getResources().getIdentifier(reviewTextID, "id", getPackageName());
 
+                                    //Save them in permanent arrays
                                     reviewAuthorObjects[x] = findViewById(reviewAuthorResID);
                                     reviewRatingObjects[x] = findViewById(reviewRatingResID);
                                     reviewTextObjects[x] = findViewById(reviewTextResID);
                                 }
 
-                                //Set the appropriate values
+                                //Set the appropriate values for the page
                                 addressText.setText(address);
                                 phoneNumberText.setText(phoneNumber);
                                 nameText.setText(name);
                                 ratingBar.setNumStars(rating);
 
+                                //Dynamically set the review values
                                 for (int x = 0; x < reviewNum; x++)
                                 {
                                     reviewAuthorObjects[x].setText(reviewAuthorArray[x]);
@@ -136,9 +142,6 @@ public class WineryScreen extends AppCompatActivity {
 
                             }
                             catch (JSONException e) {
-
-                                //Print "oh no!" in log if unsuccessful
-                                Log.d("Error.Response", "oh no!");
 
                                 //Create a toast message to indicate an error
                                 Context context = getApplicationContext();
@@ -155,9 +158,6 @@ public class WineryScreen extends AppCompatActivity {
                     {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
-                            //Print "oh no!" in log if unsuccessful
-                            Log.d("Error.Response", "oh no!");
 
                             //Create a toast message to indicate an error
                             Context context = getApplicationContext();

@@ -148,6 +148,8 @@ public class tastingMenuPop extends Activity{
 
             try
             {
+
+                //TODO: Expand these once the database has been updated
                 //Give the wine a title and description
                 String tempText = wineryObjArray[tastingMenuIndex].getString("WineName") + " | " +
                         wineryObjArray[tastingMenuIndex].getString("WineType");
