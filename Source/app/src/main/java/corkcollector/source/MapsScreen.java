@@ -70,7 +70,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         mMap.setMaxZoomPreference(18.0f);
 
         //Restrict the map viewing range to the Niagara region
-        LatLng southwest = new LatLng(43.1473, -79.1909);
+        LatLng southwest = new LatLng(43.1473, -79.4909);
         LatLng northeast = new LatLng(43.2652, -79.0547);
         LatLngBounds bounds = new LatLngBounds(southwest, northeast);
         mMap.setLatLngBoundsForCameraTarget(bounds);
