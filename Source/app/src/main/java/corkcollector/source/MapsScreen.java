@@ -39,7 +39,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     private GoogleMap mMap;
 
     //Array of pins that will be loaded from the database
-    final int wineryArraySize = 2; //TODO: This should be done dynamically
+    final int wineryArraySize = 11; //TODO: This should be done dynamically
     private Marker[] markerArray = new Marker[wineryArraySize];
 
     @Override
