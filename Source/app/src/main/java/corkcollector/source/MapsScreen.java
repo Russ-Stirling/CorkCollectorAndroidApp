@@ -38,10 +38,6 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     //The map itself
     private GoogleMap mMap;
 
-    //Array of pins that will be loaded from the database
-    final int wineryArraySize = 11; //TODO: This should be done dynamically
-    private Marker[] markerArray = new Marker[wineryArraySize];
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,14 +94,16 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        //Print response in log if successful
-                        Log.d("Response", response.toString());
-
                         try {
+
+                            //Array of pins that will be loaded from the database
+                            final int wineryArraySize = response.length();
+                            Marker[] markerArray = new Marker[wineryArraySize];
 
                             //Loop through the JSON array
                             for (int wineryArrayIndex = 0; wineryArrayIndex < wineryArraySize; wineryArrayIndex++)
                             {
+
                                 //Grab the winery objects
                                 JSONObject wineryObj = response.getJSONObject(wineryArrayIndex);
 

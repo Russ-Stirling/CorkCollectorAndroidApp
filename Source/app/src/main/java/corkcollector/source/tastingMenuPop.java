@@ -53,10 +53,6 @@ public class tastingMenuPop extends Activity{
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
-        //Array of wines that will be loaded from the database
-        final int tastingMenuSize = 2; //TODO: This should be done dynamically
-        final JSONObject[] wineryObjArray = new JSONObject[tastingMenuSize];
-
         //Get the extra values bundled with the screen change
         Bundle extras = getIntent().getExtras();
 
@@ -77,6 +73,10 @@ public class tastingMenuPop extends Activity{
                         public void onResponse(JSONArray tastingMenu) {
 
                             try {
+
+                                //Array of wines that will be loaded from the database
+                                final int tastingMenuSize = tastingMenu.length();
+                                final JSONObject[] wineryObjArray = new JSONObject[tastingMenuSize];
 
                                 for(int tastingMenuIndex = 0; tastingMenuIndex < tastingMenuSize; tastingMenuIndex++)
                                 {
