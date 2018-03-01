@@ -115,7 +115,8 @@
             android:maxLines="1"
             android:maxWidth="175dp"
             android:text="@string/winery_phone_number"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/viewMenuButton"
