@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="30dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/white"
+        android:tag="HELLO"
+        android:textAlignment="center" />
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/full_red_star" />
+</LinearLayout>

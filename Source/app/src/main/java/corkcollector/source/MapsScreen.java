@@ -3,13 +3,19 @@ package corkcollector.source;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -116,6 +123,26 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                                 LatLng lalo = new LatLng(lat, lon);
                                 markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
 
+                                //IDKWTF
+
+                                final LayoutInflater factory = getLayoutInflater();
+
+                                LinearLayout tv = (LinearLayout) factory.inflate(R.layout.pin_replacement, null, false);
+                                
+                                TextView wineryBlurb = (TextView) tv.getChildAt(0);
+                                wineryBlurb.setText(name);
+
+                                tv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                                tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
+
+                                tv.setDrawingCacheEnabled(true);
+                                tv.buildDrawingCache();
+
+                                Bitmap bm = tv.getDrawingCache();
+
+                                markerArray[wineryArrayIndex].setIcon(BitmapDescriptorFactory.fromBitmap(bm));
+
                                 //Get the winery ID
                                 String wineryID = wineryObj.getString("WineryId");
 
@@ -188,19 +215,19 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        // Load the default winery screen
-        Intent myIntent2 = new Intent(MapsScreen.this,
-                WineryScreen.class);
+           // Load the default winery screen
+           Intent myIntent2 = new Intent(MapsScreen.this,
+                   WineryScreen.class);
 
-        //Pass the marker's wineryID to the class
-        myIntent2.putExtra("wineryID", marker.getTag().toString());
+           //Pass the marker's wineryID to the class
+           myIntent2.putExtra("wineryID", marker.getTag().toString());
 
-        startActivity(myIntent2);
+           startActivity(myIntent2);
 
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
-        return false;
+           // Return false to indicate that we have not consumed the event and that we wish
+           // for the default behavior to occur (which is for the camera to move such that the
+           // marker is centered and for the marker's info window to open, if it has one).
+           return false;
     }
 
     @Override
