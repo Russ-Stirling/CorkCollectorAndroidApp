@@ -121,26 +121,25 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
                                 //Place it in the marker array and on the map
                                 LatLng lalo = new LatLng(lat, lon);
-                                markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo).title(name));
+                                markerArray[wineryArrayIndex] = mMap.addMarker(new MarkerOptions().position(lalo));
 
-                                //IDKWTF
-
+                                //Grab the custom marker template from layout library
                                 final LayoutInflater factory = getLayoutInflater();
-
                                 LinearLayout tv = (LinearLayout) factory.inflate(R.layout.pin_replacement, null, false);
-                                
+
+                                //Attach the winery's title to the pin
                                 TextView wineryBlurb = (TextView) tv.getChildAt(0);
                                 wineryBlurb.setText(name);
 
+                                //Adjust the size of the custom pin
                                 tv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                                         View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                                 tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
 
+                                //Create a bitmap from the XML structure and use it to replace the pin image
                                 tv.setDrawingCacheEnabled(true);
                                 tv.buildDrawingCache();
-
                                 Bitmap bm = tv.getDrawingCache();
-
                                 markerArray[wineryArrayIndex].setIcon(BitmapDescriptorFactory.fromBitmap(bm));
 
                                 //Get the winery ID
