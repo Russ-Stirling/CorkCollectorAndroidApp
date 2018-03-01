@@ -40,7 +40,7 @@
         <TextView
             android:id="@+id/wineNameText"
             android:layout_width="175dp"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
             android:layout_column="3"
             android:layout_columnSpan="3"
             android:layout_marginLeft="7dp"
@@ -50,7 +50,7 @@
             android:text="@string/wine_name"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold|italic" />
 
         <RatingBar
@@ -60,8 +60,8 @@
             android:layout_height="12dp"
             android:layout_column="3"
             android:layout_columnSpan="3"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginStart="65dp"
             android:layout_row="1"
             android:numStars="5"
             android:progressDrawable="@drawable/ratingbar_red"
@@ -96,22 +96,37 @@
             android:layout_row="3"
             android:maxWidth="175dp"
             android:text="@string/wine_year_type"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/wineDescriptionText"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
+        <ScrollView
+            android:layout_width="174dp"
+            android:layout_height="55dp"
             android:layout_column="3"
             android:layout_columnSpan="3"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_row="4"
-            android:lines="3"
-            android:maxLines="3"
-            android:maxWidth="175dp"
-            android:text="@string/wine_description"
-            android:textAlignment="center" />
+            android:layout_marginTop="5dp"
+            android:layout_row="4">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/wineDescriptionText"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_row="4"
+                    android:lines="8"
+                    android:maxLines="8"
+                    android:maxWidth="175dp"
+                    android:text="Blah blah blah I am going to try and write a very very very long wine description just to make god damn sure that this thing is going to work because some wineries just make their descriptions too damn long!!!"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/tasteWineButton"
