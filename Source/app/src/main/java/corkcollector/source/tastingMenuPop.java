@@ -48,7 +48,7 @@ public class tastingMenuPop extends Activity{
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(height*.8));
+        getWindow().setLayout((int)(width*.9),(int)(height*.9));
 
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
