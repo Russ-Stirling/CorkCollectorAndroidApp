@@ -98,6 +98,7 @@ public class WineryScreen extends AppCompatActivity {
                                 populateReviews(reviews.length(), reviews);
 
                             }
+
                             catch (JSONException e) {
 
                                 //Create a toast message to indicate an error

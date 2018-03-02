@@ -2,15 +2,20 @@ package corkcollector.source;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,70 +74,19 @@ public class WineScreen extends AppCompatActivity {
                                 //Get the required parameters for the winery page
                                 String wineName = wine.getString("WineName");
                                 String wineType = wine.getString("WineType");
+                                int wineYear = wine.getInt("BottlingYear");
                                 JSONArray reviews = wine.getJSONArray("Reviews");
-
-                                //Series of arrays for review parameters
-                                final int reviewNum = reviews.length();
-                                String[] reviewAuthorArray = new String[reviewNum];
-                                int[] reviewRatingArray = new int[reviewNum];
-                                String[] reviewTextArray = new String[reviewNum];
-
-                                //Grab the details of each review individually
-                                for (int x = 0; x < reviewNum; x++)
-                                {
-                                    JSONObject review = reviews.getJSONObject(x);
-                                    reviewAuthorArray[x] = review.getString("UserName");
-                                    reviewRatingArray[x] = review.getInt("Rating");
-                                    reviewTextArray[x] = review.getString("Text");
-                                }
 
                                 //Grab the required objects from the winery screen
                                 TextView nameText = findViewById(R.id.wineNameText);
                                 TextView typeYearText = findViewById(R.id.wineTypeYearText);
 
-                                //Create new arrays to grab review components from wine screen
-                                TextView[] reviewAuthorObjects = new TextView[reviewNum];
-                                RatingBar[] reviewRatingObjects = new RatingBar[reviewNum];
-                                TextView[] reviewTextObjects = new TextView[reviewNum];
-
-                                //Loop through review xml objects
-                                for (int x = 0; x < reviewNum; x++)
-                                {
-                                    //Strings to label the review components
-                                    String reviewAuthorID = "wineRatingAuthorText";
-                                    String reviewRatingID = "wineIndividualRatingBar";
-                                    String reviewTextID = "wineReviewText";
-
-                                    //The string names change depending on their number
-                                    if (x > 0)
-                                    {
-                                        reviewAuthorID += Integer.toString(x + 1);
-                                        reviewRatingID += Integer.toString(x + 1);
-                                        reviewTextID += Integer.toString(x + 1);
-                                    }
-
-                                    //Access and store review component objects
-                                    int reviewAuthorResID = getResources().getIdentifier(reviewAuthorID, "id", getPackageName());
-                                    int reviewRatingResID = getResources().getIdentifier(reviewRatingID, "id", getPackageName());
-                                    int reviewTextResID = getResources().getIdentifier(reviewTextID, "id", getPackageName());
-
-                                    //Save them in permanent arrays
-                                    reviewAuthorObjects[x] = findViewById(reviewAuthorResID);
-                                    reviewRatingObjects[x] = findViewById(reviewRatingResID);
-                                    reviewTextObjects[x] = findViewById(reviewTextResID);
-                                }
-
                                 //Set the appropriate values for the page
                                 nameText.setText(wineName);
-                                typeYearText.setText(wineType);
+                                typeYearText.setText(wineType + " " + Integer.toString(wineYear));
 
-                                //Dynamically set the review values
-                                for (int x = 0; x < reviewNum; x++)
-                                {
-                                    reviewAuthorObjects[x].setText(reviewAuthorArray[x]);
-                                    reviewRatingObjects[x].setNumStars(reviewRatingArray[x]);
-                                    reviewTextObjects[x].setText(reviewTextArray[x]);
-                                }
+                                //Populate the review component of the screen
+                                populateReviews(reviews.length(), reviews);
 
                             }
 
@@ -169,6 +123,98 @@ public class WineScreen extends AppCompatActivity {
             //Add it to the queue and send it automatically
             queue.add(getRequest);
         }
+    }
+
+    void populateReviews(int reviewArraySize, JSONArray reviewObjArray)
+    {
+
+        //Access the layout for all reviews
+        LinearLayout reviewMainLinearLayout = findViewById(R.id.wineReviewLinearLayout);
+
+        //Loop through the array of reviews
+        for(int reviewArrayIndex = 0; reviewArrayIndex < reviewArraySize; reviewArrayIndex++)
+        {
+            //Create new view objects (rating bar is loaded from template for style reasons)
+            final TextView reviewAuthor = new TextView(this);
+            final RatingBar reviewRating = (RatingBar) getLayoutInflater().inflate(R.layout.ratingbar_template, null);
+            final TextView reviewContent = new TextView(this);
+
+            try
+            {
+                //Grab the winery object and use it to access its parameters
+                JSONObject reviewObject = reviewObjArray.getJSONObject(reviewArrayIndex);
+
+                //Set value and style of author's name
+                reviewAuthor.setText(reviewObject.getString("UserName"));
+                reviewAuthor.setTextColor(Color.BLACK);
+                reviewAuthor.setTypeface(null, Typeface.BOLD);
+                reviewAuthor.setLines(1);
+                reviewAuthor.setMaxLines(1);
+
+                //Set layout parameters of author's name
+                GridLayout.LayoutParams reviewAuthorParams = new GridLayout.LayoutParams();
+                reviewAuthorParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewAuthorParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+                reviewAuthorParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+                reviewAuthorParams.rowSpec = GridLayout.spec(0, 1);
+                reviewAuthorParams.columnSpec = GridLayout.spec(0, 1);
+                reviewAuthor.setLayoutParams(reviewAuthorParams);
+
+                //Set value of rating bar
+                reviewRating.setRating(reviewObject.getInt("Rating"));
+
+                //Set layout parameters of rating bar
+                GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
+                reviewRatingParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics());
+                reviewRatingParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
+                reviewRatingParams.topMargin  = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+                reviewRatingParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+                reviewRatingParams.rowSpec = GridLayout.spec(0, 1);
+                reviewRatingParams.columnSpec = GridLayout.spec(1, 1);
+                reviewRating.setLayoutParams(reviewRatingParams);
+
+                //Set value and style of review content
+                reviewContent.setText(reviewObject.getString("Text"));
+                reviewContent.setLines(5);
+                reviewContent.setMaxLines(5);
+
+                //Set layout parameters of review content
+                GridLayout.LayoutParams reviewContentParams = new GridLayout.LayoutParams();
+                reviewContentParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewContentParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewContentParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+                reviewContentParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+                reviewContentParams.rowSpec = GridLayout.spec(1, 1);
+                reviewContentParams.columnSpec = GridLayout.spec(0, 2);
+                reviewContent.setLayoutParams(reviewContentParams);
+
+                //Add new review box to the linear layout
+                GridLayout reviewGrid = new GridLayout(this);
+                reviewGrid.setColumnCount(2);
+                reviewGrid.setRowCount(2);
+
+                //Add the components of the review to the grid layout
+                reviewGrid.addView(reviewAuthor);
+                reviewGrid.addView(reviewRating);
+                reviewGrid.addView(reviewContent);
+
+                //Add the grid layout to the review section
+                reviewMainLinearLayout.addView(reviewGrid);
+
+            }
+
+            catch(JSONException e)
+            {
+                //Create a toast message to indicate an error
+                Context context = getApplicationContext();
+                CharSequence text = "Error: Could not load reviews from database";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        }
+
     }
 
     @Override
