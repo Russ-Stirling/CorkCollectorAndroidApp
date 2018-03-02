@@ -1,16 +1,24 @@
 package corkcollector.source;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,11 +81,13 @@ public class WineryScreen extends AppCompatActivity {
                                 int rating = winery.getInt("Rating");
                                 JSONArray reviews = winery.getJSONArray("Reviews");
 
+                                /*
                                 //Series of arrays for review parameters
                                 final int reviewNum = reviews.length();
                                 String[] reviewAuthorArray = new String[reviewNum];
                                 int[] reviewRatingArray = new int[reviewNum];
                                 String[] reviewTextArray = new String[reviewNum];
+
 
                                 //Grab the details of each review individually
                                 for (int x = 0; x < reviewNum; x++)
@@ -87,6 +97,7 @@ public class WineryScreen extends AppCompatActivity {
                                     reviewRatingArray[x] = review.getInt("Rating");
                                     reviewTextArray[x] = review.getString("Text");
                                 }
+                                */
 
                                 //Grab the required objects from the winery screen
                                 TextView addressText = findViewById(R.id.wineryAddressText);
@@ -94,18 +105,22 @@ public class WineryScreen extends AppCompatActivity {
                                 TextView nameText = findViewById(R.id.wineryName);
                                 RatingBar ratingBar = findViewById(R.id.wineryRatingBar);
 
+                                /*
                                 //Create new arrays to grab review components from winery screen
                                 TextView[] reviewAuthorObjects = new TextView[reviewNum];
                                 RatingBar[] reviewRatingObjects = new RatingBar[reviewNum];
                                 TextView[] reviewTextObjects = new TextView[reviewNum];
 
+
                                 //Loop through review xml objects
-                                for (int x = 0; x < reviewNum; x++)
+                                for (int x = 0; x < 1; x++)
                                 {
+
                                     //Strings to label the review components
                                     String reviewAuthorID = "ratingAuthorText";
                                     String reviewRatingID = "individualRatingBar";
                                     String reviewTextID = "reviewText";
+
 
                                     //The string names change depending on their number
                                     if (x > 0)
@@ -115,16 +130,20 @@ public class WineryScreen extends AppCompatActivity {
                                         reviewTextID += Integer.toString(x + 1);
                                     }
 
+
                                     //Access and store review component objects
                                     int reviewAuthorResID = getResources().getIdentifier(reviewAuthorID, "id", getPackageName());
                                     int reviewRatingResID = getResources().getIdentifier(reviewRatingID, "id", getPackageName());
                                     int reviewTextResID = getResources().getIdentifier(reviewTextID, "id", getPackageName());
 
+
                                     //Save them in permanent arrays
                                     reviewAuthorObjects[x] = findViewById(reviewAuthorResID);
                                     reviewRatingObjects[x] = findViewById(reviewRatingResID);
                                     reviewTextObjects[x] = findViewById(reviewTextResID);
+
                                 }
+                                */
 
                                 //Set the appropriate values for the page
                                 addressText.setText(address);
@@ -132,6 +151,7 @@ public class WineryScreen extends AppCompatActivity {
                                 nameText.setText(name);
                                 ratingBar.setNumStars(rating);
 
+                                /*
                                 //Dynamically set the review values
                                 for (int x = 0; x < reviewNum; x++)
                                 {
@@ -139,6 +159,9 @@ public class WineryScreen extends AppCompatActivity {
                                     reviewRatingObjects[x].setNumStars(reviewRatingArray[x]);
                                     reviewTextObjects[x].setText(reviewTextArray[x]);
                                 }
+                                */
+
+                                populateReviews(reviews.length(), reviews);
 
                             }
                             catch (JSONException e) {
@@ -198,6 +221,88 @@ public class WineryScreen extends AppCompatActivity {
                 }
             });
 
+        }
+
+    }
+
+    void populateReviews(int reviewArraySize, JSONArray reviewObjArray)
+    {
+        //Access the layout for all reviews
+        LinearLayout reviewMainLinearLayout = findViewById(R.id.wineryReviewLinearLayout);
+
+        //Loop through the array of reviews
+        for(int reviewArrayIndex = 0; reviewArrayIndex < 1; reviewArrayIndex++)
+        {
+            //Create a new view objects
+            final TextView reviewAuthor = new TextView(this);
+            final RatingBar reviewRating = new RatingBar(this);
+            final TextView reviewContent = new TextView(this);
+
+            try
+            {
+                //Grab the winery object and use it to access its parameters
+                JSONObject reviewObject = reviewObjArray.getJSONObject(reviewArrayIndex);
+
+                //Set value and style of author's name
+                reviewAuthor.setText(reviewObject.getString("UserName"));
+                reviewAuthor.setTextColor(Color.BLACK);
+                reviewAuthor.setTypeface(null, Typeface.BOLD);
+
+                //Set layout parameters of author's name
+                GridLayout.LayoutParams reviewAuthorParams = new GridLayout.LayoutParams();
+                reviewAuthorParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewAuthorParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewAuthorParams.leftMargin = 15;
+                reviewAuthorParams.rowSpec = GridLayout.spec(0, 1);
+                reviewAuthorParams.columnSpec = GridLayout.spec(0, 1);
+                reviewAuthor.setLayoutParams(reviewAuthorParams);
+
+                //Set value and style of rating bar
+                reviewRating.setNumStars(5);
+                //reviewRating.setProgressDrawable(getResources().getDrawable(R.drawable.ratingbar_red));
+                //reviewRating.setRating(reviewObject.getInt("Rating"));
+
+                //Set layout parameters of rating bar
+                GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
+                reviewRatingParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewRatingParams.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                reviewRatingParams.leftMargin = 50;
+                reviewRatingParams.rowSpec = GridLayout.spec(0, 1);
+                reviewRatingParams.columnSpec = GridLayout.spec(1, 1);
+                reviewRating.setLayoutParams(reviewRatingParams);
+
+
+                //Set value and style of review content
+                reviewContent.setText(reviewObject.getString("Text"));
+
+
+
+
+
+                //Add new review box and rating bars to the linear layout
+                GridLayout reviewGrid = new GridLayout(this);
+                reviewGrid.setColumnCount(2);
+                reviewGrid.setRowCount(2);
+
+                reviewGrid.addView(reviewAuthor);
+                reviewGrid.addView(reviewRating);
+
+                reviewGrid.setY(reviewArrayIndex * 200);
+
+                reviewMainLinearLayout.addView(reviewGrid);
+
+            }
+
+            catch(JSONException e)
+            {
+                //Create a toast message to indicate an error
+                Context context = getApplicationContext();
+                CharSequence text = "Error: Could not load reviews from database";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
         }
 
     }
