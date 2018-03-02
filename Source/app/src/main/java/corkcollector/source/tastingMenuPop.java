@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,46 +142,74 @@ public class tastingMenuPop extends Activity{
     {
 
         //Access the relative layout so we can add wines to it
-        RelativeLayout myRelativeLayout = findViewById(R.id.popupMenuLayout);
+        //RelativeLayout myRelativeLayout = findViewById(R.id.popupMenuLayout);
+
+        //Access the scroll view so we can add wines to it
+        LinearLayout tastingMenuLinearLayout = findViewById(R.id.tastingMenuLinearLayout);
 
         //Loop through the tasting menu
         for(int tastingMenuIndex = 0; tastingMenuIndex < tastingMenuSize; tastingMenuIndex++)
         {
             //Create a new text view object
-            final TextView tempView = new TextView(this);
+            //final TextView tempView = new TextView(this);
+
+            //Create a new grid layout for the wine & 3 text views to store its info
+            final GridLayout wineGrid = new GridLayout(this);
+            wineGrid.setRowCount(1);
+            wineGrid.setColumnCount(3);
+
+            final TextView wineNameTextView = new TextView(this);
+            final TextView wineTypeTextView = new TextView(this);
+            final TextView wineYearTextView = new TextView(this);
 
             try
             {
 
                 //TODO: Expand these once the database has been updated
-                //Give the wine a title and description
-                String tempText = wineryObjArray[tastingMenuIndex].getString("WineName") + " | " +
-                        wineryObjArray[tastingMenuIndex].getString("WineType");
-                tempView.setText(tempText);
 
-                //Set the style of the text
-                tempView.setTypeface(Typeface.SANS_SERIF);
+                //Set text and style of textview components
+                wineNameTextView.setText(wineryObjArray[tastingMenuIndex].getString("WineName"));
+                wineTypeTextView.setText(wineryObjArray[tastingMenuIndex].getString("WineType"));
+                wineYearTextView.setText(Integer.toString((wineryObjArray[tastingMenuIndex].getInt("BottlingYear"))));
 
-                //Grab display metrics and measurements in pixels
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                int width = dm.widthPixels;
-                int height = dm.heightPixels;
+                //Set layout parameters of wine's name
+                GridLayout.LayoutParams wineNameParams = new GridLayout.LayoutParams();
+                wineNameParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 135, getResources().getDisplayMetrics());
+                wineNameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                wineNameParams.rowSpec = GridLayout.spec(0, 1);
+                wineNameParams.columnSpec = GridLayout.spec(0, 1);
+                wineNameTextView.setLayoutParams(wineNameParams);
 
-                //Set the text view to the horizontal center of the popup menu
-                tempView.setWidth(width);
-                tempView.setGravity(Gravity.CENTER_HORIZONTAL);
+                //Set layout parameters of wine's type
+                GridLayout.LayoutParams wineTypeParams = new GridLayout.LayoutParams();
+                wineTypeParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                wineTypeParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 99, getResources().getDisplayMetrics());
+                wineTypeParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                wineTypeParams.rowSpec = GridLayout.spec(0, 1);
+                wineTypeParams.columnSpec = GridLayout.spec(1, 1);
+                wineTypeTextView.setLayoutParams(wineTypeParams);
 
-                //Incrementally spread out the text view vertically through the popup menu
-                float yPos = (float) ((height * 0.15) + tastingMenuIndex * (height * 0.075));
-                tempView.setY(yPos);
+                //Set layout parameters of wine's type
+                GridLayout.LayoutParams wineYearParams = new GridLayout.LayoutParams();
+                wineYearParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                wineYearParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+                wineYearParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                wineYearParams.rowSpec = GridLayout.spec(0, 1);
+                wineYearParams.columnSpec = GridLayout.spec(2, 1);
+                wineYearTextView.setLayoutParams(wineYearParams);
 
-                //Add it to the screen
-                myRelativeLayout.addView(tempView);
+                //Add textviews to the grid layout
+                wineGrid.addView(wineNameTextView);
+                wineGrid.addView(wineTypeTextView);
+                wineGrid.addView(wineYearTextView);
 
-                //Create a new onclick listener for the wine object
+                //Add the grid layout to the screen
+                tastingMenuLinearLayout.addView(wineGrid);
+
+                //Create a new onclick listener for the wine grid object
                 final String tempID = wineryObjArray[tastingMenuIndex].getString("WineId");
-                tempView.setOnClickListener(new View.OnClickListener() {
+                wineGrid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
