@@ -92,8 +92,9 @@ public class WineryScreen extends AppCompatActivity {
                                 addressText.setText(address);
                                 phoneNumberText.setText(phoneNumber);
                                 nameText.setText(name);
-                                ratingBar.setNumStars(rating); //TODO: this doesn't work (and never did)
+                                ratingBar.setRating(rating);
 
+                                //Populate the review section
                                 populateReviews(reviews.length(), reviews);
 
                             }
@@ -146,7 +147,7 @@ public class WineryScreen extends AppCompatActivity {
                 }
             });
 
-            //Set the onclick listener for the review menu
+            //Set the onclick listener for the review button
             rateReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -166,9 +167,9 @@ public class WineryScreen extends AppCompatActivity {
         //Loop through the array of reviews
         for(int reviewArrayIndex = 0; reviewArrayIndex < reviewArraySize; reviewArrayIndex++)
         {
-            //Create a new view objects
+            //Create new view objects (rating bar is loaded from template for style reasons)
             final TextView reviewAuthor = new TextView(this);
-            final RatingBar reviewRating = new RatingBar(this);
+            final RatingBar reviewRating = (RatingBar) getLayoutInflater().inflate(R.layout.ratingbar_template, null);
             final TextView reviewContent = new TextView(this);
 
             try
@@ -192,16 +193,15 @@ public class WineryScreen extends AppCompatActivity {
                 reviewAuthorParams.columnSpec = GridLayout.spec(0, 1);
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
-                //Set value and style of rating bar
-                reviewRating.setNumStars(5); //TODO: this doesn't work (and never did)
-                reviewRating.setProgressDrawable(getResources().getDrawable(R.drawable.full_red_star));
-                reviewRating.setRating(2);
+                //Set value of rating bar
+                reviewRating.setRating(reviewObject.getInt("Rating"));
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
                 reviewRatingParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics());
                 reviewRatingParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
-                reviewRatingParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                reviewRatingParams.topMargin  = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+                reviewRatingParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
                 reviewRatingParams.rowSpec = GridLayout.spec(0, 1);
                 reviewRatingParams.columnSpec = GridLayout.spec(1, 1);
                 reviewRating.setLayoutParams(reviewRatingParams);
@@ -231,8 +231,7 @@ public class WineryScreen extends AppCompatActivity {
                 reviewGrid.addView(reviewRating);
                 reviewGrid.addView(reviewContent);
 
-                //reviewGrid.setY(reviewArrayIndex * 200);
-
+                //Add the grid layout to the review section
                 reviewMainLinearLayout.addView(reviewGrid);
 
             }

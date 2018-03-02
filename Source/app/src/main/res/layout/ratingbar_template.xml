@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RatingBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/individualRatingBar"
+    style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+    android:layout_width="60dp"
+    android:layout_height="12dp"
+    android:layout_row="0"
+    android:layout_column="1"
+    android:layout_marginLeft="50dp"
+    android:layout_marginStart="50dp"
+    android:numStars="5"
+    android:progressDrawable="@drawable/ratingbar_red"
+    android:stepSize="1"
+    android:textAlignment="center" />
