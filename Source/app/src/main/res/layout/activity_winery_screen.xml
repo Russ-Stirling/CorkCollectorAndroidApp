@@ -166,52 +166,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <GridLayout
-                    android:id="@+id/ratingReviewGrid1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/ratingAuthorText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="0"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_row="0"
-                        android:text="@string/review_author"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
-
-                    <RatingBar
-                        android:id="@+id/individualRatingBar"
-                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                        android:layout_width="60dp"
-                        android:layout_height="12dp"
-                        android:layout_column="1"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginStart="50dp"
-                        android:layout_row="0"
-                        android:numStars="5"
-                        android:progressDrawable="@drawable/ratingbar_red"
-                        android:rating="4"
-                        android:stepSize="1"
-                        android:textAlignment="center" />
-
-                    <TextView
-                        android:id="@+id/reviewText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="0"
-                        android:layout_columnSpan="2"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_row="1"
-                        android:lines="5"
-                        android:maxLines="5"
-                        android:text="@string/review_content" />
-                </GridLayout>
-
             </LinearLayout>
         </ScrollView>
 

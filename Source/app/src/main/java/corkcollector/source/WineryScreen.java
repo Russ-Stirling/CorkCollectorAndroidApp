@@ -193,9 +193,9 @@ public class WineryScreen extends AppCompatActivity {
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
                 //Set value and style of rating bar
-                reviewRating.setNumStars(reviewObject.getInt("Rating")); //TODO: this doesn't work (and never did)
-                reviewRating.setProgressDrawable(getResources().getDrawable(R.drawable.ratingbar_red));
-                //reviewRating.setRating(reviewObject.getInt("Rating"));
+                reviewRating.setNumStars(5); //TODO: this doesn't work (and never did)
+                reviewRating.setProgressDrawable(getResources().getDrawable(R.drawable.full_red_star));
+                reviewRating.setRating(2);
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
