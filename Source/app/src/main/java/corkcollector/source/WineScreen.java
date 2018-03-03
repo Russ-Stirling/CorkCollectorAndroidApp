@@ -38,6 +38,15 @@ public class WineScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine_screen);
 
+        Button addToCellar = findViewById(R.id.addToCellarButton);
+
+        addToCellar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WineScreen.this, WineCellarQuantityPop.class));
+            }
+        });
+
         Button rateReview = findViewById(R.id.rateReviewButton);
 
         rateReview.setOnClickListener(new View.OnClickListener() {

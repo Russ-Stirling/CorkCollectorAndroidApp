@@ -71,6 +71,15 @@
             android:name=".TastedWinesPop"
             android:theme="@style/CustomPopUpTheme"/>
         <activity
+            android:name=".WineCellarPop"
+            android:theme="@style/CustomPopUpTheme"/>
+        <activity
+            android:name=".NotesPop"
+            android:theme="@style/CustomPopUpTheme" />
+        <activity
+            android:name=".WineCellarQuantityPop"
+            android:theme="@style/CustomPopUpTheme" />
+        <activity
             android:name=".RequestScreen"
             android:label="AYY WASSUP" />
     </application>

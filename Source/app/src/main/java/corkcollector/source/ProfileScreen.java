@@ -33,6 +33,15 @@ public class ProfileScreen extends AppCompatActivity {
                 startActivity(new Intent(ProfileScreen.this, VisitedWineriesPop.class));
             }
         });
+
+        Button wineCellar = (Button) findViewById(R.id.viewWineCellarButton);
+
+        wineCellar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileScreen.this, WineCellarPop.class));
+            }
+        });
     }
 
     @Override

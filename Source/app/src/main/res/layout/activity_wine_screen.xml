@@ -129,7 +129,7 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/tasteWineButton"
+            android:id="@+id/addToCellarButton"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
@@ -141,7 +141,7 @@
             android:textColor="@color/colorAccent" />
 
         <Button
-            android:id="@+id/addToCellarButton"
+            android:id="@+id/tasteWineButton"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_column="3"
