@@ -80,6 +80,9 @@
             android:name=".WineCellarQuantityPop"
             android:theme="@style/CustomPopUpTheme" />
         <activity
+            android:name=".SignupPop"
+            android:theme="@style/CustomPopUpTheme"/>
+        <activity
             android:name=".RequestScreen"
             android:label="AYY WASSUP" />
     </application>

@@ -56,6 +56,15 @@ public class WineScreen extends AppCompatActivity {
             }
         });
 
+        Button signUp = findViewById(R.id.tasteWineButton);
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WineScreen.this, SignupPop.class));
+            }
+        });
+
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
