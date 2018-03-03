@@ -169,31 +169,36 @@ public class tastingMenuPop extends Activity{
 
                 //Set text and style of textview components
                 wineNameTextView.setText(wineryObjArray[tastingMenuIndex].getString("WineName"));
+                wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 wineTypeTextView.setText(wineryObjArray[tastingMenuIndex].getString("WineType"));
+                wineTypeTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 wineYearTextView.setText(Integer.toString((wineryObjArray[tastingMenuIndex].getInt("BottlingYear"))));
+                wineYearTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 
                 //Set layout parameters of wine's name
                 GridLayout.LayoutParams wineNameParams = new GridLayout.LayoutParams();
                 wineNameParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 135, getResources().getDisplayMetrics());
+                wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
                 wineNameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
                 wineNameParams.rowSpec = GridLayout.spec(0, 1);
                 wineNameParams.columnSpec = GridLayout.spec(0, 1);
+                wineNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
                 wineNameTextView.setLayoutParams(wineNameParams);
 
                 //Set layout parameters of wine's type
                 GridLayout.LayoutParams wineTypeParams = new GridLayout.LayoutParams();
                 wineTypeParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineTypeParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 99, getResources().getDisplayMetrics());
+                wineTypeParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
                 wineTypeParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
                 wineTypeParams.rowSpec = GridLayout.spec(0, 1);
                 wineTypeParams.columnSpec = GridLayout.spec(1, 1);
+                wineNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
                 wineTypeTextView.setLayoutParams(wineTypeParams);
 
                 //Set layout parameters of wine's type
                 GridLayout.LayoutParams wineYearParams = new GridLayout.LayoutParams();
                 wineYearParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineYearParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
+                wineYearParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
                 wineYearParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
                 wineYearParams.rowSpec = GridLayout.spec(0, 1);
                 wineYearParams.columnSpec = GridLayout.spec(2, 1);
