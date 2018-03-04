@@ -1,8 +1,11 @@
 package corkcollector.source;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,9 +32,23 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -64,12 +82,15 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Set up the login form
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        // Set up the login form.
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        //Set on-edit listener for password field
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -82,6 +103,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             }
         });
 
+        //Set on click listener for sign-in button
         Button mEmailSignInButton = (Button) findViewById(R.id.signInButton);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -185,8 +207,10 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, this);
             mAuthTask.execute((Void) null);
+
+
         }
     }
 
@@ -296,24 +320,77 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+        String myAuthToken;
+        //Context mContext;
+
         private final String mEmail;
         private final String mPassword;
+        private final Context mCtx;
+        final RequestQueue myQueue;
 
-        UserLoginTask(String email, String password) {
+
+        UserLoginTask(String email, String password, Context ctx) {
             mEmail = email;
             mPassword = password;
+            mCtx = ctx;
+            myQueue = Volley.newRequestQueue(mCtx);
+        }
+
+        private StringRequest createPostRequest()
+        {
+            HashMap<String,String> params = new HashMap<String,String>();
+            params.put("grant_type", "password");
+            params.put("username", "russ2");
+            params.put("password", "password");
+
+            String url = "http://35.183.3.83/token";
+
+            StringRequest loginPostRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject testObj = new JSONObject(response);
+                                myAuthToken = testObj.getString("access_token");
+                            }
+
+                            catch (JSONException e)
+                            {
+                                //were sol here
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            //Print "oh no!" in log if unsuccessful
+                            Log.d("Error.Response", "oh no!");
+                        }
+                    }
+            ){
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("grant_type", "password");
+                    params.put("username", "russ2");
+                    params.put("password", "password");
+                    return params;
+                }
+            };
+
+            return loginPostRequest;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            myQueue.add(createPostRequest());
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            //Log.d("Auth Token:", myAuthToken);
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
@@ -324,6 +401,11 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             }
 
             // TODO: register the new account here.
+            //Account acc = new Account(mEmail, "USER ACCOUNT");
+
+            //AccountManager am = AccountManager.get(mCtx);
+            //am.addAccountExplicitly(acc, mPassword, null);
+            //am.setAuthToken(acc, "full_access", myAuthToken);
             return true;
         }
 
@@ -331,13 +413,15 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            /*
+            Log.d("is auth token here", myAuthToken);
             if (success) {
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+            */
         }
 
         @Override
