@@ -37,7 +37,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WineryScreen extends AppCompatActivity {
+
+    //Bundle containing authentication token from login screen
+    Bundle extras;
+    String authToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +61,15 @@ public class WineryScreen extends AppCompatActivity {
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Get the extra values bundled with the screen change
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
         //If there are values
         if (extras != null)
         {
+
+            //Grab the auth token
+            authToken = extras.getString("AUTH_TOKEN");
+
             //Grab the winery ID
             final String wineryID = extras.getString("wineryID");
 
@@ -76,11 +87,11 @@ public class WineryScreen extends AppCompatActivity {
 
                                 //TODO: Expand these once the database has been updated
                                 //Get the required parameters for the winery page
-                                String address = winery.getString("Address");
-                                String phoneNumber = winery.getString("PhoneNumber");
-                                String name = winery.getString("WineryName");
-                                int rating = winery.getInt("Rating");
-                                JSONArray reviews = winery.getJSONArray("Reviews");
+                                String address = winery.getString("address");
+                                String phoneNumber = winery.getString("phoneNumber");
+                                String name = winery.getString("wineryName");
+                                int rating = winery.getInt("rating");
+                                JSONArray reviews = winery.getJSONArray("reviews");
 
                                 //Grab the required objects from the winery screen
                                 TextView addressText = findViewById(R.id.wineryAddressText);
@@ -127,7 +138,15 @@ public class WineryScreen extends AppCompatActivity {
 
                         }
                     }
-            );
+            ){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/json; charset=UTF-8");
+                    params.put("Authorization", "Bearer "+ authToken);
+                    return params;
+                }
+            };
 
             //Add it to the queue and send it automatically
             queue.add(getRequest);
@@ -143,6 +162,7 @@ public class WineryScreen extends AppCompatActivity {
 
                     //Send over the winery ID
                     myIntent.putExtra("wineryID", wineryID);
+                    myIntent.putExtra("AUTH_TOKEN", authToken);
 
                     startActivity(myIntent);
                 }
@@ -179,7 +199,7 @@ public class WineryScreen extends AppCompatActivity {
                 JSONObject reviewObject = reviewObjArray.getJSONObject(reviewArrayIndex);
 
                 //Set value and style of author's name
-                reviewAuthor.setText(reviewObject.getString("UserName"));
+                reviewAuthor.setText(reviewObject.getString("userName"));
                 reviewAuthor.setTextColor(Color.BLACK);
                 reviewAuthor.setTypeface(null, Typeface.BOLD);
                 reviewAuthor.setLines(1);
@@ -195,7 +215,7 @@ public class WineryScreen extends AppCompatActivity {
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
                 //Set value of rating bar
-                reviewRating.setRating(reviewObject.getInt("Rating"));
+                reviewRating.setRating(reviewObject.getInt("rating"));
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
@@ -208,7 +228,7 @@ public class WineryScreen extends AppCompatActivity {
                 reviewRating.setLayoutParams(reviewRatingParams);
 
                 //Set value and style of review content
-                reviewContent.setText(reviewObject.getString("Text"));
+                reviewContent.setText(reviewObject.getString("text"));
                 reviewContent.setLines(5);
                 reviewContent.setMaxLines(5);
 

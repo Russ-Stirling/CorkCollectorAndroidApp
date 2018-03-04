@@ -322,14 +322,13 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         String myAuthToken;
-        boolean incorrectUsernameOrPassword = false;
+        //boolean incorrectUsernameOrPassword = false;
         //Context mContext;
 
         private final String mUserName;
         private final String mPassword;
         private final Context mCtx;
         final RequestQueue myQueue;
-
 
         UserLoginTask(String userName, String password, Context ctx) {
             mUserName = userName;
@@ -401,20 +400,24 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            myQueue.add(createPostRequest());
 
+            //Send the POST request for the authentication token
+            myQueue.add(createPostRequest());
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+
+            //Nullify task and stop spinning graphic
             mAuthTask = null;
             showProgress(false);
         }
 
         @Override
         protected void onCancelled() {
+
+            //Nullify task and stop spinning graphic
             mAuthTask = null;
             showProgress(false);
         }
@@ -426,13 +429,15 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
 
                 // TODO: register the new account here.
                 //Account acc = new Account(mEmail, "USER ACCOUNT");
-
                 //AccountManager am = AccountManager.get(mCtx);
                 //am.addAccountExplicitly(acc, mPassword, null);
                 //am.setAuthToken(acc, "full_access", myAuthToken);
 
+                //Load the map screen
                 Intent myIntent = new Intent(LoginScreen.this,
                         MapsScreen.class);
+
+                myIntent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent);
 
             }

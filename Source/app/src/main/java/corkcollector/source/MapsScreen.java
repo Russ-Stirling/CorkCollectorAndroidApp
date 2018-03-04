@@ -40,13 +40,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     //The map itself
     private GoogleMap mMap;
 
+   //Bundle containing authentication token from login screen
+    Bundle extras;
+    String authToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Get authentication token from bundle
+        extras = getIntent().getExtras();
+        authToken = getIntent().getStringExtra("AUTH_TOKEN");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_screen);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -115,9 +127,9 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                                 JSONObject wineryObj = response.getJSONObject(wineryArrayIndex);
 
                                 //Save the latitude, longitude and name
-                                double lat = wineryObj.getDouble("Latitude");
-                                double lon = wineryObj.getDouble("Longitude");
-                                String name = wineryObj.getString("WineryName");
+                                double lat = wineryObj.getDouble("latitude");
+                                double lon = wineryObj.getDouble("longitude");
+                                String name = wineryObj.getString("wineryName");
 
                                 //Place it in the marker array and on the map
                                 LatLng lalo = new LatLng(lat, lon);
@@ -143,7 +155,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                                 markerArray[wineryArrayIndex].setIcon(BitmapDescriptorFactory.fromBitmap(bm));
 
                                 //Get the winery ID
-                                String wineryID = wineryObj.getString("WineryId");
+                                String wineryID = wineryObj.getString("wineryId");
 
                                 //Add it to the marker
                                 markerArray[wineryArrayIndex].setTag(wineryID);
@@ -184,7 +196,15 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("Authorization", "Bearer "+authToken);
+                return params;
+            }
+        };
 
         //Add it to the RequestQueue and send automatically
         queue.add(getRequest);
@@ -220,6 +240,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
 
            //Pass the marker's wineryID to the class
            myIntent2.putExtra("wineryID", marker.getTag().toString());
+           myIntent2.putExtra("AUTH_TOKEN", authToken);
 
            startActivity(myIntent2);
 
