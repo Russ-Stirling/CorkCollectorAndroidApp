@@ -38,8 +38,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsScreen"
-            android:label="@string/title_activity_maps_screen">
+            android:name=".LoginScreen"
+            android:label="@string/title_activity_login_screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,11 +47,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MapsScreen"
+            android:label="@string/title_activity_maps_screen"/>
+        <activity
             android:name=".WineryScreen"
             android:label="@string/title" />
-        <activity
-            android:name=".LoginScreen"
-            android:label="@string/title_activity_login_screen" />
         <activity
             android:name=".WineScreen"
             android:label="@string/title" />
