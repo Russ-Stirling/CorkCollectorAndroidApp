@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -75,7 +76,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -87,7 +88,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mUserNameView = (AutoCompleteTextView) findViewById(R.id.userNameBox);
         populateAutoComplete();
 
         //Set on-edit listener for password field
@@ -132,7 +133,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mUserNameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -171,11 +172,11 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mUserNameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -188,16 +189,16 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        // Check for a valid user name
+        if (TextUtils.isEmpty(userName)) {
+            mUserNameView.setError(getString(R.string.error_field_required));
+            focusView = mUserNameView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        } /*else if (!isEmailValid(userName)) {
+            mUserNameView.setError(getString(R.string.error_invalid_email));
+            focusView = mUserNameView;
             cancel = true;
-        }
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -207,7 +208,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, this);
+            mAuthTask = new UserLoginTask(userName, password, this);
             mAuthTask.execute((Void) null);
 
 
@@ -300,7 +301,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
                 new ArrayAdapter<>(LoginScreen.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        mUserNameView.setAdapter(adapter);
     }
 
 
@@ -321,16 +322,17 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         String myAuthToken;
+        boolean incorrectUsernameOrPassword = false;
         //Context mContext;
 
-        private final String mEmail;
+        private final String mUserName;
         private final String mPassword;
         private final Context mCtx;
         final RequestQueue myQueue;
 
 
-        UserLoginTask(String email, String password, Context ctx) {
-            mEmail = email;
+        UserLoginTask(String userName, String password, Context ctx) {
+            mUserName = userName;
             mPassword = password;
             mCtx = ctx;
             myQueue = Volley.newRequestQueue(mCtx);
@@ -351,13 +353,24 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
                         @Override
                         public void onResponse(String response) {
                             try {
+
+                                //Convert string to JSON Object, then use object to access auth token
                                 JSONObject testObj = new JSONObject(response);
+
                                 myAuthToken = testObj.getString("access_token");
+                                LoginCompleted(true, myAuthToken);
+
                             }
 
                             catch (JSONException e)
                             {
-                                //were sol here
+                                //Create a toast message to indicate an error
+                                CharSequence text = "Error: Could not access authorization token";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(mCtx, text, duration);
+                                toast.show();
+                                LoginCompleted(false, myAuthToken);
                             }
                         }
                     },
@@ -368,6 +381,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
 
                             //Print "oh no!" in log if unsuccessful
                             Log.d("Error.Response", "oh no!");
+                            LoginCompleted(false, myAuthToken);
                         }
                     }
             ){
@@ -376,8 +390,8 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
                 {
                     Map<String, String>  params = new HashMap<String, String>();
                     params.put("grant_type", "password");
-                    params.put("username", "russ2");
-                    params.put("password", "password");
+                    params.put("username", mUserName);
+                    params.put("password", mPassword);
                     return params;
                 }
             };
@@ -390,22 +404,6 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             // TODO: attempt authentication against a network service.
             myQueue.add(createPostRequest());
 
-            //Log.d("Auth Token:", myAuthToken);
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            //Account acc = new Account(mEmail, "USER ACCOUNT");
-
-            //AccountManager am = AccountManager.get(mCtx);
-            //am.addAccountExplicitly(acc, mPassword, null);
-            //am.setAuthToken(acc, "full_access", myAuthToken);
             return true;
         }
 
@@ -413,21 +411,42 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-            /*
-            Log.d("is auth token here", myAuthToken);
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-            */
         }
 
         @Override
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        private void LoginCompleted(boolean success, String authToken)
+        {
+            if(success)
+            {
+
+                // TODO: register the new account here.
+                //Account acc = new Account(mEmail, "USER ACCOUNT");
+
+                //AccountManager am = AccountManager.get(mCtx);
+                //am.addAccountExplicitly(acc, mPassword, null);
+                //am.setAuthToken(acc, "full_access", myAuthToken);
+
+                Intent myIntent = new Intent(LoginScreen.this,
+                        MapsScreen.class);
+                startActivity(myIntent);
+
+            }
+            else
+            {
+                //Create a toast message to indicate an error
+                CharSequence text = "Error: Incorrect Username or Password";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(mCtx, text, duration);
+                toast.show();
+
+                mPasswordView.requestFocus();
+            }
         }
     }
 }

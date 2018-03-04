@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,16 +34,12 @@ public class CorkCollectorAccountAuthenticator extends AbstractAccountAuthentica
 
     String myAuthToken;
     Context mContext;
-    private final HashMap<String, String> params = new HashMap<String, String>();
 
     // Simple constructor
     public CorkCollectorAccountAuthenticator(Context context) {
 
         super(context);
         mContext = context;
-        params.put("grant_type", "password");
-        params.put("username", "russ2");
-        params.put("password", "password");
     }
 
     //Instantiate the RequestQueue.
@@ -58,13 +55,19 @@ public class CorkCollectorAccountAuthenticator extends AbstractAccountAuthentica
 
                     try
                     {
+                        //Convert string to JSON Object, then use object to access auth token
                         JSONObject test = new JSONObject(response);
                         myAuthToken = test.getString("access_token");
                     }
 
                     catch (JSONException e)
                     {
+                        //Create a toast message to indicate an error
+                        CharSequence text = "Error: Could not access authorization token";
+                        int duration = Toast.LENGTH_SHORT;
 
+                        Toast toast = Toast.makeText(mContext, text, duration);
+                        toast.show();
                     }
 
                 }
