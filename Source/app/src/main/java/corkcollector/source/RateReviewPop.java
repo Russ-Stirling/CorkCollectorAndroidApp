@@ -39,8 +39,9 @@ public class RateReviewPop extends Activity {
 
         //Grab bundled parameters
         final String userName = getIntent().getStringExtra("USER_NAME");
-        final String wineryID = getIntent().getStringExtra("wineryID");
         final String authToken = getIntent().getStringExtra("AUTH_TOKEN");
+        final String subjectId = getIntent().getStringExtra("subjectID");
+        final String routeParam = getIntent().getStringExtra("ROUTE_PARAM");
 
         //Pull up the popup window
         setContentView(R.layout.rate_review_popup_window);
@@ -71,16 +72,16 @@ public class RateReviewPop extends Activity {
 
 
                 //Assemble the post request and add it to the queue
-                StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, wineryID, authToken);
+                StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, subjectId, authToken, routeParam);
                 queue.add(reviewRequest);
                 finish();
             }
         });
     }
 
-    private StringRequest createPostRequest(final String reviewText, final int rating, final String userName, final String wineryId, final String reqAuthToken)
+    private StringRequest createPostRequest(final String reviewText, final int rating, final String userName, final String subjectId, final String reqAuthToken, String routeParam)
     {
-        String url = "http://35.183.3.83/api/winery/review";
+        String url = "http://35.183.3.83/api/"+routeParam+"/review";
 
 
         StringRequest loginPostRequest = new StringRequest(Request.Method.POST, url,
@@ -123,7 +124,7 @@ public class RateReviewPop extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 //params.put("Content-Type", "application/json; charset=UTF-8");
                 params.put("Authorization", "Bearer "+ reqAuthToken);
-                params.put("SubjectId", wineryId);
+                params.put("SubjectId", subjectId);
                 params.put("Rating", Integer.toString(rating));
                 params.put("Text", reviewText);
                 params.put("UserId", "testId");

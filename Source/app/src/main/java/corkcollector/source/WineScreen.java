@@ -152,9 +152,10 @@ public class WineScreen extends AppCompatActivity {
                     Intent myIntent = new Intent(WineScreen.this,
                             RateReviewPop.class);
                     //Send over the winery ID
-                    myIntent.putExtra("wineryID", wineID);
+                    myIntent.putExtra("subjectID", wineID);
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
+                    myIntent.putExtra("ROUTE_PARAM", "wine");
 
                     startActivity(myIntent);
                 }
