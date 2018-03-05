@@ -438,6 +438,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
                         MapsScreen.class);
 
                 myIntent.putExtra("AUTH_TOKEN", authToken);
+                myIntent.putExtra("USER_NAME", mUserName);
                 startActivity(myIntent);
 
             }

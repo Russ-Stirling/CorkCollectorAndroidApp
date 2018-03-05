@@ -45,6 +45,7 @@ public class WineryScreen extends AppCompatActivity {
     //Bundle containing authentication token from login screen
     Bundle extras;
     String authToken;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class WineryScreen extends AppCompatActivity {
 
             //Grab the auth token
             authToken = extras.getString("AUTH_TOKEN");
+            userName = extras.getString("USER_NAME");
 
             //Grab the winery ID
             final String wineryID = extras.getString("wineryID");
@@ -163,6 +165,7 @@ public class WineryScreen extends AppCompatActivity {
                     //Send over the winery ID
                     myIntent.putExtra("wineryID", wineryID);
                     myIntent.putExtra("AUTH_TOKEN", authToken);
+                    myIntent.putExtra("USER_NAME", userName);
 
                     startActivity(myIntent);
                 }
@@ -172,7 +175,16 @@ public class WineryScreen extends AppCompatActivity {
             rateReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(WineryScreen.this, RateReviewPop.class));
+
+                    Intent myIntent = new Intent(WineryScreen.this,
+                            RateReviewPop.class);
+                    //Send over the winery ID
+                    myIntent.putExtra("wineryID", wineryID);
+                    myIntent.putExtra("AUTH_TOKEN", authToken);
+                    myIntent.putExtra("USER_NAME", userName);
+
+                    startActivity(myIntent);
+
                 }
             });
 
@@ -270,6 +282,8 @@ public class WineryScreen extends AppCompatActivity {
         }
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
