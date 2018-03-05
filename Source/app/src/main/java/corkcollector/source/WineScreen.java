@@ -39,6 +39,7 @@ public class WineScreen extends AppCompatActivity {
     //Bundle containing authentication token from login screen
     Bundle extras;
     String authToken;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +57,6 @@ public class WineScreen extends AppCompatActivity {
 
         Button rateReview = findViewById(R.id.rateReviewButton);
 
-        rateReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(WineScreen.this, RateReviewPop.class));
-            }
-        });
-
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -74,6 +68,7 @@ public class WineScreen extends AppCompatActivity {
         {
             //Grab the auth token
             authToken = extras.getString("AUTH_TOKEN");
+            userName = extras.getString("USER_NAME");
 
             //Grab the wine ID
             final String wineID = extras.getString("wineID");
@@ -149,6 +144,21 @@ public class WineScreen extends AppCompatActivity {
 
             //Add it to the queue and send it automatically
             queue.add(getRequest);
+
+            rateReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent myIntent = new Intent(WineScreen.this,
+                            RateReviewPop.class);
+                    //Send over the winery ID
+                    myIntent.putExtra("wineryID", wineID);
+                    myIntent.putExtra("AUTH_TOKEN", authToken);
+                    myIntent.putExtra("USER_NAME", userName);
+
+                    startActivity(myIntent);
+                }
+            });
         }
     }
 

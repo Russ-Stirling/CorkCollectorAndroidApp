@@ -67,40 +67,21 @@ public class RateReviewPop extends Activity {
 
                 //Grab the rating number of the review
                 RatingBar userRatingBar = findViewById(R.id.ratingBar);
-                int rating = 3;//(int) userRatingBar.getRating();
+                int rating = (int) userRatingBar.getRating();
 
-                //Create a review object and load the parameters into it
-                JSONObject review = new JSONObject();
-                try {
-                    review.put("UserId", "testId");
-                    review.put("UserName", userName);
-                    review.put("Text", userReviewText);
-                    review.put("Rating", rating);
-                }
-                catch(JSONException e)
-                {
-                    //Create a toast message to indicate an error
-                    Context context = getApplicationContext();
-                    CharSequence text = "Error: Could not create your review";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-
-                    finish();
-                }
 
                 //Assemble the post request and add it to the queue
-                StringRequest reviewRequest = createPostRequest(review, wineryID, authToken);
+                StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, wineryID, authToken);
                 queue.add(reviewRequest);
                 finish();
             }
         });
     }
 
-    private StringRequest createPostRequest(final JSONObject review, final String wineryId, final String reqAuthToken)
+    private StringRequest createPostRequest(final String reviewText, final int rating, final String userName, final String wineryId, final String reqAuthToken)
     {
         String url = "http://35.183.3.83/api/winery/review";
+
 
         StringRequest loginPostRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -142,8 +123,11 @@ public class RateReviewPop extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 //params.put("Content-Type", "application/json; charset=UTF-8");
                 params.put("Authorization", "Bearer "+ reqAuthToken);
-                params.put("review", review.toString());
-                params.put("wineryId", wineryId);
+                params.put("SubjectId", wineryId);
+                params.put("Rating", Integer.toString(rating));
+                params.put("Text", reviewText);
+                params.put("UserId", "testId");
+                params.put("UserName", userName);
                 return params;
             }
 
@@ -151,6 +135,8 @@ public class RateReviewPop extends Activity {
 
         return loginPostRequest;
     }
+
+
 
 
 
