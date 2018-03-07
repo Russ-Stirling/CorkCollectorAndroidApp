@@ -71,7 +71,8 @@ public class VisitedWineriesPop extends Activity {
                             for(int visitListIndex = 0; visitListIndex < visitList.length(); visitListIndex++)
                             {
                                 String wineryName = visitList.getJSONObject(visitListIndex).getString("wineryName");
-                                String visitDate = visitList.getJSONObject(visitListIndex).getString("visitTime");
+                                //String visitDate = visitList.getJSONObject(visitListIndex).getString("visitTime");
+                                //TODO: this a datetime offset object
                             }
 
                         }

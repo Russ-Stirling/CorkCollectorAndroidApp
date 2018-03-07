@@ -160,7 +160,7 @@ public class ProfileScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(ProfileScreen.this,
-                        TastedWinesPop.class);
+                        VisitedWineriesPop.class);
 
                 myIntent.putExtra("USER_NAME", userName);
                 myIntent.putExtra("AUTH_TOKEN", authToken);
@@ -176,7 +176,7 @@ public class ProfileScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(ProfileScreen.this,
-                        TastedWinesPop.class);
+                        WineCellarPop.class);
 
                 myIntent.putExtra("USER_NAME", userName);
                 myIntent.putExtra("AUTH_TOKEN", authToken);

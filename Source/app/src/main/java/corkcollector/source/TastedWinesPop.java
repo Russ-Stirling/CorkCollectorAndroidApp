@@ -75,6 +75,8 @@ public class TastedWinesPop extends Activity {
                                 String wineType = tastingList.getJSONObject(tastingListIndex).getString("wineType");
                                 int bottlingYear = tastingList.getJSONObject(tastingListIndex).getInt("bottlingYear");
 
+
+
                             }
 
                         }
