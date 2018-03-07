@@ -186,7 +186,6 @@ public class TastedWinesPop extends Activity {
                 //Add the grid layout to the screen
                 tastedWinesLinearLayout.addView(wineGrid);
 
-
                 //Create a new onclick listener for the wine grid object
                 final String tempID = tastingList.getJSONObject(tastingListIndex).getString("wineId");
                 wineGrid.setOnClickListener(new View.OnClickListener() {
