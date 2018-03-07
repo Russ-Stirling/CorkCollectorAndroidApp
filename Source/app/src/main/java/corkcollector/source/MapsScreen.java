@@ -281,6 +281,8 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
             case R.id.item4:
                 Intent myIntent4 = new Intent(MapsScreen.this,
                         ProfileScreen.class);
+                myIntent4.putExtra("USER_NAME", userName);
+                myIntent4.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent4);
                 break;
             case R.id.item6:
