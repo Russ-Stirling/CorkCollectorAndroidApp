@@ -132,7 +132,7 @@ public class VisitedWineriesPop extends Activity {
 
                 String visitDate = visitList.getJSONObject(visitListIndex).getString("visitTime");
                 visitDate = visitDate.substring(0, 10);
-                SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-mm-dd");
+                SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat targetFormat = new SimpleDateFormat("MMMM dd, yyyy");
                 String formattedDate = "Error";
 
