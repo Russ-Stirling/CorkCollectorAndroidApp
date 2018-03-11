@@ -51,6 +51,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
    //Bundle containing authentication token from login screen
     Bundle extras;
     String authToken;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         //Get authentication token from bundle
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
+        userName = getIntent().getStringExtra("USER_NAME");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_screen);
@@ -241,6 +243,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
            //Pass the marker's wineryID to the class
            myIntent2.putExtra("wineryID", marker.getTag().toString());
            myIntent2.putExtra("AUTH_TOKEN", authToken);
+           myIntent2.putExtra("USER_NAME", userName);
 
            startActivity(myIntent2);
 
