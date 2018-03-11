@@ -33,11 +33,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Bailey on 1/20/2018.
  */
 
 public class tastingMenuPop extends Activity{
+
+    //Bundle containing authentication token from login screen
+    Bundle extras;
+    String authToken;
+    String userName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,11 +66,15 @@ public class tastingMenuPop extends Activity{
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Get the extra values bundled with the screen change
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
         //If there are values
         if (extras != null)
         {
+            //Grab the auth token
+            authToken = extras.getString("AUTH_TOKEN");
+            userName = extras.getString("USER_NAME");
+
             //Grab the winery ID
             final String wineryID = extras.getString("wineryID");
 
@@ -128,7 +140,15 @@ public class tastingMenuPop extends Activity{
                         }
                     }
 
-            );
+            ){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/json; charset=UTF-8");
+                    params.put("Authorization", "Bearer "+ authToken);
+                    return params;
+                }
+            };
 
             //Add it to the queue and send it automatically
             queue.add(getRequest);
@@ -168,11 +188,11 @@ public class tastingMenuPop extends Activity{
                 //TODO: Expand these once the database has been updated
 
                 //Set text and style of textview components
-                wineNameTextView.setText(wineryObjArray[tastingMenuIndex].getString("WineName"));
+                wineNameTextView.setText(wineryObjArray[tastingMenuIndex].getString("wineName"));
                 wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-                wineTypeTextView.setText(wineryObjArray[tastingMenuIndex].getString("WineType"));
+                wineTypeTextView.setText(wineryObjArray[tastingMenuIndex].getString("wineType"));
                 wineTypeTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-                wineYearTextView.setText(Integer.toString((wineryObjArray[tastingMenuIndex].getInt("BottlingYear"))));
+                wineYearTextView.setText(Integer.toString((wineryObjArray[tastingMenuIndex].getInt("bottlingYear"))));
                 wineYearTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 
                 //Set layout parameters of wine's name
@@ -213,7 +233,7 @@ public class tastingMenuPop extends Activity{
                 tastingMenuLinearLayout.addView(wineGrid);
 
                 //Create a new onclick listener for the wine grid object
-                final String tempID = wineryObjArray[tastingMenuIndex].getString("WineId");
+                final String tempID = wineryObjArray[tastingMenuIndex].getString("wineId");
                 wineGrid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -224,6 +244,8 @@ public class tastingMenuPop extends Activity{
 
                         //Send over the wineID
                         myIntent.putExtra("wineID", tempID);
+                        myIntent.putExtra("AUTH_TOKEN", authToken);
+                        myIntent.putExtra("USER_NAME", userName);
 
                         //Start the wine screen activity
                         startActivity(myIntent);

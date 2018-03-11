@@ -31,7 +31,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WineScreen extends AppCompatActivity {
+
+    //Bundle containing authentication token from login screen
+    Bundle extras;
+    String authToken;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +57,19 @@ public class WineScreen extends AppCompatActivity {
 
         Button rateReview = findViewById(R.id.rateReviewButton);
 
-        rateReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(WineScreen.this, RateReviewPop.class));
-            }
-        });
-
-        Button signUp = findViewById(R.id.tasteWineButton);
-
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(WineScreen.this, SignupPop.class));
-            }
-        });
-
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Get the extra values bundled with the screen change
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
         //If there are values
         if(extras != null)
         {
+            //Grab the auth token
+            authToken = extras.getString("AUTH_TOKEN");
+            userName = extras.getString("USER_NAME");
+
             //Grab the wine ID
             final String wineID = extras.getString("wineID");
 
@@ -90,10 +86,10 @@ public class WineScreen extends AppCompatActivity {
                             {
                                 //TODO: Expand these once the database has been updated
                                 //Get the required parameters for the winery page
-                                String wineName = wine.getString("WineName");
-                                String wineType = wine.getString("WineType");
-                                int wineYear = wine.getInt("BottlingYear");
-                                JSONArray reviews = wine.getJSONArray("Reviews");
+                                String wineName = wine.getString("wineName");
+                                String wineType = wine.getString("wineType");
+                                int wineYear = wine.getInt("bottlingYear");
+                                JSONArray reviews = wine.getJSONArray("reviews");
 
                                 //Grab the required objects from the winery screen
                                 TextView nameText = findViewById(R.id.wineNameText);
@@ -136,10 +132,34 @@ public class WineScreen extends AppCompatActivity {
 
                         }
                     }
-            );
+            ){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/json; charset=UTF-8");
+                    params.put("Authorization", "Bearer "+ authToken);
+                    return params;
+                }
+            };
 
             //Add it to the queue and send it automatically
             queue.add(getRequest);
+
+            rateReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent myIntent = new Intent(WineScreen.this,
+                            RateReviewPop.class);
+                    //Send over the winery ID
+                    myIntent.putExtra("subjectID", wineID);
+                    myIntent.putExtra("AUTH_TOKEN", authToken);
+                    myIntent.putExtra("USER_NAME", userName);
+                    myIntent.putExtra("ROUTE_PARAM", "wine");
+
+                    startActivity(myIntent);
+                }
+            });
         }
     }
 
@@ -163,7 +183,7 @@ public class WineScreen extends AppCompatActivity {
                 JSONObject reviewObject = reviewObjArray.getJSONObject(reviewArrayIndex);
 
                 //Set value and style of author's name
-                reviewAuthor.setText(reviewObject.getString("UserName"));
+                reviewAuthor.setText(reviewObject.getString("userName"));
                 reviewAuthor.setTextColor(Color.BLACK);
                 reviewAuthor.setTypeface(null, Typeface.BOLD);
                 reviewAuthor.setLines(1);
@@ -179,7 +199,7 @@ public class WineScreen extends AppCompatActivity {
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
                 //Set value of rating bar
-                reviewRating.setRating(reviewObject.getInt("Rating"));
+                reviewRating.setRating(reviewObject.getInt("rating"));
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
@@ -192,7 +212,7 @@ public class WineScreen extends AppCompatActivity {
                 reviewRating.setLayoutParams(reviewRatingParams);
 
                 //Set value and style of review content
-                reviewContent.setText(reviewObject.getString("Text"));
+                reviewContent.setText(reviewObject.getString("text"));
                 reviewContent.setLines(5);
                 reviewContent.setMaxLines(5);
 

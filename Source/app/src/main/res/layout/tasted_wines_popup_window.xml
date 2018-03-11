@@ -21,7 +21,8 @@
         android:id="@+id/titleGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:id="@+id/wineNameTitle"
@@ -73,51 +74,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp">
 
-        <GridLayout
-            android:id="@+id/tastedWinesGrid"
+        <LinearLayout
+            android:id="@+id/tastedWinesLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/wineName1"
-                android:layout_width="135dp"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginTop="20dp"
-                android:layout_row="0"
-                android:text="Cabernet Sauvignon Private Reserve"
-                android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/wineryName1"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="20dp"
-                android:layout_row="0"
-                android:text="Peller Estates"
-                android:textAlignment="center" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/wineType1"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:layout_marginTop="20dp"
-                android:layout_row="0"
-                android:text="Cabernet Sauvignon"
-                android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/wineYear1"
-                android:layout_width="32dp"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
-                android:layout_marginTop="20dp"
-                android:layout_row="0"
-                android:text="2012"
-                android:textAlignment="center" />
-        </GridLayout>
     </ScrollView>
 
 </RelativeLayout>

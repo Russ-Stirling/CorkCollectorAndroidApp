@@ -1,8 +1,11 @@
 package corkcollector.source;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -21,6 +24,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,9 +34,23 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -59,19 +77,22 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Set up the login form
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
+        mUserNameView = (AutoCompleteTextView) findViewById(R.id.userNameBox);
         populateAutoComplete();
 
+        //Set on-edit listener for password field
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -84,12 +105,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             }
         });
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
+        //Set on click listener for sign-in button
         Button mEmailSignInButton = (Button) findViewById(R.id.signInButton);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -97,8 +113,6 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
                 attemptLogin();
             }
         });
-
-        getWindow().setLayout((int)(width*.9),(int)(height*.9));
 
         Button signUp = (Button) findViewById(R.id.registerButton);
 
@@ -129,7 +143,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mUserNameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -168,11 +182,11 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mUserNameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -185,16 +199,16 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        // Check for a valid user name
+        if (TextUtils.isEmpty(userName)) {
+            mUserNameView.setError(getString(R.string.error_field_required));
+            focusView = mUserNameView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        } /*else if (!isEmailValid(userName)) {
+            mUserNameView.setError(getString(R.string.error_invalid_email));
+            focusView = mUserNameView;
             cancel = true;
-        }
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -204,8 +218,10 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(userName, password, this);
             mAuthTask.execute((Void) null);
+
+
         }
     }
 
@@ -295,7 +311,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
                 new ArrayAdapter<>(LoginScreen.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        mUserNameView.setAdapter(adapter);
     }
 
 
@@ -315,54 +331,138 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        String myAuthToken;
+        //boolean incorrectUsernameOrPassword = false;
+        //Context mContext;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        private final String mUserName;
+        private final String mPassword;
+        private final Context mCtx;
+        final RequestQueue myQueue;
+
+        UserLoginTask(String userName, String password, Context ctx) {
+            mUserName = userName;
             mPassword = password;
+            mCtx = ctx;
+            myQueue = Volley.newRequestQueue(mCtx);
+        }
+
+        private StringRequest createPostRequest()
+        {
+            HashMap<String,String> params = new HashMap<String,String>();
+            params.put("grant_type", "password");
+            params.put("username", "russ2");
+            params.put("password", "password");
+
+            String url = "http://35.183.3.83/token";
+
+            StringRequest loginPostRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>()
+                    {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+
+                                //Convert string to JSON Object, then use object to access auth token
+                                JSONObject testObj = new JSONObject(response);
+
+                                myAuthToken = testObj.getString("access_token");
+                                LoginCompleted(true, myAuthToken);
+
+                            }
+
+                            catch (JSONException e)
+                            {
+                                //Create a toast message to indicate an error
+                                CharSequence text = "Error: Could not access authorization token";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(mCtx, text, duration);
+                                toast.show();
+                                LoginCompleted(false, myAuthToken);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            //Print "oh no!" in log if unsuccessful
+                            Log.d("Error.Response", "oh no!");
+                            LoginCompleted(false, myAuthToken);
+                        }
+                    }
+            ){
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("grant_type", "password");
+                    params.put("username", mUserName);
+                    params.put("password", mPassword);
+                    return params;
+                }
+            };
+
+            return loginPostRequest;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
+            //Send the POST request for the authentication token
+            myQueue.add(createPostRequest());
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+
+            //Nullify task and stop spinning graphic
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override
         protected void onCancelled() {
+
+            //Nullify task and stop spinning graphic
             mAuthTask = null;
             showProgress(false);
+        }
+
+        private void LoginCompleted(boolean success, String authToken)
+        {
+            if(success)
+            {
+
+                // TODO: register the new account here.
+                //Account acc = new Account(mEmail, "USER ACCOUNT");
+                //AccountManager am = AccountManager.get(mCtx);
+                //am.addAccountExplicitly(acc, mPassword, null);
+                //am.setAuthToken(acc, "full_access", myAuthToken);
+
+                //Load the map screen
+                Intent myIntent = new Intent(LoginScreen.this,
+                        MapsScreen.class);
+
+                myIntent.putExtra("AUTH_TOKEN", authToken);
+                myIntent.putExtra("USER_NAME", mUserName);
+                startActivity(myIntent);
+
+            }
+            else
+            {
+                //Create a toast message to indicate an error
+                CharSequence text = "Error: Incorrect Username or Password";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(mCtx, text, duration);
+                toast.show();
+
+                mPasswordView.requestFocus();
+            }
         }
     }
 }
