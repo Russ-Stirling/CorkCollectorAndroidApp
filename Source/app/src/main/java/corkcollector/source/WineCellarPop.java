@@ -175,8 +175,7 @@ public class WineCellarPop extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        //notespop
-
+                        //TODO: go to notespop, load it dynamically once that route exists in DB
 
                     }
                 });
@@ -195,7 +194,7 @@ public class WineCellarPop extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        //
+                        //TODO: use the drink operation
 
 
                     }
