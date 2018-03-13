@@ -83,7 +83,6 @@ public class RateReviewPop extends Activity {
     {
         String url = "http://35.183.3.83/api/"+routeParam+"/review";
 
-
         StringRequest loginPostRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
                 {
