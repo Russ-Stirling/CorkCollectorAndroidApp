@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ public class WineCellarPop extends Activity {
     Bundle extras;
     String authToken;
     String userName;
-    String userId;
+    String userID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class WineCellarPop extends Activity {
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
         userName = getIntent().getStringExtra("USER_NAME");
-        userId = getIntent().getStringExtra("USER_ID");
+        userID = getIntent().getStringExtra("USER_ID");
 
         setContentView(R.layout.wine_cellar_popup_window);
 
@@ -63,7 +64,7 @@ public class WineCellarPop extends Activity {
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Determine the URL of our get request
-        String url = "http://35.183.3.83/api/Cellar/InCellar?userId=" + userId;
+        String url = "http://35.183.3.83/api/Cellar/InCellar?userId=" + userID;
 
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()
@@ -71,7 +72,7 @@ public class WineCellarPop extends Activity {
                     @Override
                     public void onResponse(JSONArray cellarList) {
 
-                        populateCellar(cellarList.length(), cellarList);
+                        populateCellar(cellarList.length(), cellarList, queue);
 
                     }
                 },
@@ -107,7 +108,7 @@ public class WineCellarPop extends Activity {
         queue.add(getRequest);
     }
 
-    void populateCellar(int cellarListSize, JSONArray cellarList)
+    void populateCellar(int cellarListSize, JSONArray cellarList, final RequestQueue queue)
     {
         //Access the scroll view so we can add wines to it
         LinearLayout wineCellarLinearLayout = findViewById(R.id.wineCellarLinearLayout);
@@ -125,12 +126,12 @@ public class WineCellarPop extends Activity {
 
             try {
 
-                String wineID = cellarList.getJSONObject(cellarListIndex).getString("wineId");
+                final String wineID = cellarList.getJSONObject(cellarListIndex).getString("wineId");
 
                 //Set text and style of textview and button components
                 wineNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineName"));
                 wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-                //wineryNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineryName"));
+                //wineryNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineryName")); TODO: fix when database deployment is back up
                 wineryNameTextView.setText("Sample Winery");
                 wineryNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 viewNotesButton.setText("Notes");
@@ -139,6 +140,10 @@ public class WineCellarPop extends Activity {
                 drinkWineButton.setText("Drink");
                 drinkWineButton.setTextSize(10);
                 drinkWineButton.setGravity(Gravity.CENTER);
+
+                //Disable the drink button if the wine is finished
+                Boolean isFinished = cellarList.getJSONObject(cellarListIndex).getBoolean("finished");
+                drinkWineButton.setEnabled(!isFinished);
 
                 //Set layout parameters of wine's name
                 GridLayout.LayoutParams wineNameParams = new GridLayout.LayoutParams();
@@ -177,6 +182,7 @@ public class WineCellarPop extends Activity {
 
                         //TODO: go to notespop, load it dynamically once that route exists in DB
 
+
                     }
                 });
 
@@ -195,7 +201,55 @@ public class WineCellarPop extends Activity {
                     public void onClick(View view) {
 
                         //TODO: use the drink operation
+                        String url = "http://35.183.3.83/api/Cellar/Finish";
 
+                        StringRequest drinkPutRequest = new StringRequest(Request.Method.PUT, url,
+                                new Response.Listener<String>()
+                                {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Context context = getApplicationContext();
+                                        CharSequence text = "Bottle finished!";
+                                        int duration = Toast.LENGTH_SHORT;
+
+                                        Toast toast = Toast.makeText(context, text, duration);
+                                        toast.show();
+
+                                        finish();
+                                    }
+                                },
+                                new Response.ErrorListener()
+                                {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                        //Print "oh no!" in log if unsuccessful
+                                        Log.d("Error.Response", "oh no!");
+
+                                        Context context = getApplicationContext();
+                                        CharSequence text = "Error: Could not update bottle status";
+                                        int duration = Toast.LENGTH_SHORT;
+
+                                        Toast toast = Toast.makeText(context, text, duration);
+                                        toast.show();
+
+                                        finish();
+                                    }
+                                }
+                        ){
+                            @Override
+                            protected Map<String, String> getParams()
+                            {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Authorization", "Bearer "+ authToken);
+                                params.put("wineId", wineID);
+                                params.put("userId", userID);
+                                return params;
+                            }
+
+                        };
+
+                        queue.add(drinkPutRequest);
 
                     }
                 });
