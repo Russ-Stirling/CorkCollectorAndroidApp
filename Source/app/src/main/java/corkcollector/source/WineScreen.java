@@ -235,8 +235,6 @@ public class WineScreen extends AppCompatActivity {
 
                 }
             });
-
-
         }
     }
 

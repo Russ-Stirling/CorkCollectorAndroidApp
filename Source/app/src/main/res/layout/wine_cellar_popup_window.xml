@@ -71,54 +71,16 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp">
+        android:layout_marginTop="90dp"
+        android:layout_centerHorizontal="true">
 
-        <GridLayout
-            android:id="@+id/tastedWinesGrid"
+        <LinearLayout
+            android:id="@+id/wineCellarLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"></LinearLayout>
 
-            <TextView
-                android:id="@+id/wineName1"
-                android:layout_width="135dp"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginTop="20dp"
-                android:layout_row="0"
-                android:text="Cabernet Sauvignon Private Reserve"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/wineryName1"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="20dp"
-                android:layout_row="0"
-                android:text="Peller Estates"
-                android:textAlignment="center" />
-
-            <Button
-                android:id="@+id/viewNotesButton"
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:layout_marginTop="25dp"
-                android:layout_row="0"
-                android:text="Notes"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/drinkWineButton"
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
-                android:layout_marginTop="25dp"
-                android:layout_row="0"
-                android:text="Drink"
-                android:textSize="10sp" />
-
-        </GridLayout>
     </ScrollView>
 
 </RelativeLayout>
