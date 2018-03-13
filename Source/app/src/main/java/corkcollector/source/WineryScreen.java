@@ -56,7 +56,7 @@ public class WineryScreen extends AppCompatActivity {
 
         //Access the tasting menu and rate/review menu button objects
         Button tastingMenu = findViewById(R.id.viewMenuButton);
-        Button rateReview = findViewById(R.id.rateReviewButton);
+        final Button rateReview = findViewById(R.id.rateReviewButton);
 
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
@@ -94,6 +94,7 @@ public class WineryScreen extends AppCompatActivity {
                                 String name = winery.getString("wineryName");
                                 int rating = winery.getInt("rating");
                                 JSONArray reviews = winery.getJSONArray("reviews");
+                                Boolean hasMenu = winery.getBoolean("hasMenu");
 
                                 //Grab the required objects from the winery screen
                                 TextView addressText = findViewById(R.id.wineryAddressText);
@@ -109,6 +110,9 @@ public class WineryScreen extends AppCompatActivity {
 
                                 //Populate the review section
                                 populateReviews(reviews.length(), reviews);
+
+                                //If there is no tasting menu, disable the button
+                                rateReview.setEnabled(hasMenu);
 
                             }
 

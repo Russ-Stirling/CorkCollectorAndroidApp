@@ -80,20 +80,23 @@ public class WineScreen extends AppCompatActivity {
 
                             try
                             {
-                                //TODO: Expand these once the database has been updated
+                                //TODO: This needs a star rating
                                 //Get the required parameters for the winery page
                                 String wineName = wine.getString("wineName");
                                 String wineType = wine.getString("wineType");
+                                String wineDescription = wine.getString("description");
                                 int wineYear = wine.getInt("bottlingYear");
                                 JSONArray reviews = wine.getJSONArray("reviews");
 
                                 //Grab the required objects from the winery screen
                                 TextView nameText = findViewById(R.id.wineNameText);
                                 TextView typeYearText = findViewById(R.id.wineTypeYearText);
+                                TextView wineDescriptionText = findViewById(R.id.wineDescriptionText);
 
                                 //Set the appropriate values for the page
                                 nameText.setText(wineName);
                                 typeYearText.setText(wineType + " " + Integer.toString(wineYear));
+                                wineDescriptionText.setText(wineDescription);
 
                                 //Populate the review component of the screen
                                 populateReviews(reviews.length(), reviews);

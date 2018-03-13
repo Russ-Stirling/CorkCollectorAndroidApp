@@ -185,74 +185,75 @@ public class tastingMenuPop extends Activity{
             try
             {
 
-                //TODO: Expand these once the database has been updated
+                //If the wine is on the tasting menu
+                if(wineryObjArray[tastingMenuIndex].getBoolean("onTastingMenu"))
+                {
+                    //Set text and style of textview components
+                    wineNameTextView.setText(wineryObjArray[tastingMenuIndex].getString("wineName"));
+                    wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                    wineTypeTextView.setText(wineryObjArray[tastingMenuIndex].getString("wineType"));
+                    wineTypeTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                    wineYearTextView.setText(Integer.toString((wineryObjArray[tastingMenuIndex].getInt("bottlingYear"))));
+                    wineYearTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-                //Set text and style of textview components
-                wineNameTextView.setText(wineryObjArray[tastingMenuIndex].getString("wineName"));
-                wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-                wineTypeTextView.setText(wineryObjArray[tastingMenuIndex].getString("wineType"));
-                wineTypeTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-                wineYearTextView.setText(Integer.toString((wineryObjArray[tastingMenuIndex].getInt("bottlingYear"))));
-                wineYearTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                    //Set layout parameters of wine's name
+                    GridLayout.LayoutParams wineNameParams = new GridLayout.LayoutParams();
+                    wineNameParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                    wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+                    wineNameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                    wineNameParams.rowSpec = GridLayout.spec(0, 1);
+                    wineNameParams.columnSpec = GridLayout.spec(0, 1);
+                    wineNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
+                    wineNameTextView.setLayoutParams(wineNameParams);
 
-                //Set layout parameters of wine's name
-                GridLayout.LayoutParams wineNameParams = new GridLayout.LayoutParams();
-                wineNameParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
-                wineNameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
-                wineNameParams.rowSpec = GridLayout.spec(0, 1);
-                wineNameParams.columnSpec = GridLayout.spec(0, 1);
-                wineNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
-                wineNameTextView.setLayoutParams(wineNameParams);
+                    //Set layout parameters of wine's type
+                    GridLayout.LayoutParams wineTypeParams = new GridLayout.LayoutParams();
+                    wineTypeParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                    wineTypeParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+                    wineTypeParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                    wineTypeParams.rowSpec = GridLayout.spec(0, 1);
+                    wineTypeParams.columnSpec = GridLayout.spec(1, 1);
+                    wineNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
+                    wineTypeTextView.setLayoutParams(wineTypeParams);
 
-                //Set layout parameters of wine's type
-                GridLayout.LayoutParams wineTypeParams = new GridLayout.LayoutParams();
-                wineTypeParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineTypeParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-                wineTypeParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
-                wineTypeParams.rowSpec = GridLayout.spec(0, 1);
-                wineTypeParams.columnSpec = GridLayout.spec(1, 1);
-                wineNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
-                wineTypeTextView.setLayoutParams(wineTypeParams);
+                    //Set layout parameters of wine's type
+                    GridLayout.LayoutParams wineYearParams = new GridLayout.LayoutParams();
+                    wineYearParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                    wineYearParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                    wineYearParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                    wineYearParams.rowSpec = GridLayout.spec(0, 1);
+                    wineYearParams.columnSpec = GridLayout.spec(2, 1);
+                    wineYearTextView.setLayoutParams(wineYearParams);
 
-                //Set layout parameters of wine's type
-                GridLayout.LayoutParams wineYearParams = new GridLayout.LayoutParams();
-                wineYearParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineYearParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-                wineYearParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
-                wineYearParams.rowSpec = GridLayout.spec(0, 1);
-                wineYearParams.columnSpec = GridLayout.spec(2, 1);
-                wineYearTextView.setLayoutParams(wineYearParams);
+                    //Add textviews to the grid layout
+                    wineGrid.addView(wineNameTextView);
+                    wineGrid.addView(wineTypeTextView);
+                    wineGrid.addView(wineYearTextView);
 
-                //Add textviews to the grid layout
-                wineGrid.addView(wineNameTextView);
-                wineGrid.addView(wineTypeTextView);
-                wineGrid.addView(wineYearTextView);
+                    //Add the grid layout to the screen
+                    tastingMenuLinearLayout.addView(wineGrid);
 
-                //Add the grid layout to the screen
-                tastingMenuLinearLayout.addView(wineGrid);
+                    //Create a new onclick listener for the wine grid object
+                    final String tempID = wineryObjArray[tastingMenuIndex].getString("wineId");
+                    wineGrid.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                //Create a new onclick listener for the wine grid object
-                final String tempID = wineryObjArray[tastingMenuIndex].getString("wineId");
-                wineGrid.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                            //Load the wine screen
+                            Intent myIntent = new Intent(tastingMenuPop.this,
+                                    WineScreen.class);
 
-                        //Load the wine screen
-                        Intent myIntent = new Intent(tastingMenuPop.this,
-                                WineScreen.class);
+                            //Send over the wineID
+                            myIntent.putExtra("wineID", tempID);
+                            myIntent.putExtra("AUTH_TOKEN", authToken);
+                            myIntent.putExtra("USER_NAME", userName);
 
-                        //Send over the wineID
-                        myIntent.putExtra("wineID", tempID);
-                        myIntent.putExtra("AUTH_TOKEN", authToken);
-                        myIntent.putExtra("USER_NAME", userName);
+                            //Start the wine screen activity
+                            startActivity(myIntent);
 
-                        //Start the wine screen activity
-                        startActivity(myIntent);
-
-                    }
-                });
-
+                        }
+                    });
+                }
             }
 
             catch (JSONException e)
