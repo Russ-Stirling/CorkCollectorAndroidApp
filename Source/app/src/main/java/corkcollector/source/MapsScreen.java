@@ -1,11 +1,15 @@
 package corkcollector.source;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,6 +89,16 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         mMap = googleMap;
 
         /*Map Setup*/
+
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            mMap.setMyLocationEnabled(true);
+        } else {
+            mMap.setMyLocationEnabled(true);
+        }
 
         //Restrict the map zoom
         mMap.setMinZoomPreference(12.0f);
