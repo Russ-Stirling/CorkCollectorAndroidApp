@@ -1,11 +1,18 @@
 package corkcollector.source;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +60,24 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     String authToken;
     String userName;
 
+    double myLatitude;
+    double myLongitude;
+    LocationManager mLocationManager;
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            myLatitude = location.getLatitude();
+            myLongitude = location.getLongitude();
+        }
+        @Override
+        public void onStatusChanged(String a, int b, Bundle x) {}
+        @Override
+        public void onProviderEnabled(String a) {}
+        @Override
+        public void onProviderDisabled(String a) {}
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -67,6 +92,19 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
+                    1000, mLocationListener);
+        } else {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000,
+                    1000, mLocationListener);
+        }
     }
 
     /**
@@ -85,6 +123,15 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
         mMap = googleMap;
 
         /*Map Setup*/
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            mMap.setMyLocationEnabled(true);
+        } else {
+            mMap.setMyLocationEnabled(true);
+        }
 
         //Restrict the map zoom
         mMap.setMinZoomPreference(12.0f);
@@ -244,6 +291,8 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
            myIntent2.putExtra("wineryID", marker.getTag().toString());
            myIntent2.putExtra("AUTH_TOKEN", authToken);
            myIntent2.putExtra("USER_NAME", userName);
+           myIntent2.putExtra("latitude", myLatitude);
+           myIntent2.putExtra("longitude", myLongitude);
 
            startActivity(myIntent2);
 
@@ -283,6 +332,8 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
+                myIntent4.putExtra("latitude", myLatitude);
+                myIntent4.putExtra("longitude", myLongitude);
                 startActivity(myIntent4);
                 break;
             case R.id.item6:

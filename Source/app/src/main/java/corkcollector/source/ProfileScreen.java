@@ -165,6 +165,8 @@ public class ProfileScreen extends AppCompatActivity {
                 myIntent.putExtra("USER_NAME", userName);
                 myIntent.putExtra("AUTH_TOKEN", authToken);
                 myIntent.putExtra("USER_ID", userId);
+                myIntent.putExtra("Latitude", extras.getDouble("latitude"));
+                myIntent.putExtra("Longitude", extras.getDouble("longitude"));
 
                 startActivity(myIntent);
             }
