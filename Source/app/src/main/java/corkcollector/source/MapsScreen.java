@@ -292,8 +292,8 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
            myIntent2.putExtra("wineryID", marker.getTag().toString());
            myIntent2.putExtra("AUTH_TOKEN", authToken);
            myIntent2.putExtra("USER_NAME", userName);
-           myIntent2.putExtra("Latitude", myLatitude);
-           myIntent2.putExtra("Longitude", myLongitude);
+           myIntent2.putExtra("latitude", myLatitude);
+           myIntent2.putExtra("longitude", myLongitude);
 
            startActivity(myIntent2);
 
@@ -333,6 +333,8 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
+                myIntent4.putExtra("latitude", myLatitude);
+                myIntent4.putExtra("longitude", myLongitude);
                 startActivity(myIntent4);
                 break;
             case R.id.item6:

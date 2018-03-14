@@ -189,6 +189,8 @@ public class VisitedWineriesPop extends Activity {
                         myIntent.putExtra("wineryID", tempID);
                         myIntent.putExtra("AUTH_TOKEN", authToken);
                         myIntent.putExtra("USER_NAME", userName);
+                        myIntent.putExtra("Latitude", extras.getDouble("latitude"));
+                        myIntent.putExtra("Longitude", extras.getDouble("longitude"));
 
                         //Start the wine screen activity
                         startActivity(myIntent);

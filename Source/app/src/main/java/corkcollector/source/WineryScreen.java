@@ -46,6 +46,8 @@ public class WineryScreen extends AppCompatActivity {
     Bundle extras;
     String authToken;
     String userName;
+    double myLatitude;
+    double myLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +59,17 @@ public class WineryScreen extends AppCompatActivity {
         //Access the tasting menu and rate/review menu button objects
         Button tastingMenu = findViewById(R.id.viewMenuButton);
         final Button rateReview = findViewById(R.id.rateReviewButton);
+        final Button checkInButton = findViewById(R.id.checkInButton);
 
         //Instantiate the request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Get the extra values bundled with the screen change
         extras = getIntent().getExtras();
+
+        //Grab our lat and long
+        myLatitude = extras.getDouble("latitude");
+        myLongitude = extras.getDouble("longitude");
 
         //If there are values
         if (extras != null)
@@ -87,7 +94,6 @@ public class WineryScreen extends AppCompatActivity {
 
                             try {
 
-                                //TODO: Expand these once the database has been updated
                                 //Get the required parameters for the winery page
                                 String address = winery.getString("address");
                                 String phoneNumber = winery.getString("phoneNumber");
@@ -95,6 +101,8 @@ public class WineryScreen extends AppCompatActivity {
                                 int rating = winery.getInt("rating");
                                 JSONArray reviews = winery.getJSONArray("reviews");
                                 Boolean hasMenu = winery.getBoolean("hasMenu");
+                                final double wineryLatitude = winery .getDouble("latitude");
+                                final double wineryLongitude = winery .getDouble("longitude");
 
                                 //Grab the required objects from the winery screen
                                 TextView addressText = findViewById(R.id.wineryAddressText);
@@ -113,6 +121,45 @@ public class WineryScreen extends AppCompatActivity {
 
                                 //If there is no tasting menu, disable the button
                                 rateReview.setEnabled(hasMenu);
+
+                                //Set an on-click listener for the check-in button
+                                checkInButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        //Find the absolute difference in latitude and longitude between us and the winery
+                                        double currentLatitude = myLatitude;
+                                        double currentLongitude = myLongitude;
+                                        double latDiff = Math.abs(currentLatitude) - Math.abs(wineryLatitude);
+                                        double longDiff = Math.abs(currentLongitude) - Math.abs(wineryLongitude);
+                                        latDiff = Math.abs(latDiff);
+                                        longDiff = Math.abs(longDiff);
+
+                                        //If the current location is reasonably close to the winery
+                                        if((latDiff < 0.001) && (longDiff < 0.001))
+                                        {
+                                            //Create a toast message to indicate an error
+                                            Context context = getApplicationContext();
+                                            CharSequence text = "Checking in...";
+                                            int duration = Toast.LENGTH_SHORT;
+
+                                            Toast toast = Toast.makeText(context, text, duration);
+                                            toast.show();
+                                        }
+                                        else
+                                        {
+                                            //Create a toast message to indicate an error
+                                            Context context = getApplicationContext();
+                                            CharSequence text = "Not in range of winery!";
+                                            int duration = Toast.LENGTH_SHORT;
+
+                                            Toast toast = Toast.makeText(context, text, duration);
+                                            toast.show();
+                                        }
+
+
+                                    }
+                                });
 
                             }
 
