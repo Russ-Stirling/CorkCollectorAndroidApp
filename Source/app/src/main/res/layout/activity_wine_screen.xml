@@ -40,17 +40,17 @@
         <TextView
             android:id="@+id/wineNameText"
             android:layout_width="175dp"
-            android:layout_height="65dp"
+            android:layout_height="75dp"
             android:layout_column="3"
             android:layout_columnSpan="3"
             android:layout_marginLeft="7dp"
             android:layout_marginStart="7dp"
             android:layout_marginTop="15dp"
             android:layout_row="0"
+            android:gravity="center"
             android:text="@string/wine_name"
-            android:textAlignment="center"
             android:textColor="@color/colorAccent"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textStyle="bold|italic" />
 
         <RatingBar
@@ -101,7 +101,7 @@
 
         <ScrollView
             android:layout_width="174dp"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:layout_column="3"
             android:layout_columnSpan="3"
             android:layout_marginTop="5dp"

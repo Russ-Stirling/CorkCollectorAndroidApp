@@ -20,14 +20,14 @@
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/tastingMenuTitleText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="76dp"
         android:numStars="5"
-        android:progressDrawable="@drawable/ratingbar_red"
-        android:scaleX="2"
-        android:scaleY="2"
+        android:progressDrawable="@drawable/ratingbar_large_red"
+        android:scaleX=".5"
+        android:scaleY=".5"
         android:stepSize="1" />
 
     <EditText
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/editText"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="35dp"
         android:text="Rating" />
 
     <TextView
