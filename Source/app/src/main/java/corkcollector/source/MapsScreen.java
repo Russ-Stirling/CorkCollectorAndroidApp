@@ -60,7 +60,6 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     String authToken;
     String userName;
 
-    //
     double myLatitude;
     double myLongitude;
     LocationManager mLocationManager;

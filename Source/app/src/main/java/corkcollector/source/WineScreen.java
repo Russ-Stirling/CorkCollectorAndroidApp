@@ -167,7 +167,6 @@ public class WineScreen extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    //TODO: add to cellar operation
                     String url = "http://35.183.3.83/api/User/Profile?username="+ userName;
 
                     //This is called when the app's get request goes through
