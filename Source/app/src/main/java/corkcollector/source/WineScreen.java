@@ -80,20 +80,33 @@ public class WineScreen extends AppCompatActivity {
 
                             try
                             {
-                                //TODO: Expand these once the database has been updated
                                 //Get the required parameters for the winery page
                                 String wineName = wine.getString("wineName");
                                 String wineType = wine.getString("wineType");
+                                String wineDescription = wine.getString("description");
                                 int wineYear = wine.getInt("bottlingYear");
                                 JSONArray reviews = wine.getJSONArray("reviews");
+                                double rawRating;
+                                double wineRating;
+                                try{
+                                    rawRating = wine.getDouble("rating");
+                                    wineRating = (int) rawRating;
+                                }
+                                catch(Exception e){
+                                    wineRating = 0;
+                                }
 
                                 //Grab the required objects from the winery screen
                                 TextView nameText = findViewById(R.id.wineNameText);
                                 TextView typeYearText = findViewById(R.id.wineTypeYearText);
+                                TextView wineDescriptionText = findViewById(R.id.wineDescriptionText);
+                                RatingBar wineRatingBar = findViewById(R.id.wineRatingBar);
 
                                 //Set the appropriate values for the page
                                 nameText.setText(wineName);
                                 typeYearText.setText(wineType + " " + Integer.toString(wineYear));
+                                wineDescriptionText.setText(wineDescription);
+                                wineRatingBar.setRating((float) wineRating);
 
                                 //Populate the review component of the screen
                                 populateReviews(reviews.length(), reviews);

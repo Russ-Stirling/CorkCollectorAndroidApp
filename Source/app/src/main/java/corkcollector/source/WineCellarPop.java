@@ -131,7 +131,7 @@ public class WineCellarPop extends Activity {
                 //Set text and style of textview and button components
                 wineNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineName"));
                 wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-                //wineryNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineryName")); TODO: fix when database deployment is back up
+                wineryNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineryName"));
                 wineryNameTextView.setText("Sample Winery");
                 wineryNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 viewNotesButton.setText("Notes");
