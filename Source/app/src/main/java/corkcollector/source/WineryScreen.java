@@ -101,10 +101,18 @@ public class WineryScreen extends AppCompatActivity {
                                 String address = winery.getString("address");
                                 String phoneNumber = winery.getString("phoneNumber");
                                 String name = winery.getString("wineryName");
-                                int rating = winery.getInt("rating");
                                 JSONArray reviews = winery.getJSONArray("reviews");
                                 Boolean hasMenu = winery.getBoolean("hasMenu");
-                                final double wineryLatitude = winery .getDouble("latitude");
+                                double rawRating;
+                                double rating;
+                                try{
+                                    rawRating = winery.getDouble("rating");
+                                    rating = (int) rawRating;
+                                }
+                                catch(Exception e){
+                                    rating = 0;
+                                }
+								final double wineryLatitude = winery .getDouble("latitude");
                                 final double wineryLongitude = winery .getDouble("longitude");
 
                                 //Grab the required objects from the winery screen
@@ -117,7 +125,7 @@ public class WineryScreen extends AppCompatActivity {
                                 addressText.setText(address);
                                 phoneNumberText.setText(phoneNumber);
                                 nameText.setText(name);
-                                ratingBar.setRating(rating);
+                                ratingBar.setRating((float)rating);
 
                                 //Populate the review section
                                 populateReviews(reviews.length(), reviews);

@@ -80,14 +80,21 @@ public class WineScreen extends AppCompatActivity {
 
                             try
                             {
-                                //TODO: This needs a star rating
                                 //Get the required parameters for the winery page
                                 String wineName = wine.getString("wineName");
                                 String wineType = wine.getString("wineType");
                                 String wineDescription = wine.getString("description");
                                 int wineYear = wine.getInt("bottlingYear");
                                 JSONArray reviews = wine.getJSONArray("reviews");
-                                int wineRating = wine.getInt("Rating");
+                                double rawRating;
+                                double wineRating;
+                                try{
+                                    rawRating = wine.getDouble("rating");
+                                    wineRating = (int) rawRating;
+                                }
+                                catch(Exception e){
+                                    wineRating = 0;
+                                }
 
                                 //Grab the required objects from the winery screen
                                 TextView nameText = findViewById(R.id.wineNameText);
