@@ -174,68 +174,13 @@ public class WineScreen extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    String url = "http://35.183.3.83/api/User/Profile?username="+ userName;
+                    Intent myIntent = new Intent(WineScreen.this,
+                            WineCellarQuantityPop.class);
+                    myIntent.putExtra("USER_NAME", userName);
+                    myIntent.putExtra("AUTH_TOKEN", authToken);
+                    myIntent.putExtra("wineID", wineID);
 
-                    //This is called when the app's get request goes through
-                    JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                            new Response.Listener<JSONObject>()
-                            {
-                                @Override
-                                public void onResponse(JSONObject response) {
-
-                                    try {
-
-                                        //Grab the userID
-                                        userID = response.getString("userId");
-                                        queue.add(addToCellar());
-
-                                    }
-                                    catch (JSONException e) {
-
-                                        //Print "oh no!" in log if unsuccessful
-                                        Log.d("Error.Response", "oh no!");
-
-                                        //Create a toast message to indicate an error
-                                        Context context = getApplicationContext();
-                                        CharSequence text = "Error: Could not load your user profile";
-                                        int duration = Toast.LENGTH_SHORT;
-
-                                        Toast toast = Toast.makeText(context, text, duration);
-                                        toast.show();
-                                    }
-
-                                }
-                            },
-                            new Response.ErrorListener()
-                            {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-
-                                    //Print "oh no!" in log if unsuccessful
-                                    Log.d("Error.Response", "oh no!");
-
-                                    //Create a toast message to indicate an error
-                                    Context context = getApplicationContext();
-                                    CharSequence text = "Error: Could not connect to database";
-                                    int duration = Toast.LENGTH_SHORT;
-
-                                    Toast toast = Toast.makeText(context, text, duration);
-                                    toast.show();
-
-                                }
-                            }
-                    ){
-                        @Override
-                        public Map<String, String> getHeaders() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            //params.put("Content-Type", "application/json; charset=UTF-8");
-                            params.put("Authorization", "Bearer "+ authToken);
-                            return params;
-                        }
-                    };
-
-                    //Add it to the RequestQueue and send automatically
-                    queue.add(getRequest);
+                    startActivity(myIntent);
 
                 }
             });
@@ -434,59 +379,6 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                    }
-                }
-        ){
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer "+ authToken);
-                params.put("wineId", wineID);
-                params.put("userId", userID);
-                return params;
-            }
-
-        };
-
-        return tastePostRequest;
-    }
-
-    StringRequest addToCellar()
-    {
-        String url = "http://35.183.3.83/api/Cellar/New";
-
-        StringRequest tastePostRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        Context context = getApplicationContext();
-                        CharSequence text = "Added to cellar!";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                        //finish();
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        //Print "oh no!" in log if unsuccessful
-                        Log.d("Error.Response", "oh no!");
-
-                        Context context = getApplicationContext();
-                        CharSequence text = "Error: Could not post your tasting";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                        //finish();
                     }
                 }
         ){

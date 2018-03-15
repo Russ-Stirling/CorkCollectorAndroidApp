@@ -128,6 +128,8 @@ public class WineCellarPop extends Activity {
             try {
 
                 final String wineID = cellarList.getJSONObject(cellarListIndex).getString("wineId");
+                final String wineNotes = cellarList.getJSONObject(cellarListIndex).getString("personalComment");
+                final String wineName = cellarList.getJSONObject(cellarListIndex).getString("wineName");
 
                 //Set text and style of textview and button components
                 wineNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineName"));
@@ -192,8 +194,14 @@ public class WineCellarPop extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        //TODO: go to notespop, load it dynamically once that route exists in DB
+                        Intent myIntent = new Intent(WineCellarPop.this,
+                                NotesPop.class);
+                        myIntent.putExtra("USER_NAME", userName);
+                        myIntent.putExtra("AUTH_TOKEN", authToken);
+                        myIntent.putExtra("wineNotes", wineNotes);
+                        myIntent.putExtra("wineName", wineName);
 
+                        startActivity(myIntent);
 
                     }
                 });
@@ -212,7 +220,6 @@ public class WineCellarPop extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        //TODO: use the drink operation
                         String url = "http://35.183.3.83/api/Cellar/Finish";
 
                         StringRequest drinkPutRequest = new StringRequest(Request.Method.PUT, url,

@@ -37,7 +37,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/wineQtyEditText"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
@@ -61,7 +61,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/wineNotesEditText"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_column="0"
