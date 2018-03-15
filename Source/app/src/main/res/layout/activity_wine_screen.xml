@@ -19,32 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/wineImage"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:layout_columnSpan="3"
-            android:layout_marginBottom="11.25dp"
-            android:layout_marginLeft="11.25dp"
-            android:layout_marginRight="11.25dp"
-            android:layout_marginTop="11.25dp"
-            android:layout_rowSpan="5"
-            android:adjustViewBounds="false"
-            android:contentDescription="@string/wine_photo_description"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            app:srcCompat="@drawable/peller_cab_merlot" />
-
         <TextView
             android:id="@+id/wineNameText"
-            android:layout_width="175dp"
+            android:layout_width="255dp"
             android:layout_height="75dp"
-            android:layout_column="3"
-            android:layout_columnSpan="3"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
+            android:layout_column="1"
+            android:layout_columnSpan="4"
+            android:layout_marginLeft="70dp"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="15dp"
             android:layout_row="0"
             android:gravity="center"
@@ -58,10 +40,10 @@
             style="@android:style/Widget.DeviceDefault.RatingBar.Small"
             android:layout_width="60dp"
             android:layout_height="12dp"
-            android:layout_column="3"
-            android:layout_columnSpan="3"
-            android:layout_marginLeft="65dp"
-            android:layout_marginStart="65dp"
+            android:layout_column="1"
+            android:layout_columnSpan="4"
+            android:layout_marginLeft="167.5dp"
+            android:layout_marginStart="167.5dp"
             android:layout_row="1"
             android:numStars="5"
             android:progressDrawable="@drawable/ratingbar_red"
@@ -71,13 +53,13 @@
 
         <ImageView
             android:id="@+id/greyBlock"
-            android:layout_width="175dp"
+            android:layout_width="255dp"
             android:layout_height="2dp"
-            android:layout_column="3"
-            android:layout_columnSpan="3"
+            android:layout_column="1"
+            android:layout_columnSpan="4"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="10dp"
             android:layout_row="2"
             android:adjustViewBounds="false"
@@ -87,12 +69,12 @@
 
         <TextView
             android:id="@+id/wineTypeYearText"
-            android:layout_width="175dp"
+            android:layout_width="255dp"
             android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_columnSpan="3"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
+            android:layout_column="1"
+            android:layout_columnSpan="4"
+            android:layout_marginLeft="70dp"
+            android:layout_marginStart="70dp"
             android:layout_row="3"
             android:maxWidth="175dp"
             android:text="@string/wine_year_type"
@@ -100,10 +82,12 @@
             android:textSize="12sp" />
 
         <ScrollView
-            android:layout_width="174dp"
+            android:layout_width="255dp"
             android:layout_height="50dp"
-            android:layout_column="3"
-            android:layout_columnSpan="3"
+            android:layout_column="1"
+            android:layout_columnSpan="4"
+            android:layout_marginLeft="70dp"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="5dp"
             android:layout_row="4">
 
@@ -114,7 +98,7 @@
 
                 <TextView
                     android:id="@+id/wineDescriptionText"
-                    android:layout_width="175dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:layout_marginStart="7dp"
@@ -135,7 +119,7 @@
             android:layout_column="1"
             android:layout_columnSpan="2"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="72dp"
             android:layout_row="5"
             android:text="@string/wine_add_to_cellar_button"
             android:textColor="@color/colorAccent" />
@@ -183,12 +167,12 @@
 
         <Button
             android:id="@+id/rateReviewButton"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
             android:layout_columnSpan="3"
-            android:layout_marginLeft="80dp"
-            android:layout_marginStart="80dp"
+            android:layout_marginLeft="132.5dp"
+            android:layout_marginStart="132.5dp"
             android:layout_row="8"
             android:text="Rate/Review"
             android:textColor="@color/colorAccent" />
