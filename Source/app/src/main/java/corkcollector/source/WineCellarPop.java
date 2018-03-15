@@ -117,10 +117,11 @@ public class WineCellarPop extends Activity {
         {
             final GridLayout wineGrid = new GridLayout(this);
             wineGrid.setRowCount(1);
-            wineGrid.setColumnCount(4);
+            wineGrid.setColumnCount(5);
 
             final TextView wineNameTextView = new TextView(this);
             final TextView wineryNameTextView = new TextView(this);
+            final TextView wineQuantTextView = new TextView(this);
             final Button viewNotesButton = new Button(this);
             final Button drinkWineButton = new Button(this);
 
@@ -132,8 +133,9 @@ public class WineCellarPop extends Activity {
                 wineNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineName"));
                 wineNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 wineryNameTextView.setText(cellarList.getJSONObject(cellarListIndex).getString("wineryName"));
-                wineryNameTextView.setText("Sample Winery");
                 wineryNameTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                wineQuantTextView.setText(Integer.toString(cellarList.getJSONObject(cellarListIndex).getInt("bottleCount")));
+                wineQuantTextView.setGravity(Gravity.CENTER);
                 viewNotesButton.setText("Notes");
                 viewNotesButton.setTextSize(10);
                 viewNotesButton.setGravity(Gravity.CENTER);
@@ -148,7 +150,7 @@ public class WineCellarPop extends Activity {
                 //Set layout parameters of wine's name
                 GridLayout.LayoutParams wineNameParams = new GridLayout.LayoutParams();
                 wineNameParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 135, getResources().getDisplayMetrics());
+                wineNameParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
                 wineNameParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
                 wineNameParams.rowSpec = GridLayout.spec(0, 1);
                 wineNameParams.columnSpec = GridLayout.spec(0, 1);
@@ -165,13 +167,23 @@ public class WineCellarPop extends Activity {
                 wineryNameParams.setGravity(Gravity.CENTER_HORIZONTAL);
                 wineryNameTextView.setLayoutParams(wineryNameParams);
 
+                //Set layout parameters of winery's name
+                GridLayout.LayoutParams wineQuantParams = new GridLayout.LayoutParams();
+                wineQuantParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+                wineQuantParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getResources().getDisplayMetrics());
+                wineQuantParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
+                wineQuantParams.rowSpec = GridLayout.spec(0, 1);
+                wineQuantParams.columnSpec = GridLayout.spec(2, 1);
+                wineQuantParams.setGravity(Gravity.CENTER_HORIZONTAL);
+                wineQuantTextView.setLayoutParams(wineQuantParams);
+
                 //Set layout parameters of wine's type
                 GridLayout.LayoutParams viewNotesParams = new GridLayout.LayoutParams();
                 viewNotesParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
                 viewNotesParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 65, getResources().getDisplayMetrics());
                 viewNotesParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, getResources().getDisplayMetrics());
                 viewNotesParams.rowSpec = GridLayout.spec(0, 1);
-                viewNotesParams.columnSpec = GridLayout.spec(2, 1);
+                viewNotesParams.columnSpec = GridLayout.spec(3, 1);
                 viewNotesParams.setGravity(Gravity.CENTER_HORIZONTAL);
                 viewNotesButton.setLayoutParams(viewNotesParams);
 
@@ -192,7 +204,7 @@ public class WineCellarPop extends Activity {
                 drinkWineParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 65, getResources().getDisplayMetrics());
                 drinkWineParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, getResources().getDisplayMetrics());
                 drinkWineParams.rowSpec = GridLayout.spec(0, 1);
-                drinkWineParams.columnSpec = GridLayout.spec(3, 1);
+                drinkWineParams.columnSpec = GridLayout.spec(4, 1);
                 drinkWineButton.setLayoutParams(drinkWineParams);
 
                 //Create a new onclick listener for the drink wine button
@@ -257,6 +269,7 @@ public class WineCellarPop extends Activity {
                 //Add textviews and buttons to the grid layout
                 wineGrid.addView(wineNameTextView);
                 wineGrid.addView(wineryNameTextView);
+                wineGrid.addView(wineQuantTextView);
                 wineGrid.addView(viewNotesButton);
                 wineGrid.addView(drinkWineButton);
 

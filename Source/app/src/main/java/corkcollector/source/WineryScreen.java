@@ -426,7 +426,7 @@ public class WineryScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
+                        //finish();
                     }
                 },
                 new Response.ErrorListener()
@@ -444,7 +444,7 @@ public class WineryScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
+                        //finish();
                     }
                 }
         ){

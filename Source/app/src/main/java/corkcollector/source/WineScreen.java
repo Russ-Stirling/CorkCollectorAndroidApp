@@ -420,7 +420,7 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
+                        //finish();
                     }
                 },
                 new Response.ErrorListener()
@@ -438,7 +438,7 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
+                        //finish();
                     }
                 }
         ){
@@ -473,7 +473,7 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
+                        //finish();
                     }
                 },
                 new Response.ErrorListener()
@@ -491,7 +491,7 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
+                        //finish();
                     }
                 }
         ){
