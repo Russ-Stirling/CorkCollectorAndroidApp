@@ -191,24 +191,9 @@ public class RequestScreen extends AppCompatActivity {
                 startActivity(myIntent);
                 break;
             case R.id.item2:
-                Intent myIntent2 = new Intent(RequestScreen.this,
-                        WineryScreen.class);
-                startActivity(myIntent2);
-                break;
-            case R.id.item3:
-                Intent myIntent3 = new Intent(RequestScreen.this,
-                        WineScreen.class);
-                startActivity(myIntent3);
-                break;
-            case R.id.item4:
                 Intent myIntent4 = new Intent(RequestScreen.this,
                         ProfileScreen.class);
                 startActivity(myIntent4);
-                break;
-            case R.id.item6:
-                Intent myIntent6 = new Intent(RequestScreen.this,
-                        RequestScreen.class);
-                startActivity(myIntent6);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

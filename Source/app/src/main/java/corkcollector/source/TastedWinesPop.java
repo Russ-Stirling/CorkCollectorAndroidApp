@@ -64,7 +64,7 @@ public class TastedWinesPop extends Activity {
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         //Determine the URL of our get request
-        String url = "http://35.183.3.83/api/User/Tastings?userId="+ userId + "&type=wine";
+        String url = "http://35.183.3.83/api/Tasting/List?userId="+ userId;
 
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>()

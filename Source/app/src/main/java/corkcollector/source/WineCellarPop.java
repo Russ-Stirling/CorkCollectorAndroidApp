@@ -227,7 +227,6 @@ public class WineCellarPop extends Activity {
                                         Toast toast = Toast.makeText(context, text, duration);
                                         toast.show();
 
-                                        finish();
                                     }
                                 },
                                 new Response.ErrorListener()

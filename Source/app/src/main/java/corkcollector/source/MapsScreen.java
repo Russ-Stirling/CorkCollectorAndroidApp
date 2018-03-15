@@ -318,16 +318,6 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                 startActivity(myIntent);
                 break;
             case R.id.item2:
-                Intent myIntent2 = new Intent(MapsScreen.this,
-                        WineryScreen.class);
-                startActivity(myIntent2);
-                break;
-            case R.id.item3:
-                Intent myIntent3 = new Intent(MapsScreen.this,
-                        WineScreen.class);
-                startActivity(myIntent3);
-                break;
-            case R.id.item4:
                 Intent myIntent4 = new Intent(MapsScreen.this,
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
@@ -336,10 +326,6 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                 myIntent4.putExtra("longitude", myLongitude);
                 startActivity(myIntent4);
                 break;
-            case R.id.item6:
-                Intent myIntent6 = new Intent(MapsScreen.this,
-                        RequestScreen.class);
-                startActivity(myIntent6);
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="Map" android:id="@+id/item1"></item>
-    <item android:title="Winery" android:id="@+id/item2"></item>
-    <item android:title="Wine" android:id="@+id/item3"></item>
-    <item android:title="Profile" android:id="@+id/item4"></item>
-    <item android:title="Cellar" android:id="@+id/item5"></item>
-    <item
-        android:id="@+id/item6"
-        android:title="Requests" />
+    <item android:title="Profile" android:id="@+id/item2"></item>
 </menu>

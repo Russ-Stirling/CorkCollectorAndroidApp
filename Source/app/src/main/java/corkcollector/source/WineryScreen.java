@@ -147,7 +147,7 @@ public class WineryScreen extends AppCompatActivity {
                                         longDiff = Math.abs(longDiff);
 
                                         //If the current location is reasonably close to the winery
-                                        if((latDiff < 0.001) && (longDiff < 0.001))
+                                        if((latDiff < 0.005) && (longDiff < 0.005))
                                         {
                                             //Create a toast message to indicate an error
                                             Context context = getApplicationContext();
@@ -412,7 +412,7 @@ public class WineryScreen extends AppCompatActivity {
 
     StringRequest checkIn()
     {
-        String url = "http://35.183.3.83/api/Winery/Checkin";
+        String url = "http://35.183.3.83/api/Checkin/New";
 
         StringRequest tastePostRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -426,7 +426,6 @@ public class WineryScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        //finish();
                     }
                 },
                 new Response.ErrorListener()
@@ -444,7 +443,6 @@ public class WineryScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        //finish();
                     }
                 }
         ){
@@ -481,24 +479,12 @@ public class WineryScreen extends AppCompatActivity {
                 startActivity(myIntent);
                 break;
             case R.id.item2:
-                Intent myIntent2 = new Intent(WineryScreen.this,
-                        WineryScreen.class);
-                startActivity(myIntent2);
-                break;
-            case R.id.item3:
-                Intent myIntent3 = new Intent(WineryScreen.this,
-                        WineScreen.class);
-                startActivity(myIntent3);
-                break;
-            case R.id.item4:
                 Intent myIntent4 = new Intent(WineryScreen.this,
                         ProfileScreen.class);
+                myIntent4.putExtra("USER_NAME", userName);
+                myIntent4.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent4);
                 break;
-            case R.id.item6:
-                Intent myIntent6 = new Intent(WineryScreen.this,
-                        RequestScreen.class);
-                startActivity(myIntent6);
             default:
                 return super.onOptionsItemSelected(item);
         }

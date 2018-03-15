@@ -406,7 +406,7 @@ public class WineScreen extends AppCompatActivity {
 
     StringRequest tasteWine()
     {
-        String url = "http://35.183.3.83/api/Tasting/Taste";
+        String url = "http://35.183.3.83/api/Tasting/New";
 
         StringRequest tastePostRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -420,16 +420,12 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        //finish();
                     }
                 },
                 new Response.ErrorListener()
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
-                        //Print "oh no!" in log if unsuccessful
-                        Log.d("Error.Response", "oh no!");
 
                         Context context = getApplicationContext();
                         CharSequence text = "Error: Could not post your tasting";
@@ -438,7 +434,6 @@ public class WineScreen extends AppCompatActivity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        //finish();
                     }
                 }
         ){
@@ -528,24 +523,13 @@ public class WineScreen extends AppCompatActivity {
                 startActivity(myIntent);
                 break;
             case R.id.item2:
-                Intent myIntent2 = new Intent(WineScreen.this,
-                        WineryScreen.class);
-                startActivity(myIntent2);
-                break;
-            case R.id.item3:
-                Intent myIntent3 = new Intent(WineScreen.this,
-                        WineScreen.class);
-                startActivity(myIntent3);
-                break;
-            case R.id.item4:
                 Intent myIntent4 = new Intent(WineScreen.this,
                         ProfileScreen.class);
+                myIntent4.putExtra("USER_NAME", userName);
+                myIntent4.putExtra("AUTH_TOKEN", authToken);
+                startActivity(myIntent4);
                 startActivity(myIntent4);
                 break;
-            case R.id.item6:
-                Intent myIntent6 = new Intent(WineScreen.this,
-                        RequestScreen.class);
-                startActivity(myIntent6);
             default:
                 return super.onOptionsItemSelected(item);
         }
