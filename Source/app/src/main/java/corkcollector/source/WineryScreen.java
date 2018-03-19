@@ -312,7 +312,6 @@ public class WineryScreen extends AppCompatActivity {
 
                     //startActivity(myIntent);
                     startActivityForResult(myIntent, 1);
-                    //recreate();
 
                 }
             });
