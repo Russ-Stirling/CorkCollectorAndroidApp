@@ -310,13 +310,27 @@ public class WineryScreen extends AppCompatActivity {
                     myIntent.putExtra("USER_NAME", userName);
                     myIntent.putExtra("ROUTE_PARAM", "winery");
 
-                    startActivity(myIntent);
+                    //startActivity(myIntent);
+                    startActivityForResult(myIntent, 1);
+                    //recreate();
 
                 }
             });
 
         }
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                recreate();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                recreate();
+            }
+        }
     }
 
     void populateReviews(int reviewArraySize, JSONArray reviewObjArray)

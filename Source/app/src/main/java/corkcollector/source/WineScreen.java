@@ -167,6 +167,7 @@ public class WineScreen extends AppCompatActivity {
                     myIntent.putExtra("ROUTE_PARAM", "wine");
 
                     startActivity(myIntent);
+
                 }
             });
 
