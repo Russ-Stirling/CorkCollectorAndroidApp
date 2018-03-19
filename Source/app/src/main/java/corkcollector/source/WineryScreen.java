@@ -309,6 +309,7 @@ public class WineryScreen extends AppCompatActivity {
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
                     myIntent.putExtra("ROUTE_PARAM", "winery");
+                    myIntent.putExtra("userId", userID);
                     myIntent.putExtra("type", "new");
 
                     //startActivity(myIntent);
@@ -426,6 +427,7 @@ public class WineryScreen extends AppCompatActivity {
                             myIntent.putExtra("AUTH_TOKEN", authToken);
                             myIntent.putExtra("USER_NAME", userName);
                             myIntent.putExtra("ROUTE_PARAM", "winery");
+                            myIntent.putExtra("userId", userID);
                             myIntent.putExtra("type", "edit");
                             myIntent.putExtra("reviewText", reviewText);
                             myIntent.putExtra("reviewRating", numStars);

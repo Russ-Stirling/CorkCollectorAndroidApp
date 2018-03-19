@@ -42,6 +42,7 @@ public class RateReviewPop extends Activity {
         final String authToken = getIntent().getStringExtra("AUTH_TOKEN");
         final String subjectId = getIntent().getStringExtra("subjectID");
         final String routeParam = getIntent().getStringExtra("ROUTE_PARAM");
+        final String userId = getIntent().getStringExtra("userId");
         final String type = getIntent().getStringExtra("type");
 
         //Pull up the popup window
@@ -57,10 +58,10 @@ public class RateReviewPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.8),(int)(height*.8));
 
-        //Grab the text content of the review
         final EditText userEditText = findViewById(R.id.editText);
         final RatingBar userRatingBar = findViewById(R.id.ratingBar);
         final TextView rateReviewTitleText = findViewById(R.id.rateReviewTitleText);
+        final Button deleteButton = findViewById(R.id.deleteButton);
 
         if(type.equals("edit")){
 
@@ -72,6 +73,11 @@ public class RateReviewPop extends Activity {
             userRatingBar.setRating(reviewRating);
 
             rateReviewTitleText.setText("Edit Review");
+        }
+
+        else{
+
+            deleteButton.setEnabled(false);
         }
 
         //Grab the review submission button and set an on-click listener
@@ -108,6 +114,15 @@ public class RateReviewPop extends Activity {
                 }
 
                 finish();
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO: make a delete request as well
+
             }
         });
     }
