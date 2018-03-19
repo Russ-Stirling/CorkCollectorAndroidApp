@@ -200,6 +200,7 @@ public class WineCellarPop extends Activity {
                         myIntent.putExtra("AUTH_TOKEN", authToken);
                         myIntent.putExtra("wineNotes", wineNotes);
                         myIntent.putExtra("wineName", wineName);
+                        myIntent.putExtra("userId", userID);
 
                         startActivity(myIntent);
 

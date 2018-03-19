@@ -1,9 +1,14 @@
 package corkcollector.source;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -15,6 +20,11 @@ import org.w3c.dom.Text;
 public class NotesPop extends Activity {
 
     Bundle extras;
+    String wineName;
+    String wineNotes;
+    String userName;
+    String authToken;
+    String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,21 +40,56 @@ public class NotesPop extends Activity {
 
         getWindow().setLayout((int)(width*.9),(int)(height*.9));
 
-        TextView wineTitleTextView = findViewById(R.id.wineTitleTextView);
-        TextView notesTextView = findViewById(R.id.notesTextView);
+        final TextView wineTitleTextView = findViewById(R.id.wineTitleTextView);
+        final EditText notesEditText = findViewById(R.id.notesEditText);
+        final Button editButton = findViewById(R.id.editButton);
+        final Button submitButton = findViewById(R.id.submitButton);
+        final Button cancelButton = findViewById(R.id.cancelButton);
 
         extras = getIntent().getExtras();
-        String wineName = extras.getString("wineName");
-        String wineNotes = extras.getString("wineNotes");
+        wineName = extras.getString("wineName");
+        wineNotes = extras.getString("wineNotes");
+        userName = extras.getString("USER_NAME");
+        authToken = extras.getString("AUTH_TOKEN");
+        userId = extras.getString("userId");
 
         try{
             wineTitleTextView.setText(wineName);
-            notesTextView.setText(wineNotes);
+            notesEditText.setText(wineNotes);
         }
         catch(Exception e){
-            notesTextView.setText("Title Error!");
-            notesTextView.setText("Notes Error!");
+            wineTitleTextView.setText("Title Error!");
+            notesEditText.setText("Notes Error!");
         }
+
+        notesEditText.setEnabled(false);
+        notesEditText.setTextColor(Color.BLACK);
+        submitButton.setEnabled(false);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                notesEditText.setEnabled(true);
+                submitButton.setEnabled(true);
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO: put request
+
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
 
