@@ -95,6 +95,8 @@ public class RateReviewPop extends Activity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
+                        Intent returnIntent = new Intent();
+                        setResult(RESULT_OK, returnIntent);
                         finish();
                     }
                 },
