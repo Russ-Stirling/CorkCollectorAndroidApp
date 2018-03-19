@@ -309,6 +309,7 @@ public class WineryScreen extends AppCompatActivity {
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
                     myIntent.putExtra("ROUTE_PARAM", "winery");
+                    myIntent.putExtra("type", "new");
 
                     //startActivity(myIntent);
                     startActivityForResult(myIntent, 1);
@@ -367,7 +368,8 @@ public class WineryScreen extends AppCompatActivity {
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
                 //Set value of rating bar
-                reviewRating.setRating(reviewObject.getInt("rating"));
+                final int numStars = reviewObject.getInt("rating");
+                reviewRating.setRating(numStars);
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
@@ -380,7 +382,8 @@ public class WineryScreen extends AppCompatActivity {
                 reviewRating.setLayoutParams(reviewRatingParams);
 
                 //Set value and style of review content
-                reviewContent.setText(reviewObject.getString("text"));
+                final String reviewText = reviewObject.getString("text");
+                reviewContent.setText(reviewText);
                 reviewContent.setLines(5);
                 reviewContent.setMaxLines(5);
 
@@ -406,6 +409,31 @@ public class WineryScreen extends AppCompatActivity {
 
                 //Add the grid layout to the review section
                 reviewMainLinearLayout.addView(reviewGrid);
+
+                //Make review editable if it belongs to the user
+                if(userName.equals(reviewObject.getString("userName"))){
+
+                    reviewContent.setTextColor(Color.BLACK);
+
+                    reviewGrid.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent myIntent = new Intent(WineryScreen.this,
+                                    RateReviewPop.class);
+                            //Send over the winery ID
+                            myIntent.putExtra("subjectID", wineryID);
+                            myIntent.putExtra("AUTH_TOKEN", authToken);
+                            myIntent.putExtra("USER_NAME", userName);
+                            myIntent.putExtra("ROUTE_PARAM", "winery");
+                            myIntent.putExtra("type", "edit");
+                            myIntent.putExtra("reviewText", reviewText);
+                            myIntent.putExtra("reviewRating", numStars);
+                            startActivity(myIntent);
+
+                        }
+                    });
+                }
 
             }
 

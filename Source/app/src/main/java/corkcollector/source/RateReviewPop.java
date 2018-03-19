@@ -42,6 +42,7 @@ public class RateReviewPop extends Activity {
         final String authToken = getIntent().getStringExtra("AUTH_TOKEN");
         final String subjectId = getIntent().getStringExtra("subjectID");
         final String routeParam = getIntent().getStringExtra("ROUTE_PARAM");
+        final String type = getIntent().getStringExtra("type");
 
         //Pull up the popup window
         setContentView(R.layout.rate_review_popup_window);
@@ -56,24 +57,56 @@ public class RateReviewPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.8),(int)(height*.8));
 
+        //Grab the text content of the review
+        final EditText userEditText = findViewById(R.id.editText);
+        final RatingBar userRatingBar = findViewById(R.id.ratingBar);
+        final TextView rateReviewTitleText = findViewById(R.id.rateReviewTitleText);
+
+        if(type.equals("edit")){
+
+            //Set the review text and number to its pre-existing value
+            final String reviewText = getIntent().getStringExtra("reviewText");
+            userEditText.setText(reviewText);
+
+            final int reviewRating = getIntent().getIntExtra("reviewRating", 0);
+            userRatingBar.setRating(reviewRating);
+
+            rateReviewTitleText.setText("Edit Review");
+        }
+
         //Grab the review submission button and set an on-click listener
-        Button submit = (Button) findViewById(R.id.submitButton);
+        Button submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Grab the text content of the review
-                EditText userEditText = findViewById(R.id.editText);
+                //Grab the rating text and stars of the review
                 String userReviewText = userEditText.getText().toString();
-
-                //Grab the rating number of the review
-                RatingBar userRatingBar = findViewById(R.id.ratingBar);
                 int rating = (int) userRatingBar.getRating();
 
+                if(type.equals("edit")){
 
-                //Assemble the post request and add it to the queue
-                StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, subjectId, authToken, routeParam);
-                queue.add(reviewRequest);
+                    //TODO: Make a put request instead
+
+                }
+
+                else if (type.equals("new")){
+
+                    //Assemble the post request and add it to the queue
+                    StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, subjectId, authToken, routeParam);
+                    queue.add(reviewRequest);
+                }
+
+                else{
+
+                    Context context = getApplicationContext();
+                    CharSequence text = "Error: Something went wrong...";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
                 finish();
             }
         });
