@@ -173,9 +173,9 @@ public class RateReviewPop extends Activity {
 
                 if(type.equals("edit")){
 
-                    String url = "http://35.183.3.83/api/" + routeParam + "/review";
+                    String url = "http://35.183.3.83/api/" + routeParam + "/remove";
 
-                    StringRequest reviewDelRequest = new StringRequest(Request.Method.DELETE, url,
+                    StringRequest reviewDelRequest = new StringRequest(Request.Method.PUT, url,
                             new Response.Listener<String>()
                             {
                                 @Override
