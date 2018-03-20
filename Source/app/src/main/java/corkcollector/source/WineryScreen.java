@@ -157,69 +157,8 @@ public class WineryScreen extends AppCompatActivity {
 
                                             Toast toast = Toast.makeText(context, text, duration);
                                             toast.show();
-
-                                            //String url = "http://35.183.3.83/api/User/Profile?username="+ userName;
-
-                                            //Make a request for userID
-                                            //JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                                                    //new Response.Listener<JSONObject>()
-                                                    //{
-                                                        //@Override
-                                                       // public void onResponse(JSONObject response) {
-
-                                                            //try {
-
-                                                                //Grab the userID
-                                                                //userID = response.getString("userId");
-                                                                queue.add(checkIn());
-
-                                                            //}
-                                                            //catch (JSONException e) {
-
-                                                                //Print "oh no!" in log if unsuccessful
-                                                                //Log.d("Error.Response", "oh no!");
-
-                                                                //Create a toast message to indicate an error
-                                                                //Context context = getApplicationContext();
-                                                                //CharSequence text = "Error: Could not load your user profile";
-                                                                //int duration = Toast.LENGTH_SHORT;
-
-                                                                //Toast toast = Toast.makeText(context, text, duration);
-                                                                //toast.show();
-                                                            //}
-
-                                                        //}
-                                                    //},
-                                                    //new Response.ErrorListener()
-                                                    //{
-                                                        //@Override
-                                                        //public void onErrorResponse(VolleyError error) {
-
-                                                            //Print "oh no!" in log if unsuccessful
-                                                            //Log.d("Error.Response", "oh no!");
-
-                                                            //Create a toast message to indicate an error
-                                                            //Context context = getApplicationContext();
-                                                            //CharSequence text = "Error: Could not connect to database";
-                                                           //int duration = Toast.LENGTH_SHORT;
-
-                                                            //Toast toast = Toast.makeText(context, text, duration);
-                                                            //toast.show();
-
-                                                        //}
-                                                    //}
-                                            //){
-                                                //@Override
-                                                //public Map<String, String> getHeaders() {
-                                                    //Map<String, String> params = new HashMap<String, String>();
-                                                    //params.put("Content-Type", "application/json; charset=UTF-8");
-                                                    //params.put("Authorization", "Bearer "+ authToken);
-                                                    //return params;
-                                                //}
-                                            //};
-
-                                            //Add it to the RequestQueue and send automatically
-                                            //queue.add(getRequest);
+                                            
+                                            queue.add(checkIn());
 
                                         }
                                         else
