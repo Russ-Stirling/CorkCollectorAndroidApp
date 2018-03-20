@@ -108,6 +108,18 @@ public class WineCellarPop extends Activity {
         queue.add(getRequest);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                recreate();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                recreate();
+            }
+        }
+    }
+
     void populateCellar(int cellarListSize, JSONArray cellarList, final RequestQueue queue)
     {
         //Access the scroll view so we can add wines to it
@@ -203,7 +215,8 @@ public class WineCellarPop extends Activity {
                         myIntent.putExtra("userId", userID);
                         myIntent.putExtra("wineId", wineID);
 
-                        startActivity(myIntent);
+                        //startActivity(myIntent);
+                        startActivityForResult(myIntent, 1);
 
                     }
                 });
@@ -254,7 +267,6 @@ public class WineCellarPop extends Activity {
                                         Toast toast = Toast.makeText(context, text, duration);
                                         toast.show();
 
-                                        finish();
                                     }
                                 }
                         ){

@@ -106,7 +106,10 @@ public class RateReviewPop extends Activity {
                                     Toast toast = Toast.makeText(context, text, duration);
                                     toast.show();
 
-                                    recreate();
+                                    Intent returnIntent = new Intent();
+                                    setResult(RESULT_OK, returnIntent);
+                                    finish();
+
                                 }
                             },
                             new Response.ErrorListener()
@@ -121,7 +124,6 @@ public class RateReviewPop extends Activity {
                                     Toast toast = Toast.makeText(context, text, duration);
                                     toast.show();
 
-                                    finish();
                                 }
                             }
                     ){
@@ -169,7 +171,68 @@ public class RateReviewPop extends Activity {
             @Override
             public void onClick(View view) {
 
-                //TODO: make a delete request as well
+                if(type.equals("edit")){
+
+                    String url = "http://35.183.3.83/api/" + routeParam + "/review";
+
+                    StringRequest reviewDelRequest = new StringRequest(Request.Method.DELETE, url,
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Review Deleted!";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                    Intent returnIntent = new Intent();
+                                    setResult(RESULT_OK, returnIntent);
+                                    finish();
+
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Error: Could not delete your review";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                }
+                            }
+                    ){
+                        @Override
+                        protected Map<String, String> getParams()
+                        {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Bearer "+ authToken);
+                            params.put("SubjectId", subjectId);
+                            params.put("UserId", userId);
+                            return params;
+                        }
+
+                    };
+
+                    queue.add(reviewDelRequest);
+
+                }
+
+                else{
+
+                    Context context = getApplicationContext();
+                    CharSequence text = "Error: Something went wrong...";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
 
             }
         });
@@ -211,7 +274,6 @@ public class RateReviewPop extends Activity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
                     }
                 }
         ){
@@ -233,11 +295,4 @@ public class RateReviewPop extends Activity {
 
         return loginPostRequest;
     }
-
-
-
-
-
-
-
 }

@@ -114,7 +114,9 @@ public class NotesPop extends Activity {
                                 Toast toast = Toast.makeText(context, text, duration);
                                 toast.show();
 
-                                recreate();
+                                Intent returnIntent = new Intent();
+                                setResult(RESULT_OK, returnIntent);
+                                finish();
                             }
                         },
                         new Response.ErrorListener()
@@ -129,7 +131,6 @@ public class NotesPop extends Activity {
                                 Toast toast = Toast.makeText(context, text, duration);
                                 toast.show();
 
-                                finish();
                             }
                         }
                 ){

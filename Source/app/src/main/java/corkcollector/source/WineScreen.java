@@ -372,7 +372,8 @@ public class WineScreen extends AppCompatActivity {
                             myIntent.putExtra("type", "edit");
                             myIntent.putExtra("reviewText", reviewText);
                             myIntent.putExtra("reviewRating", numStars);
-                            startActivity(myIntent);
+                            //startActivity(myIntent);
+                            startActivityForResult(myIntent, 1);
 
                         }
                     });
