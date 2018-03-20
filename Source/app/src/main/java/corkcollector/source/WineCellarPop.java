@@ -48,7 +48,7 @@ public class WineCellarPop extends Activity {
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
         userName = getIntent().getStringExtra("USER_NAME");
-        userID = getIntent().getStringExtra("USER_ID");
+        userID = getIntent().getStringExtra("userId");
 
         setContentView(R.layout.wine_cellar_popup_window);
 

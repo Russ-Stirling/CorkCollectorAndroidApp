@@ -46,6 +46,7 @@ public class tastingMenuPop extends Activity{
     Bundle extras;
     String authToken;
     String userName;
+    String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class tastingMenuPop extends Activity{
             //Grab the auth token
             authToken = extras.getString("AUTH_TOKEN");
             userName = extras.getString("USER_NAME");
+            userId = extras.getString("userId");
 
             //Grab the winery ID
             final String wineryID = extras.getString("wineryID");
@@ -247,6 +249,7 @@ public class tastingMenuPop extends Activity{
                             myIntent.putExtra("wineID", tempID);
                             myIntent.putExtra("AUTH_TOKEN", authToken);
                             myIntent.putExtra("USER_NAME", userName);
+                            myIntent.putExtra("userId", userId);
 
                             //Start the wine screen activity
                             startActivity(myIntent);

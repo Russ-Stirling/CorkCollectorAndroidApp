@@ -84,6 +84,7 @@ public class WineryScreen extends AppCompatActivity {
 
             //Grab the winery ID
             wineryID = extras.getString("wineryID");
+            userID = extras.getString("userId");
 
             //Determine the URL of our get request
             String url = "http://35.183.3.83/api/winery?id=" + wineryID;
@@ -157,68 +158,68 @@ public class WineryScreen extends AppCompatActivity {
                                             Toast toast = Toast.makeText(context, text, duration);
                                             toast.show();
 
-                                            String url = "http://35.183.3.83/api/User/Profile?username="+ userName;
+                                            //String url = "http://35.183.3.83/api/User/Profile?username="+ userName;
 
                                             //Make a request for userID
-                                            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                                                    new Response.Listener<JSONObject>()
-                                                    {
-                                                        @Override
-                                                        public void onResponse(JSONObject response) {
+                                            //JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                                                    //new Response.Listener<JSONObject>()
+                                                    //{
+                                                        //@Override
+                                                       // public void onResponse(JSONObject response) {
 
-                                                            try {
+                                                            //try {
 
                                                                 //Grab the userID
-                                                                userID = response.getString("userId");
+                                                                //userID = response.getString("userId");
                                                                 queue.add(checkIn());
 
-                                                            }
-                                                            catch (JSONException e) {
+                                                            //}
+                                                            //catch (JSONException e) {
 
                                                                 //Print "oh no!" in log if unsuccessful
-                                                                Log.d("Error.Response", "oh no!");
+                                                                //Log.d("Error.Response", "oh no!");
 
                                                                 //Create a toast message to indicate an error
-                                                                Context context = getApplicationContext();
-                                                                CharSequence text = "Error: Could not load your user profile";
-                                                                int duration = Toast.LENGTH_SHORT;
+                                                                //Context context = getApplicationContext();
+                                                                //CharSequence text = "Error: Could not load your user profile";
+                                                                //int duration = Toast.LENGTH_SHORT;
 
-                                                                Toast toast = Toast.makeText(context, text, duration);
-                                                                toast.show();
-                                                            }
+                                                                //Toast toast = Toast.makeText(context, text, duration);
+                                                                //toast.show();
+                                                            //}
 
-                                                        }
-                                                    },
-                                                    new Response.ErrorListener()
-                                                    {
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError error) {
+                                                        //}
+                                                    //},
+                                                    //new Response.ErrorListener()
+                                                    //{
+                                                        //@Override
+                                                        //public void onErrorResponse(VolleyError error) {
 
                                                             //Print "oh no!" in log if unsuccessful
-                                                            Log.d("Error.Response", "oh no!");
+                                                            //Log.d("Error.Response", "oh no!");
 
                                                             //Create a toast message to indicate an error
-                                                            Context context = getApplicationContext();
-                                                            CharSequence text = "Error: Could not connect to database";
-                                                            int duration = Toast.LENGTH_SHORT;
+                                                            //Context context = getApplicationContext();
+                                                            //CharSequence text = "Error: Could not connect to database";
+                                                           //int duration = Toast.LENGTH_SHORT;
 
-                                                            Toast toast = Toast.makeText(context, text, duration);
-                                                            toast.show();
+                                                            //Toast toast = Toast.makeText(context, text, duration);
+                                                            //toast.show();
 
-                                                        }
-                                                    }
-                                            ){
-                                                @Override
-                                                public Map<String, String> getHeaders() {
-                                                    Map<String, String> params = new HashMap<String, String>();
+                                                        //}
+                                                    //}
+                                            //){
+                                                //@Override
+                                                //public Map<String, String> getHeaders() {
+                                                    //Map<String, String> params = new HashMap<String, String>();
                                                     //params.put("Content-Type", "application/json; charset=UTF-8");
-                                                    params.put("Authorization", "Bearer "+ authToken);
-                                                    return params;
-                                                }
-                                            };
+                                                    //params.put("Authorization", "Bearer "+ authToken);
+                                                    //return params;
+                                                //}
+                                            //};
 
                                             //Add it to the RequestQueue and send automatically
-                                            queue.add(getRequest);
+                                            //queue.add(getRequest);
 
                                         }
                                         else
@@ -292,6 +293,7 @@ public class WineryScreen extends AppCompatActivity {
                     myIntent.putExtra("wineryID", wineryID);
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
+                    myIntent.putExtra("userId", userID);
 
                     startActivity(myIntent);
                 }
@@ -519,6 +521,8 @@ public class WineryScreen extends AppCompatActivity {
             case R.id.item1:
                 Intent myIntent = new Intent(WineryScreen.this,
                         MapsScreen.class);
+                myIntent.putExtra("USER_NAME", userName);
+                myIntent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent);
                 break;
             case R.id.item2:
@@ -526,6 +530,7 @@ public class WineryScreen extends AppCompatActivity {
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
+                myIntent4.putExtra("userId", userID);
                 startActivity(myIntent4);
                 break;
             default:

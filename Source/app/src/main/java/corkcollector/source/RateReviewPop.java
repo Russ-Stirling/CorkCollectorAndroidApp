@@ -87,12 +87,60 @@ public class RateReviewPop extends Activity {
             public void onClick(View view) {
 
                 //Grab the rating text and stars of the review
-                String userReviewText = userEditText.getText().toString();
-                int rating = (int) userRatingBar.getRating();
+                final String userReviewText = userEditText.getText().toString();
+                final int rating = (int) userRatingBar.getRating();
 
                 if(type.equals("edit")){
 
-                    //TODO: Make a put request instead
+                    String url = "http://35.183.3.83/api/"+routeParam+"/review";
+
+                    StringRequest reviewPutRequest = new StringRequest(Request.Method.PUT, url,
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Review Updated!";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                    recreate();
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Error: Could not update your review";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                    finish();
+                                }
+                            }
+                    ){
+                        @Override
+                        protected Map<String, String> getParams()
+                        {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Bearer "+ authToken);
+                            params.put("SubjectId", subjectId);
+                            params.put("Rating", Integer.toString(rating));
+                            params.put("Text", userReviewText);
+                            params.put("UserId", userId);
+                            params.put("UserName", userName);
+                            return params;
+                        }
+
+                    };
+
+                    queue.add(reviewPutRequest);
 
                 }
 

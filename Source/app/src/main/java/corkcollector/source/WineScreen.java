@@ -68,6 +68,7 @@ public class WineScreen extends AppCompatActivity {
 
             //Grab the wine ID
             wineID = extras.getString("wineID");
+            userID = extras.getString("userId");
 
             //Determine the URL of our get request
             String url = "http://35.183.3.83/api/Wine?id=" + wineID;
@@ -456,6 +457,8 @@ public class WineScreen extends AppCompatActivity {
             case R.id.item1:
                 Intent myIntent = new Intent(WineScreen.this,
                         MapsScreen.class);
+                myIntent.putExtra("USER_NAME", userName);
+                myIntent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent);
                 break;
             case R.id.item2:
@@ -463,7 +466,7 @@ public class WineScreen extends AppCompatActivity {
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
-                startActivity(myIntent4);
+                myIntent4.putExtra("userId", userID);
                 startActivity(myIntent4);
                 break;
             default:
