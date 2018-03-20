@@ -50,7 +50,7 @@ public class VisitedWineriesPop extends Activity {
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
         userName = getIntent().getStringExtra("USER_NAME");
-        userId = getIntent().getStringExtra("USER_ID");
+        userId = getIntent().getStringExtra("userId");
 
         setContentView(R.layout.visited_wineries_popup_window);
 
@@ -191,6 +191,7 @@ public class VisitedWineriesPop extends Activity {
                         myIntent.putExtra("USER_NAME", userName);
                         myIntent.putExtra("Latitude", extras.getDouble("latitude"));
                         myIntent.putExtra("Longitude", extras.getDouble("longitude"));
+                        myIntent.putExtra("userId", userId);
 
                         //Start the wine screen activity
                         startActivity(myIntent);

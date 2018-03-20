@@ -51,6 +51,7 @@ public class ProfileScreen extends AppCompatActivity {
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
         userName = getIntent().getStringExtra("USER_NAME");
+        userId = getIntent().getStringExtra("userId");
 
         //Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(this);
@@ -77,7 +78,7 @@ public class ProfileScreen extends AppCompatActivity {
                             int visitedQty = visitedList.length();
                             int friendQty = friendList.length();
 
-                            userId = response.getString("userId");
+                            //userId = response.getString("userId");
 
                             TextView nameText = findViewById(R.id.userFullNameText);
                             nameText.setText(name);
@@ -148,7 +149,7 @@ public class ProfileScreen extends AppCompatActivity {
 
                 myIntent.putExtra("USER_NAME", userName);
                 myIntent.putExtra("AUTH_TOKEN", authToken);
-                myIntent.putExtra("USER_ID", userId);
+                myIntent.putExtra("userId", userId);
 
                 startActivity(myIntent);
             }
@@ -164,7 +165,7 @@ public class ProfileScreen extends AppCompatActivity {
 
                 myIntent.putExtra("USER_NAME", userName);
                 myIntent.putExtra("AUTH_TOKEN", authToken);
-                myIntent.putExtra("USER_ID", userId);
+                myIntent.putExtra("userId", userId);
                 myIntent.putExtra("Latitude", extras.getDouble("latitude"));
                 myIntent.putExtra("Longitude", extras.getDouble("longitude"));
 
@@ -182,7 +183,7 @@ public class ProfileScreen extends AppCompatActivity {
 
                 myIntent.putExtra("USER_NAME", userName);
                 myIntent.putExtra("AUTH_TOKEN", authToken);
-                myIntent.putExtra("USER_ID", userId);
+                myIntent.putExtra("userId", userId);
 
                 startActivity(myIntent);
             }
@@ -202,12 +203,12 @@ public class ProfileScreen extends AppCompatActivity {
             case R.id.item1:
                 Intent myIntent = new Intent(ProfileScreen.this,
                         MapsScreen.class);
+                myIntent.putExtra("USER_NAME", userName);
+                myIntent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent);
                 break;
             case R.id.item2:
-                Intent myIntent4 = new Intent(ProfileScreen.this,
-                        ProfileScreen.class);
-                startActivity(myIntent4);
+                recreate();
                 break;
             default:
                 return super.onOptionsItemSelected(item);

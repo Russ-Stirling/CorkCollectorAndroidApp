@@ -68,6 +68,7 @@ public class WineScreen extends AppCompatActivity {
 
             //Grab the wine ID
             wineID = extras.getString("wineID");
+            userID = extras.getString("userId");
 
             //Determine the URL of our get request
             String url = "http://35.183.3.83/api/Wine?id=" + wineID;
@@ -165,6 +166,8 @@ public class WineScreen extends AppCompatActivity {
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
                     myIntent.putExtra("ROUTE_PARAM", "wine");
+                    myIntent.putExtra("userId", userID);
+                    myIntent.putExtra("type", "new");
 
                     //startActivity(myIntent);
                     startActivityForResult(myIntent, 1);
@@ -307,7 +310,8 @@ public class WineScreen extends AppCompatActivity {
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
                 //Set value of rating bar
-                reviewRating.setRating(reviewObject.getInt("rating"));
+                final int numStars = reviewObject.getInt("rating");
+                reviewRating.setRating(numStars);
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
@@ -320,7 +324,8 @@ public class WineScreen extends AppCompatActivity {
                 reviewRating.setLayoutParams(reviewRatingParams);
 
                 //Set value and style of review content
-                reviewContent.setText(reviewObject.getString("text"));
+                final String reviewText = reviewObject.getString("text");
+                reviewContent.setText(reviewText);
                 reviewContent.setLines(5);
                 reviewContent.setMaxLines(5);
 
@@ -346,6 +351,33 @@ public class WineScreen extends AppCompatActivity {
 
                 //Add the grid layout to the review section
                 reviewMainLinearLayout.addView(reviewGrid);
+
+                //Make review editable if it belongs to the user
+                if(userName.equals(reviewObject.getString("userName"))){
+
+                    reviewContent.setTextColor(Color.BLACK);
+
+                    reviewGrid.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent myIntent = new Intent(WineScreen.this,
+                                    RateReviewPop.class);
+                            //Send over the winery ID
+                            myIntent.putExtra("subjectID", wineID);
+                            myIntent.putExtra("AUTH_TOKEN", authToken);
+                            myIntent.putExtra("USER_NAME", userName);
+                            myIntent.putExtra("ROUTE_PARAM", "winery");
+                            myIntent.putExtra("userId", userID);
+                            myIntent.putExtra("type", "edit");
+                            myIntent.putExtra("reviewText", reviewText);
+                            myIntent.putExtra("reviewRating", numStars);
+                            //startActivity(myIntent);
+                            startActivityForResult(myIntent, 1);
+
+                        }
+                    });
+                }
 
             }
 
@@ -426,6 +458,8 @@ public class WineScreen extends AppCompatActivity {
             case R.id.item1:
                 Intent myIntent = new Intent(WineScreen.this,
                         MapsScreen.class);
+                myIntent.putExtra("USER_NAME", userName);
+                myIntent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent);
                 break;
             case R.id.item2:
@@ -433,7 +467,7 @@ public class WineScreen extends AppCompatActivity {
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
-                startActivity(myIntent4);
+                myIntent4.putExtra("userId", userID);
                 startActivity(myIntent4);
                 break;
             default:

@@ -59,6 +59,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     Bundle extras;
     String authToken;
     String userName;
+    String userID;
 
     double myLatitude;
     double myLongitude;
@@ -277,6 +278,67 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
             Log.e("oh no!", "Can't find style. Error: ", e);
         }
 
+        String idUrl = "http://35.183.3.83/api/User/Profile?username="+ userName;
+
+        //Make a request for userID
+        JsonObjectRequest idGetRequest = new JsonObjectRequest(Request.Method.GET, idUrl, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+
+                            //Grab the userID
+                            userID = response.getString("userId");
+
+                        }
+                        catch (JSONException e) {
+
+                            //Print "oh no!" in log if unsuccessful
+                            Log.d("Error.Response", "oh no!");
+
+                            //Create a toast message to indicate an error
+                            Context context = getApplicationContext();
+                            CharSequence text = "Error: Could not load your user ID";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        //Print "oh no!" in log if unsuccessful
+                        Log.d("Error.Response", "oh no!");
+
+                        //Create a toast message to indicate an error
+                        Context context = getApplicationContext();
+                        CharSequence text = "Error: Could not connect to database";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("Authorization", "Bearer "+ authToken);
+                return params;
+            }
+        };
+
+        queue.add(idGetRequest);
+
     }
 
     /** Called when the user clicks a marker. */
@@ -293,6 +355,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
            myIntent2.putExtra("USER_NAME", userName);
            myIntent2.putExtra("latitude", myLatitude);
            myIntent2.putExtra("longitude", myLongitude);
+           myIntent2.putExtra("userId", userID);
 
            startActivity(myIntent2);
 
@@ -313,9 +376,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.item1:
-                Intent myIntent = new Intent(MapsScreen.this,
-                        MapsScreen.class);
-                startActivity(myIntent);
+                recreate();
                 break;
             case R.id.item2:
                 Intent myIntent4 = new Intent(MapsScreen.this,
@@ -324,6 +385,7 @@ public class MapsScreen extends AppCompatActivity implements GoogleMap.OnMarkerC
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
                 myIntent4.putExtra("latitude", myLatitude);
                 myIntent4.putExtra("longitude", myLongitude);
+                myIntent4.putExtra("userId", userID);
                 startActivity(myIntent4);
                 break;
             default:

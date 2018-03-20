@@ -48,7 +48,7 @@ public class WineCellarPop extends Activity {
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
         userName = getIntent().getStringExtra("USER_NAME");
-        userID = getIntent().getStringExtra("USER_ID");
+        userID = getIntent().getStringExtra("userId");
 
         setContentView(R.layout.wine_cellar_popup_window);
 
@@ -106,6 +106,18 @@ public class WineCellarPop extends Activity {
 
         //Add it to the RequestQueue and send automatically
         queue.add(getRequest);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                recreate();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                recreate();
+            }
+        }
     }
 
     void populateCellar(int cellarListSize, JSONArray cellarList, final RequestQueue queue)
@@ -200,8 +212,11 @@ public class WineCellarPop extends Activity {
                         myIntent.putExtra("AUTH_TOKEN", authToken);
                         myIntent.putExtra("wineNotes", wineNotes);
                         myIntent.putExtra("wineName", wineName);
+                        myIntent.putExtra("userId", userID);
+                        myIntent.putExtra("wineId", wineID);
 
-                        startActivity(myIntent);
+                        //startActivity(myIntent);
+                        startActivityForResult(myIntent, 1);
 
                     }
                 });
@@ -252,7 +267,6 @@ public class WineCellarPop extends Activity {
                                         Toast toast = Toast.makeText(context, text, duration);
                                         toast.show();
 
-                                        finish();
                                     }
                                 }
                         ){

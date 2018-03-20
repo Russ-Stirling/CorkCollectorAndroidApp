@@ -84,6 +84,7 @@ public class WineryScreen extends AppCompatActivity {
 
             //Grab the winery ID
             wineryID = extras.getString("wineryID");
+            userID = extras.getString("userId");
 
             //Determine the URL of our get request
             String url = "http://35.183.3.83/api/winery?id=" + wineryID;
@@ -157,68 +158,7 @@ public class WineryScreen extends AppCompatActivity {
                                             Toast toast = Toast.makeText(context, text, duration);
                                             toast.show();
 
-                                            String url = "http://35.183.3.83/api/User/Profile?username="+ userName;
-
-                                            //Make a request for userID
-                                            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                                                    new Response.Listener<JSONObject>()
-                                                    {
-                                                        @Override
-                                                        public void onResponse(JSONObject response) {
-
-                                                            try {
-
-                                                                //Grab the userID
-                                                                userID = response.getString("userId");
-                                                                queue.add(checkIn());
-
-                                                            }
-                                                            catch (JSONException e) {
-
-                                                                //Print "oh no!" in log if unsuccessful
-                                                                Log.d("Error.Response", "oh no!");
-
-                                                                //Create a toast message to indicate an error
-                                                                Context context = getApplicationContext();
-                                                                CharSequence text = "Error: Could not load your user profile";
-                                                                int duration = Toast.LENGTH_SHORT;
-
-                                                                Toast toast = Toast.makeText(context, text, duration);
-                                                                toast.show();
-                                                            }
-
-                                                        }
-                                                    },
-                                                    new Response.ErrorListener()
-                                                    {
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError error) {
-
-                                                            //Print "oh no!" in log if unsuccessful
-                                                            Log.d("Error.Response", "oh no!");
-
-                                                            //Create a toast message to indicate an error
-                                                            Context context = getApplicationContext();
-                                                            CharSequence text = "Error: Could not connect to database";
-                                                            int duration = Toast.LENGTH_SHORT;
-
-                                                            Toast toast = Toast.makeText(context, text, duration);
-                                                            toast.show();
-
-                                                        }
-                                                    }
-                                            ){
-                                                @Override
-                                                public Map<String, String> getHeaders() {
-                                                    Map<String, String> params = new HashMap<String, String>();
-                                                    //params.put("Content-Type", "application/json; charset=UTF-8");
-                                                    params.put("Authorization", "Bearer "+ authToken);
-                                                    return params;
-                                                }
-                                            };
-
-                                            //Add it to the RequestQueue and send automatically
-                                            queue.add(getRequest);
+                                            queue.add(checkIn());
 
                                         }
                                         else
@@ -292,6 +232,7 @@ public class WineryScreen extends AppCompatActivity {
                     myIntent.putExtra("wineryID", wineryID);
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
+                    myIntent.putExtra("userId", userID);
 
                     startActivity(myIntent);
                 }
@@ -309,6 +250,8 @@ public class WineryScreen extends AppCompatActivity {
                     myIntent.putExtra("AUTH_TOKEN", authToken);
                     myIntent.putExtra("USER_NAME", userName);
                     myIntent.putExtra("ROUTE_PARAM", "winery");
+                    myIntent.putExtra("userId", userID);
+                    myIntent.putExtra("type", "new");
 
                     //startActivity(myIntent);
                     startActivityForResult(myIntent, 1);
@@ -367,7 +310,8 @@ public class WineryScreen extends AppCompatActivity {
                 reviewAuthor.setLayoutParams(reviewAuthorParams);
 
                 //Set value of rating bar
-                reviewRating.setRating(reviewObject.getInt("rating"));
+                final int numStars = reviewObject.getInt("rating");
+                reviewRating.setRating(numStars);
 
                 //Set layout parameters of rating bar
                 GridLayout.LayoutParams reviewRatingParams = new GridLayout.LayoutParams();
@@ -380,7 +324,8 @@ public class WineryScreen extends AppCompatActivity {
                 reviewRating.setLayoutParams(reviewRatingParams);
 
                 //Set value and style of review content
-                reviewContent.setText(reviewObject.getString("text"));
+                final String reviewText = reviewObject.getString("text");
+                reviewContent.setText(reviewText);
                 reviewContent.setLines(5);
                 reviewContent.setMaxLines(5);
 
@@ -406,6 +351,33 @@ public class WineryScreen extends AppCompatActivity {
 
                 //Add the grid layout to the review section
                 reviewMainLinearLayout.addView(reviewGrid);
+
+                //Make review editable if it belongs to the user
+                if(userName.equals(reviewObject.getString("userName"))){
+
+                    reviewContent.setTextColor(Color.BLACK);
+
+                    reviewGrid.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent myIntent = new Intent(WineryScreen.this,
+                                    RateReviewPop.class);
+                            //Send over the winery ID
+                            myIntent.putExtra("subjectID", wineryID);
+                            myIntent.putExtra("AUTH_TOKEN", authToken);
+                            myIntent.putExtra("USER_NAME", userName);
+                            myIntent.putExtra("ROUTE_PARAM", "winery");
+                            myIntent.putExtra("userId", userID);
+                            myIntent.putExtra("type", "edit");
+                            myIntent.putExtra("reviewText", reviewText);
+                            myIntent.putExtra("reviewRating", numStars);
+                            //startActivity(myIntent);
+                            startActivityForResult(myIntent, 1);
+
+                        }
+                    });
+                }
 
             }
 
@@ -489,6 +461,8 @@ public class WineryScreen extends AppCompatActivity {
             case R.id.item1:
                 Intent myIntent = new Intent(WineryScreen.this,
                         MapsScreen.class);
+                myIntent.putExtra("USER_NAME", userName);
+                myIntent.putExtra("AUTH_TOKEN", authToken);
                 startActivity(myIntent);
                 break;
             case R.id.item2:
@@ -496,6 +470,7 @@ public class WineryScreen extends AppCompatActivity {
                         ProfileScreen.class);
                 myIntent4.putExtra("USER_NAME", userName);
                 myIntent4.putExtra("AUTH_TOKEN", authToken);
+                myIntent4.putExtra("userId", userID);
                 startActivity(myIntent4);
                 break;
             default:

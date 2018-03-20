@@ -42,6 +42,8 @@ public class RateReviewPop extends Activity {
         final String authToken = getIntent().getStringExtra("AUTH_TOKEN");
         final String subjectId = getIntent().getStringExtra("subjectID");
         final String routeParam = getIntent().getStringExtra("ROUTE_PARAM");
+        final String userId = getIntent().getStringExtra("userId");
+        final String type = getIntent().getStringExtra("type");
 
         //Pull up the popup window
         setContentView(R.layout.rate_review_popup_window);
@@ -56,25 +58,182 @@ public class RateReviewPop extends Activity {
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.8),(int)(height*.8));
 
+        final EditText userEditText = findViewById(R.id.editText);
+        final RatingBar userRatingBar = findViewById(R.id.ratingBar);
+        final TextView rateReviewTitleText = findViewById(R.id.rateReviewTitleText);
+        final Button deleteButton = findViewById(R.id.deleteButton);
+
+        if(type.equals("edit")){
+
+            //Set the review text and number to its pre-existing value
+            final String reviewText = getIntent().getStringExtra("reviewText");
+            userEditText.setText(reviewText);
+
+            final int reviewRating = getIntent().getIntExtra("reviewRating", 0);
+            userRatingBar.setRating(reviewRating);
+
+            rateReviewTitleText.setText("Edit Review");
+        }
+
+        else{
+
+            deleteButton.setEnabled(false);
+        }
+
         //Grab the review submission button and set an on-click listener
-        Button submit = (Button) findViewById(R.id.submitButton);
+        Button submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Grab the text content of the review
-                EditText userEditText = findViewById(R.id.editText);
-                String userReviewText = userEditText.getText().toString();
+                //Grab the rating text and stars of the review
+                final String userReviewText = userEditText.getText().toString();
+                final int rating = (int) userRatingBar.getRating();
 
-                //Grab the rating number of the review
-                RatingBar userRatingBar = findViewById(R.id.ratingBar);
-                int rating = (int) userRatingBar.getRating();
+                if(type.equals("edit")){
 
+                    String url = "http://35.183.3.83/api/"+routeParam+"/review";
 
-                //Assemble the post request and add it to the queue
-                StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, subjectId, authToken, routeParam);
-                queue.add(reviewRequest);
+                    StringRequest reviewPutRequest = new StringRequest(Request.Method.PUT, url,
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Review Updated!";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                    Intent returnIntent = new Intent();
+                                    setResult(RESULT_OK, returnIntent);
+                                    finish();
+
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Error: Could not update your review";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                }
+                            }
+                    ){
+                        @Override
+                        protected Map<String, String> getParams()
+                        {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Bearer "+ authToken);
+                            params.put("SubjectId", subjectId);
+                            params.put("Rating", Integer.toString(rating));
+                            params.put("Text", userReviewText);
+                            params.put("UserId", userId);
+                            params.put("UserName", userName);
+                            return params;
+                        }
+
+                    };
+
+                    queue.add(reviewPutRequest);
+
+                }
+
+                else if (type.equals("new")){
+
+                    //Assemble the post request and add it to the queue
+                    StringRequest reviewRequest = createPostRequest(userReviewText, rating, userName, subjectId, authToken, routeParam);
+                    queue.add(reviewRequest);
+                }
+
+                else{
+
+                    Context context = getApplicationContext();
+                    CharSequence text = "Error: Something went wrong...";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
                 finish();
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(type.equals("edit")){
+
+                    String url = "http://35.183.3.83/api/" + routeParam + "/remove";
+
+                    StringRequest reviewDelRequest = new StringRequest(Request.Method.PUT, url,
+                            new Response.Listener<String>()
+                            {
+                                @Override
+                                public void onResponse(String response) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Review Deleted!";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                    Intent returnIntent = new Intent();
+                                    setResult(RESULT_OK, returnIntent);
+                                    finish();
+
+                                }
+                            },
+                            new Response.ErrorListener()
+                            {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Error: Could not delete your review";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+
+                                }
+                            }
+                    ){
+                        @Override
+                        protected Map<String, String> getParams()
+                        {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Bearer "+ authToken);
+                            params.put("SubjectId", subjectId);
+                            params.put("UserId", userId);
+                            return params;
+                        }
+
+                    };
+
+                    queue.add(reviewDelRequest);
+
+                }
+
+                else{
+
+                    Context context = getApplicationContext();
+                    CharSequence text = "Error: Something went wrong...";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
             }
         });
     }
@@ -115,7 +274,6 @@ public class RateReviewPop extends Activity {
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
 
-                        finish();
                     }
                 }
         ){
@@ -137,11 +295,4 @@ public class RateReviewPop extends Activity {
 
         return loginPostRequest;
     }
-
-
-
-
-
-
-
 }

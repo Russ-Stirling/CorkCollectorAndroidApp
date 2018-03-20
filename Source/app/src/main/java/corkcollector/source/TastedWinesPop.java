@@ -48,7 +48,7 @@ public class TastedWinesPop extends Activity {
         extras = getIntent().getExtras();
         authToken = getIntent().getStringExtra("AUTH_TOKEN");
         userName = getIntent().getStringExtra("USER_NAME");
-        userId = getIntent().getStringExtra("USER_ID");
+        userId = getIntent().getStringExtra("userId");
 
         setContentView(R.layout.tasted_wines_popup_window);
 
@@ -200,6 +200,7 @@ public class TastedWinesPop extends Activity {
                         myIntent.putExtra("wineID", tempID);
                         myIntent.putExtra("AUTH_TOKEN", authToken);
                         myIntent.putExtra("USER_NAME", userName);
+                        myIntent.putExtra("userId", userId);
 
                         //Start the wine screen activity
                         startActivity(myIntent);
