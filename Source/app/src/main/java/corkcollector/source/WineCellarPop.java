@@ -201,6 +201,7 @@ public class WineCellarPop extends Activity {
                         myIntent.putExtra("wineNotes", wineNotes);
                         myIntent.putExtra("wineName", wineName);
                         myIntent.putExtra("userId", userID);
+                        myIntent.putExtra("wineId", wineID);
 
                         startActivity(myIntent);
 
