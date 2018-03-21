@@ -32,6 +32,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +76,7 @@ public class ProfileScreen extends AppCompatActivity {
                             JSONArray tastedList = response.getJSONArray("tastings");
                             JSONArray visitedList = response.getJSONArray("checkIns");
                             JSONArray friendList = response.getJSONArray("friends");
+                            String dateJoined = response.getString("dateJoined");
 
                             int tastedQty = tastedList.length();
                             int visitedQty = visitedList.length();
@@ -86,6 +90,9 @@ public class ProfileScreen extends AppCompatActivity {
                             tastedNumText.setText(Integer.toString(tastedQty));
                             TextView wineriesVisitedText = findViewById(R.id.wineriesVisitedInfoText);
                             wineriesVisitedText.setText(Integer.toString(visitedQty));
+                            TextView dateText = findViewById(R.id.memberSinceInfoText);
+                            dateText.setText(dateJoined);
+
 
                         }
                         catch (JSONException e) {
