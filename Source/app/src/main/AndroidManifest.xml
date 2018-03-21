@@ -80,6 +80,9 @@
         <activity
             android:name=".WineCellarQuantityPop"
             android:theme="@style/CustomPopUpTheme" />
+        <activity
+            android:name=".SignupPop"
+            android:theme="@style/CustomPopUpTheme" />
 
         <service
             android:name=".AuthenticatorService"
