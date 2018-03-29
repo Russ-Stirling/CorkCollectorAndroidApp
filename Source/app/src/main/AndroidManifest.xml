@@ -72,6 +72,9 @@
             android:name=".TastedWinesPop"
             android:theme="@style/CustomPopUpTheme"/>
         <activity
+            android:name=".RecommendedWinesPop"
+            android:theme="@style/CustomPopUpTheme"/>
+        <activity
             android:name=".WineCellarPop"
             android:theme="@style/CustomPopUpTheme"/>
         <activity

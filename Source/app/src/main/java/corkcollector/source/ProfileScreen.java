@@ -162,6 +162,22 @@ public class ProfileScreen extends AppCompatActivity {
             }
         });
 
+        Button recommendedWines = (Button) findViewById(R.id.viewRecommendedWinesButton);
+
+        recommendedWines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(ProfileScreen.this,
+                        RecommendedWinesPop.class);
+
+                myIntent.putExtra("USER_NAME", userName);
+                myIntent.putExtra("AUTH_TOKEN", authToken);
+                myIntent.putExtra("userId", userId);
+
+                startActivity(myIntent);
+            }
+        });
+
         Button visitedWineries = (Button) findViewById(R.id.viewVisitedWineriesButton);
 
         visitedWineries.setOnClickListener(new View.OnClickListener() {
